@@ -1,11 +1,19 @@
 <?php 
 
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
+require '../../service/AdminService.php';
 
-    var_dump($_GET);
+var_dump($_GET);
 
-    $userId = $_GET['user_id'];
-    echo "userId = $userId";
+$userId = $_GET['user_id'];
+echo "userId = $userId";
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    var_dump($_POST);
+
+    $adminService = new AdminService();
+    $adminService->checkFeature($userId);
 
 }
 
@@ -105,14 +113,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                 <div class="section-heading"><h1>Add Subdivision</h1></div>
 
                 <div class="input-box">
-                    <table>
+                    <form method="POST">
+                        <table>
                         <tr>
                             <td><label for="new-subdivision-name">New Subdivision Name:</label></td>
                             <td><input type="text" id="new-subdivision-name" name="new-subdivision-name" class="" placeholder=""></td>
                         </tr>
                         
-                    </table>
-                    <button class="submit-button">Submit</button>
+                        </table>
+                        <button class="submit-button">Submit</button>
+
+                    </form>
                     
                 </div>
             </div>
