@@ -2,26 +2,35 @@
 
 class User {
 
-    private $userId;
-    private $firstName;
-    private $lastName;
-    private $emailId;
-    private $password;
-    private $areaCode;
-    private $phoneNumber;
-    private $joiningDatetime;
-    private $rolesRoleId;
+    // public $userId;
+    // public $firstName;
+    // public $lastName;
+    // public $emailId;
+    // public $password;
+    // public $areaCode;
+    // public $phoneNumber;
+    // public $joiningDatetime;
+    // public $rolesRoleId;
+    public $user_id;
+    public $first_name;
+    public $last_name;
+    public $email_id;
+    public $password;
+    public $area_code;
+    public $phone_number;
+    public $joining_datetime;
+    public $roles_role_id;
 
-    function getName(){
-        return $this->name;
+    function getId(){
+        return $this->user_id;
     }
 
     function setName($name){
         $this->name = $name;
     }
 
-    function getFirstName(){
-        return $this->firstName;
+    public function getFirstName(){
+        return $this->first_name;
     }
 
     function setFirstName($firstName){
