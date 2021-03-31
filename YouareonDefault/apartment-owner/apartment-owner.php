@@ -1,3 +1,16 @@
+<?php 
+
+if ($_SERVER["REQUEST_METHOD"] == "GET"){
+
+    var_dump($_GET);
+
+    $userId = $_GET['user_id'];
+    echo "userId = $userId";
+
+}
+
+?>
+
 <!DOCTYPE html>
 <title> YouareonDefault </title>
 <html>
