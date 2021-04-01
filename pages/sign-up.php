@@ -6,7 +6,7 @@ $signUpService = new SignUpService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // var_dump($_POST);
+    var_dump($_POST);
     $signUpService->storeSignUpInfo();
 
 }
@@ -63,13 +63,15 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
                             <input type="text" id="address1" name="address1"  value="" placeholder= "Street 1"><br><br>
                             <label for="address2"></label>
                             <input type="text" id="address2" name="address2" value="" placeholder= "Street 2"><br><br>
-                            <label for="country"></label>
-                            <input type="text" id="country" name="country"  value="" placeholder= "Country"><br><br>
+                            <label for="city"></label>
+                            <input type="text" id="city" name="city"  value="" placeholder= "City"><br><br>
                             <label for="state"></label>
                             <input type="text" id="state" name="state"  value="" placeholder= "State"> <br><br>
                             <label for="zip"> </label>
                             <input type="text" id="zip" name="zip"  value="" placeholder= "Zip Code"> <br><br>
                             <label for="phno"> </label>
+                            <label for="country"></label>
+                            <input type="text" id="country" name="country"  value="" placeholder= "Country"><br><br>
                             <input type="tel" id="phno" name="phone-number"  value="" placeholder= "Phone Number"><br><br>
                         </div>
                     </div>
@@ -97,7 +99,7 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
                             <option value="4">Services</option>
                             <option value="5">Self-Service Apartment</option>
                         </select><br><br>
-                        
+
                         <label for="role">Role:</label>
                         <select name="role"  id="role">
                             <?php foreach ($rolesList as $role): ?>
