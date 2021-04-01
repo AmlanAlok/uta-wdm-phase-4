@@ -41,6 +41,7 @@ class BuildingService {
 
 	}
 
+
 	function storeNewBuildingName($newBuildingName, $buildingOccupancyStatus, $buildingsSubdivisionId, $userId){
 
 		$dbObject = new Database();
@@ -62,6 +63,7 @@ class BuildingService {
 			return 'Failed';
 		}
 	}
+	
 
 	function storeNewApartments($apartmentArray){
 

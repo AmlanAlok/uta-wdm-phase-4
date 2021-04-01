@@ -17,7 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 $subdivisionList = $adminService->fetchAllSubdivisions();
-echo "POLO";
+// $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
+// echo "POLO";
+// var_dump($subdivisionManagerRecordList);
 // var_dump($subdivisionList);
 
 // foreach ($subdivisionList as $subdivision) {

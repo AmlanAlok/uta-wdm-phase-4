@@ -11,6 +11,7 @@ class LoginService {
 		$dbObject = new Database();
 	    $dbConnection = $dbObject->getDatabaseConnection();
 
+	    // $loginService = new LoginService();
 	    $userService = new UserService();
 	    $user = $userService->getUserByEmailIdAndPassword($dbConnection, $emailId, $password);
 
@@ -25,7 +26,7 @@ class LoginService {
 	        exit;
 	    }
 	    else{
-	        $roleService = new RoleService();
+	    	$roleService = new RoleService();
 	        $roleRecord = $roleService->getRoleNameByRoleId($dbConnection, $role_id);
 
 	        var_dump($roleRecord);
@@ -55,4 +56,36 @@ class LoginService {
 	        exit;
 	    }
 	}
+
+	// function getUserByEmailIdAndPassword($dbConnection, $emailId, $password){
+
+	// 	$sql_query_to_fetch_user_via_email_id = "SELECT * FROM users where email_id = :emailId and password = :password";
+
+	// 	$stmt = $dbConnection->prepare($sql_query_to_fetch_user_via_email_id);
+	// 	$stmt->bindValue(':emailId', $emailId, PDO::PARAM_STR);
+	// 	$stmt->bindValue(':password', $password, PDO::PARAM_STR);
+	// 	$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+	// 	if ($stmt->execute()){
+	// 		return $stmt->fetch();
+	// 	}
+	// 	// else{
+	// 	// 	echo "Did not work";
+	// 	// }
+	// }
+
+	// function getRoleNameByRoleId($dbConnection, $roleId){
+
+	// 	$sql_query_to_fetch_role_record_via_role_id = "SELECT * FROM roles where role_id = :roleId";
+
+	// 	$stmt = $dbConnection->prepare($sql_query_to_fetch_role_record_via_role_id);
+	// 	$stmt->bindValue(':roleId', $roleId, PDO::PARAM_INT);
+	// 	$stmt->setFetchMode(PDO::FETCH_CLASS, 'Role');
+
+	// 	if ($stmt->execute()){
+	// 		return $stmt->fetch();
+	// 	}
+	// }
+
+
 }

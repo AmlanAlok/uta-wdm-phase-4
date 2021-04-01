@@ -2,6 +2,7 @@
 
 require 'SubdivisionService.php';
 require 'BuildingService.php';
+require 'MasterRecordService.php';
 
 class AdminService {
 
@@ -32,5 +33,19 @@ class AdminService {
 		return $subdivisionList;
 
 	}
+
+	function fetchAllSubdivisionManagerRecords(){
+
+		$masterRecordService = new MasterRecordService();
+		$subdivisionManagerRecordList = $masterRecordService->fetchAllSubdivisionManagerRecords();
+		return $subdivisionManagerRecordList;
+	}
+
+
+
+
+
+
+
 
 }
