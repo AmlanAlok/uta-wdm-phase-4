@@ -15,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $loginService = new LoginService();
     $loginService->loginUser($emailId, $password);
-
 }
 
 

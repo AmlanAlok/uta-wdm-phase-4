@@ -1,23 +1,18 @@
 <?php 
-// require '../../utility/Database.php';
-include '../../service/LoginService.php';
+
+include __DIR__.'../../../service/UserService.php';
+include_once __DIR__.'../../../utility/Database.php';
+
+
 if ($_SERVER["REQUEST_METHOD"] == "GET"){
-
-    // var_dump($_GET);
-
-    // $userId = $_GET['user_id'];
-    // // echo "userId = $userId";
-    // $dbObject = new Database();
-    // $dbConn = $dbObject->getDatabaseConnection();
-    // $userService = new UserService();
-    // $user = $userService->getUserByEmailIdAndPassword($dbConn,'venkat@gmail.com', 'abcde');
-    // var_dump($user);
-    // $userId = $user['user_id'];
-    // echo $userId;
-
+    $userId = $_GET['user_id'];
+    $dbObject = new Database();
+    $dbConn = $dbObject->getDatabaseConnection();
+    $userService = new UserService();
+    $user = $userService->getuserById($userId);
 }
-$var = $_SESSION['CURRENT_USER'];
-var_dump($var);
+// $var = $_SESSION['CURRENT_USER'];
+// var_dump($var);
 
 ?>
 
@@ -108,27 +103,27 @@ var_dump($var);
                             
                             <tr>
                                 <td>User ID</td>
-                                <td><?php echo $user['user_id'] ?></td>
+                                <td><?php echo $user->user_id  ?></td>
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td><?php echo $user['first_name'] ?></td>
+                                <td><?php echo $user->first_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td><?php echo $user['last_name'] ?></td>
+                                <td><?php echo $user->last_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Email Id</td>
-                                <td><?php echo $user['email_id'] ?></td>
+                                <td><?php echo $user->email_id  ?></td>
                             </tr>
                             <tr>
                                 <td>Phone Number</td>
-                                <td><?php echo $user['phone_number'] ?></td>
+                                <td><?php echo $user->phone_number  ?></td>
                             </tr>
                             <tr>
                                 <td>Joining Date</td>
-                                <td><?php echo $user['joining_datetime'] ?></td>
+                                <td><?php echo $user->joining_datetime  ?></td>
                             </tr>
                         </table>
                     </div>

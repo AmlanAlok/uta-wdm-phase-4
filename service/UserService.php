@@ -1,6 +1,6 @@
 <?php
-
-require '../entity/User.php';
+require __DIR__.'../../entity/User.php';
+include_once __DIR__.'../../utility/Database.php';
 
 class UserService {
 
@@ -19,6 +19,22 @@ class UserService {
 		// else{
 		// 	echo "Did not work";
 		// }
+	}
+
+	function getuserById($id){
+		
+		$sql_query_to_fetch_user_via_email_id = "SELECT * FROM users where user_id = :userId";
+
+		$dbObject = new Database();
+    $dbConnection = $dbObject->getDatabaseConnection();
+
+		$stmt = $dbConnection->prepare($sql_query_to_fetch_user_via_email_id);
+		$stmt->bindValue(':userId', $id, PDO::PARAM_STR);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		}
 	}
 
 }
