@@ -112,7 +112,7 @@ $apartmentsList = $signUpService->fetchAllApartments();
                         <label for="role">Role:</label>
                         <select name="role"  id="role" onchange="getRoleDropdownValue()">
                             <?php foreach ($rolesList as $role): ?>
-                                <option value="<?= htmlspecialchars($role->role_id); ?>"><?= htmlspecialchars($role->role_name); ?></option>
+                                <option value="<?= htmlspecialchars($role->role_name); ?>"><?= htmlspecialchars($role->role_name); ?></option>
                             <?php endforeach; ?>    
                             
                         </select><br><br>
