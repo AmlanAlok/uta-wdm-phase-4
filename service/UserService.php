@@ -2,6 +2,10 @@
 require __DIR__.'../../entity/User.php';
 include_once __DIR__.'../../utility/Database.php';
 
+/*
+Do not add DB connection in this file. It breaks the code.
+*/
+
 class UserService {
 
 	function getUserByEmailIdAndPassword($dbConnection, $emailId, $password){
