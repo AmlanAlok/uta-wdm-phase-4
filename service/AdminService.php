@@ -40,9 +40,9 @@ class AdminService {
 	    }
 	    else {
 	    	echo "Nothing Matched";
-	    	echo $_POST['new-password'];
-	    	echo $_POST['confirm-password'];
-	    	echo $_POST['user-id'];
+	    	// echo $_POST['new-password'];
+	    	// echo $_POST['confirm-password'];
+	    	// echo $_POST['user-id'];
 	    }
 	}
 

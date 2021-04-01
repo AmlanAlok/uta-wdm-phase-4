@@ -17,7 +17,7 @@ $rolesList = $signUpService->fetchAllRoles();
 $buildingsList = $signUpService->fetchAllBuildings();
 $subdivisionsList = $signUpService->fetchAllSubdivisions();
 // var_dump($rolesList);
-var_dump($buildingsList);
+// var_dump($buildingsList);
 // var_dump($subdivisionsList);
 
 ?>
@@ -116,13 +116,31 @@ var_dump($buildingsList);
                             
                         </select><br><br>
 
-                        <label for="role">Choose Subdivision:</label>
-                        <select name="subdivision" id="subdivision">
+                        <label for="subdivision">Choose Subdivision:</label>
+                        <select name="subdivision" id="subdivision" onchange="getSubdivisionDropdownValue()">
                             <?php foreach ($subdivisionsList as $subdivision): ?>
                                 <option value="<?= htmlspecialchars($subdivision->subdivision_id); ?>"><?= htmlspecialchars($subdivision->subdivision_name); ?></option>
                             <?php endforeach; ?>
 
                         </select>
+                        <br><br>
+
+
+                        <div id="building-dropdown" class="building-dropdown-list">
+                            <label for="building">Choose Building:</label>
+                            <select name="building" >
+                                <?php foreach ($buildingsList as $building): ?>
+
+                                    <div>
+
+                                        <option class="building-dropdown-option building-subdivision-<?= htmlspecialchars($building->subdivisions_subdivision_id); ?>" value="<?= htmlspecialchars($building->building_id); ?>"><?= htmlspecialchars($building->building_name); ?></option>
+                                    </div>
+                                    
+                                <?php endforeach; ?>
+                            </select>
+
+                        </div>
+                        
 
 
                     </div>

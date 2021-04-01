@@ -21,7 +21,7 @@ class SignUpService {
 		$joiningDatetime = date("Y-m-d h:i:s", mktime());
 		$rolesRoleId = $_POST['role'];
 
-		$user = new User(NULL, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
+		// $user = new User(NULL, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
 
 		$userId = '';
 		// var_dump($user);

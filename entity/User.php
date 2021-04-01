@@ -12,19 +12,27 @@ class User {
     public $joining_datetime;
     public $roles_role_id;
 
-    function __construct($userId, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId){
-        
-        $this->user_id = $userId;
-        $this->first_name = $firstName;
-        $this->last_name = $lastName;
-        $this->email_id = $emailId;
-        $this->password = $password;
-        $this->area_code = $areaCode;
-        $this->phone_number = $phoneNumber;
-        $this->joining_datetime = $joiningDatetime;
-        $this->roles_role_id = $rolesRoleId;
+    // function __construct(){
 
-    }
+    // }
+
+    /*
+        This constructor created issue in admin page. Do not use this.
+    */
+    // function __construct($userId, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId){
+        
+    //     $this->user_id = $userId;
+    //     $this->first_name = $firstName;
+    //     $this->last_name = $lastName;
+    //     $this->email_id = $emailId;
+    //     $this->password = $password;
+    //     $this->area_code = $areaCode;
+    //     $this->phone_number = $phoneNumber;
+    //     $this->joining_datetime = $joiningDatetime;
+    //     $this->roles_role_id = $rolesRoleId;
+
+    // }
+
 
     function getId(){
         return $this->user_id;

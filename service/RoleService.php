@@ -2,6 +2,9 @@
 
 require '../entity/Role.php';
 
+/*
+Do not add DB connection in this file. It breaks the code.
+*/
 class RoleService {
 
 	function getRoleNameByRoleId($dbConnection, $roleId){

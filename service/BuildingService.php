@@ -36,7 +36,7 @@ class BuildingService {
 	    	}
 	    }
 
-	    var_dump($apartmentArray);
+	    // var_dump($apartmentArray);
 	    return $newBuildingService->storeNewApartments($apartmentArray);
 
 	}
