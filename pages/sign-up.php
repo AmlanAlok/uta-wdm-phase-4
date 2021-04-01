@@ -8,8 +8,15 @@ $selectedRole = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
-    $signUpService->storeSignUpInfo();
+    // var_dump($_POST);
+    $result = $signUpService->storeSignUpInfo();
+    if($result->message == 'Failed'){
+        echo "Failed";
+        var_dump($result);
+    }
+    else{
+        echo $result->message;
+    }
 
 }
 

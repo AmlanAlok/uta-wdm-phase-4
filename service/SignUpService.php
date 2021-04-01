@@ -8,6 +8,7 @@ require '../entity/Address.php';
 require '../entity/ResponsibleContact.php';
 require '../entity/Building.php';
 require '../entity/Apartment.php';
+require '../model/Response.php';
 
 class SignUpService {
 
@@ -17,6 +18,37 @@ class SignUpService {
 		$rolesList = $signUpService->fetchAllRoles();
 		// var_dump($rolesList);
 
+
+		$adminUser = $signUpService->getAdminUserId();
+		$adminUserId = $adminUser['user_id'];
+		var_dump($adminUserId);
+
+		$roleName = $_POST['role'];
+		$subdivisionId = $_POST['subdivision'];
+		
+		if ($roleName == 'subdivision manager'){
+
+			$isAvailable = $signUpService->checkSubdivisionAvailability($subdivisionId, $adminUserId);
+			if(!$isAvailable){
+				return new Response('Failed', 'Chosen subdivision already has a manager','Chosen subdivision already has a manager');
+			}
+		} 
+		elseif ($roleName == 'building manager'){
+			$buildingId = $_POST['building'];
+
+			$isAvailable = $signUpService->checkSubdivisionAvailability($buildingId, $adminUserId);
+			if(!$isAvailable){
+				return new Response('Failed', 'Chosen building already has a manager','Chosen building already has a manager');
+			}
+		}
+		elseif ($roleName == 'apartment owner'){
+
+		}
+		else {
+			echo "role name does not match anything";
+		}
+
+
 		$firstName = $_POST['first-name'];
 		$lastName = $_POST['last-name'];
 		$emailId = $_POST['email'];
@@ -25,10 +57,14 @@ class SignUpService {
 		$phoneNumber = $_POST['phone-number'];
 		$joiningDatetime = date("Y-m-d h:i:s", mktime());
 		$role_id = '';
+		$admin_role_id = '';
 
 		foreach ($rolesList as $role){
 			if ($role->role_name == $_POST['role']) {
 				$role_id = $role->role_id;
+			}
+			else if ($role->role_name == 'admin'){
+				$admin_role_id = $role->role_id;
 			}
 		}
 
@@ -37,6 +73,10 @@ class SignUpService {
 		$userId = $signUpService->storeUserInformation($firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
 		echo "USER-ID";
 		var_dump($userId);
+
+
+
+		
 
 		$streetAddress = $_POST['address1'];
 		$streetAddressLine2 = $_POST['address2']; 
@@ -63,7 +103,83 @@ class SignUpService {
 		// var_dump($responsibleContact);
 		$responsibleContactStoredStatus = $signUpService->storeResponsibleContactInformation($name, $address, $city, $zipCode, $country, $phoneNumber, $usersUserId);
 
+		
+		if ($roleName == 'subdivision manager'){
+			return $signUpService->updateSubdivisionUserId($userId, $subdivisionId);
+		}
 
+		
+
+	}
+
+	function checkSubdivisionAvailability($subdivisionId, $adminUserId){
+		$signUpService = new SignUpService();
+		$subdivisionRecord = $signUpService->getSubdivisionRecordBySubdivisionId($subdivisionId);
+
+		if ($subdivisionRecord->users_user_id == $adminUserId){
+			return true;
+		} else{
+			return false;
+		}
+
+	}
+
+	function getAdminUserId(){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT u.user_id from users as u
+				inner join roles as r on u.roles_role_id=r.role_id
+				where r.role_name = 'admin'";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		}
+	}
+
+
+	function updateSubdivisionUserId($userId, $subdivisionId){
+
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "UPDATE subdivisions SET users_user_id = :userId WHERE subdivision_id = :subdivisionId";
+
+		$stmt = $dbConnection->prepare($sql);
+		
+		$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+		
+		try{
+			if ($stmt->execute()){
+				return new Response('Success', '','Subdivision assigned Successfully');
+			} else{
+				echo "Failed";
+			}
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			return new Response('Failed', $e->getMessage(),'user id for subdivision was not updated');
+			}
+			// exit;
+		
+	}
+
+	function getSubdivisionRecordBySubdivisionId($subdivisionId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT * from subdivisions WHERE subdivision_id = :subdivisionId";
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
 
 	}
 
