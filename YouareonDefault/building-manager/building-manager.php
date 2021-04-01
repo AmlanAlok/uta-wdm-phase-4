@@ -1,13 +1,18 @@
 <?php 
 
+include __DIR__.'../../../service/UserService.php';
+include_once __DIR__.'../../../utility/Database.php';
+
+
 if ($_SERVER["REQUEST_METHOD"] == "GET"){
-
-    var_dump($_GET);
-
     $userId = $_GET['user_id'];
-    echo "userId = $userId";
-
+    $dbObject = new Database();
+    $dbConn = $dbObject->getDatabaseConnection();
+    $userService = new UserService();
+    $user = $userService->getuserById($userId);
 }
+// $var = $_SESSION['CURRENT_USER'];
+// var_dump($var);
 
 ?>
 
@@ -31,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
 
             <div class="logo-and-menu">
                 <div id="logo" class="logo">
-                    <h1>City View</h1>
+                    <h1>City View for <?php $userId?></h1>
                 </div>
 
                 <div class="menu-bar">
@@ -98,27 +103,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                             
                             <tr>
                                 <td>User ID</td>
-                                <td>1</td>
+                                <td><?php echo $user->user_id  ?></td>
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td>Amlan</td>
+                                <td><?php echo $user->first_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>Alok</td>
+                                <td><?php echo $user->last_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Email Id</td>
-                                <td>amlanalok@gmail.com</td>
+                                <td><?php echo $user->email_id  ?></td>
                             </tr>
                             <tr>
                                 <td>Phone Number</td>
-                                <td>1231231234</td>
+                                <td><?php echo $user->phone_number  ?></td>
                             </tr>
                             <tr>
                                 <td>Joining Date</td>
-                                <td>01/19/2021</td>
+                                <td><?php echo $user->joining_datetime  ?></td>
                             </tr>
                         </table>
                     </div>
