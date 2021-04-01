@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         var_dump($result);
     }
     else{
-        echo $result->message;
+        // echo $result->message;
     }
 
 }
@@ -125,7 +125,7 @@ $apartmentsList = $signUpService->fetchAllApartments();
                         </select><br><br>
 
                         <label for="subdivision">Choose Subdivision:</label>
-                        <select name="subdivision" id="subdivision" onchange="getSubdivisionDropdownValue()">
+                        <select name="subdivision" id="subdivision" onchange="getSubdivisionDropdownValue()" onclick="getSubdivisionDropdownValue()">
                             <?php foreach ($subdivisionsList as $subdivision): ?>
                                 <option value="<?= htmlspecialchars($subdivision->subdivision_id); ?>"><?= htmlspecialchars($subdivision->subdivision_name); ?></option>
                             <?php endforeach; ?>
@@ -136,7 +136,7 @@ $apartmentsList = $signUpService->fetchAllApartments();
 
                         <div id="building-dropdown" class="building-dropdown-list">
                             <label for="building">Choose Building:</label>
-                            <select name="building" id="building" onchange="getBuildingDropdownValue()">
+                            <select name="building" id="building" onchange="getBuildingDropdownValue()" onclick="getBuildingDropdownValue()">
                                 <?php foreach ($buildingsList as $building): ?>
 
                                     <div>
@@ -163,31 +163,31 @@ $apartmentsList = $signUpService->fetchAllApartments();
 
                             <p>Choose Service Provider for Utilities:</p><br>
                             <p>Electricity</p>
-                            <input type="radio" name="electricity-service-provider" value="subdivision services">
+                            <input type="radio" name="electricity" value="subdivision services">
                             <label for="">Subdivision Services</label><br>
-                            <input type="radio" name="electricity-service-provider" value="self-service">
+                            <input type="radio" name="electricity" value="self-service">
                             <label for="">Self-Service</label>
 
                             <br><br>
 
                             <p>Gas</p>
-                            <input type="radio" name="gas-service-provider" value="subdivision services">
+                            <input type="radio" name="gas" value="subdivision services">
                             <label for="">Subdivision Services</label><br>
-                            <input type="radio" name="gas-service-provider" value="self-service">
+                            <input type="radio" name="gas" value="self-service">
                             <label for="">Self-Service</label>
 
                             <br><br>
 
                             <p>Water</p>
-                            <input type="radio" name="water-service-provider" value="subdivision services">
+                            <input type="radio" name="water" value="subdivision services">
                             <label for="">Subdivision Services</label><br>
-                            <input type="radio" name="water-service-provider" value="self-service">
+                            <input type="radio" name="water" value="self-service">
                             <label for="">Self-Service</label>
 
                             <br><br>
 
                             <p>Internet is mandatory self-service </p>
-                            <input type="radio" name="internet-service-provider" value="self-service">
+                            <input type="radio" name="internet" value="self-service">
                             <label for="">Self-Service</label>
 
                         </div>

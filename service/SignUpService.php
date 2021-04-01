@@ -8,6 +8,8 @@ require '../entity/Address.php';
 require '../entity/ResponsibleContact.php';
 require '../entity/Building.php';
 require '../entity/Apartment.php';
+require '../entity/Utility.php';
+require '../entity/ApartmentUtilityServiceProviderType.php';
 require '../model/Response.php';
 
 class SignUpService {
@@ -21,7 +23,7 @@ class SignUpService {
 
 		$adminUser = $signUpService->getAdminUserId();
 		$adminUserId = $adminUser['user_id'];
-		var_dump($adminUserId);
+		// var_dump($adminUserId);
 
 		$roleName = $_POST['role'];
 		$subdivisionId = $_POST['subdivision'];
@@ -42,6 +44,11 @@ class SignUpService {
 			}
 		}
 		elseif ($roleName == 'apartment owner'){
+			// $apartmentId = $_POST['apartment'];
+			// $isAvailable = $signUpService->checkApartmentAvailability($apartmentId);
+			// if(!$isAvailable){
+			// 	return new Response('Failed', 'Chosen apartment is not isAvailable','Chosen building already has a manager');
+			// }
 
 		}
 		else {
@@ -71,8 +78,8 @@ class SignUpService {
 		$rolesRoleId = $role_id;
 
 		$userId = $signUpService->storeUserInformation($firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
-		echo "USER-ID";
-		var_dump($userId);
+		// echo "USER-ID";
+		// var_dump($userId);
 
 
 
@@ -103,6 +110,12 @@ class SignUpService {
 		// var_dump($responsibleContact);
 		$responsibleContactStoredStatus = $signUpService->storeResponsibleContactInformation($name, $address, $city, $zipCode, $country, $phoneNumber, $usersUserId);
 
+		$electricity_service_provider = $_POST['electricity'];
+		$gas_service_provider = $_POST['gas'];
+		$water_service_provider = $_POST['water'];
+		$internet_service_provider = $_POST['internet'];
+
+
 		
 		if ($roleName == 'subdivision manager'){
 			return $signUpService->updateSubdivisionUserId($userId, $subdivisionId);
@@ -111,9 +124,101 @@ class SignUpService {
 			$buildingId = $_POST['building'];
 			return $signUpService->updateBuildingUserId($userId, $buildingId);
 		}
+		elseif ($roleName == 'apartment owner'){
+			$apartmentId = $_POST['apartment'];
+			$signUpService->updateApartmentUserId($userId, $apartmentId);
+			$apartment = $signUpService->getApartmentByApartmentId($apartmentId);
+			$utilityList = $signUpService->fetchAllUtilities();
+			$apartmentUtilityServiceProviderList = [];
+
+			foreach ($utilityList as $utility){
+
+				$apartmentUtility = new ApartmentUtilityServiceProviderType();
+
+
+				if ($utility->utility_name == 'electricity'){
+					$apartmentUtility->utilities_utility_id = $utility->utility_id;
+					$apartmentUtility->service_provider_type = $electricity_service_provider;
+
+				}
+				elseif ($utility->utility_name == 'gas'){
+					$apartmentUtility->utilities_utility_id = $utility->utility_id;
+					$apartmentUtility->service_provider_type = $gas_service_provider;
+				}
+				elseif ($utility->utility_name == 'water'){
+					$apartmentUtility->utilities_utility_id = $utility->utility_id;
+					$apartmentUtility->service_provider_type = $water_service_provider;
+				}	
+				elseif ($utility->utility_name == 'internet'){
+					$apartmentUtility->utilities_utility_id = $utility->utility_id;
+					$apartmentUtility->service_provider_type = $internet_service_provider;
+				}
+
+				$apartmentUtility->apartments_apartment_id = $apartment->apartment_id;
+				$apartmentUtility->buildings_building_id = $apartment->buildings_building_id;
+				$apartmentUtility->subdivisions_subdivision_id = $apartment->subdivisions_subdivision_id;
+				$apartmentUtility->users_user_id = $apartment->users_user_id;
+
+				array_push($apartmentUtilityServiceProviderList, $apartmentUtility);
+			}
+
+			return $signUpService->storeServiceProviderChoice($apartmentUtilityServiceProviderList);
+
+
+
+		}
 
 		
 
+	}
+
+	function storeServiceProviderChoice($apartmentUtilityServiceProviderList){
+
+		$savingStatus = '';
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		foreach ($apartmentUtilityServiceProviderList as $apartmentUtility){
+			$sql = "INSERT into `apartment_utility_service_provider_type` (`apartment_utility_service_provider_id`, `service_provider_type`, `utilities_utility_id`, `apartments_apartment_id`, `buildings_building_id`, `subdivisions_subdivision_id`, `users_user_id`) VALUES (NULL, :serviceProviderType, :utilitiesUtilityId, :apartmentsApartmentId, :buildingsBuildingId, :subdivisionsSubdivisionId, :usersUserId)";
+
+			$stmt = $dbConnection->prepare($sql);
+
+			$stmt->bindValue(':serviceProviderType', $apartmentUtility->service_provider_type, PDO::PARAM_STR);
+			$stmt->bindValue(':utilitiesUtilityId', $apartmentUtility->utilities_utility_id, PDO::PARAM_INT);
+			$stmt->bindValue(':apartmentsApartmentId', $apartmentUtility->apartments_apartment_id, PDO::PARAM_INT);
+			$stmt->bindValue(':buildingsBuildingId', $apartmentUtility->buildings_building_id, PDO::PARAM_INT);
+			$stmt->bindValue(':subdivisionsSubdivisionId', $apartmentUtility->subdivisions_subdivision_id, PDO::PARAM_INT);
+			$stmt->bindValue(':usersUserId', $apartmentUtility->users_user_id, PDO::PARAM_INT);
+
+			if ($stmt->execute()){
+				$savingStatus = 'Success';
+			} else {
+				$savingStatus = 'Failed';
+				echo "Some record failed to get stored";
+				var_dump($apartment);
+				// exit;
+			}
+
+		}
+
+		return new Response($savingStatus, '','service provider choices stored Successfully');
+
+	}
+
+	function getApartmentByApartmentId($apartmentId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT * from apartments WHERE apartment_id = :apartmentId";
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->bindValue(':apartmentId', $apartmentId, PDO::PARAM_INT);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Apartment');
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
 	}
 
 	function checkSubdivisionAvailability($subdivisionId, $adminUserId){
@@ -202,13 +307,36 @@ class SignUpService {
 			}
 	}
 
+	function updateApartmentUserId($userId, $apartmentId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "UPDATE apartments SET users_user_id = :userId WHERE apartment_id = :apartmentId";
+
+		$stmt = $dbConnection->prepare($sql);
+		
+		$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+		$stmt->bindValue(':apartmentId', $apartmentId, PDO::PARAM_INT);
+		
+		try{
+			if ($stmt->execute()){
+				return new Response('Success', '','Building assigned Successfully');
+			} else{
+				echo "Failed";
+			}
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			return new Response('Failed', $e->getMessage(),'user id for Building was not updated');
+			}
+	}
+
 	function getSubdivisionRecordBySubdivisionId($subdivisionId){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 		$sql = "SELECT * from subdivisions WHERE subdivision_id = :subdivisionId";
 		$stmt = $dbConnection->prepare($sql);
 		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
-		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Subdivision');
 
 		if ($stmt->execute()){
 			return $stmt->fetch();
@@ -331,12 +459,29 @@ class SignUpService {
 
 	}
 
+	function fetchAllUtilities(){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * from utilities";
+
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Utility');
+
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+	}
+
 	function fetchAllApartments(){
 		
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 
-		$sql = "SELECT * from apartments";
+		$sql = "SELECT * from apartments where occupancy_status = 'empty'";
 
 		$stmt = $dbConnection->prepare($sql);
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Apartment');
