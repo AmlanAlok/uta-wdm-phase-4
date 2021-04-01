@@ -6,6 +6,7 @@ require '../entity/Role.php';
 require '../entity/User.php';
 require '../entity/Address.php';
 require '../entity/ResponsibleContact.php';
+require '../entity/Building.php';
 
 class SignUpService {
 
@@ -76,6 +77,25 @@ class SignUpService {
 
 	}
 
+	function fetchAllBuildings(){
+		
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * from buildings";
+
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Building');
+
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+
+	}
+
 	function fetchAllSubdivisions(){
 		
 		$dbObject = new Database();
@@ -94,4 +114,6 @@ class SignUpService {
 		}
 
 	}
+
+
 }

@@ -14,8 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 $rolesList = $signUpService->fetchAllRoles();
+$buildingsList = $signUpService->fetchAllBuildings();
 $subdivisionsList = $signUpService->fetchAllSubdivisions();
 // var_dump($rolesList);
+var_dump($buildingsList);
 // var_dump($subdivisionsList);
 
 ?>
