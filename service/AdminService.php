@@ -48,11 +48,11 @@ class AdminService {
 		return $buildingManagerRecordList;
 	}
 
+	function fetchAllApartmentOwnerRecords(){
 
-
-
-
-
-
+		$masterRecordService = new MasterRecordService();
+		$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecords();
+		return $apartmentOwnerRecordList;
+	}
 
 }

@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 $subdivisionList = $adminService->fetchAllSubdivisions();
 $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
 $buildingManagerRecordList = $adminService->fetchAllBuildingManagerRecords();
+$apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
 // echo "POLO--------";
+// var_dump($apartmentOwnerRecordList);
 // var_dump($buildingManagerRecordList);
 // var_dump($subdivisionList);
 
@@ -249,73 +251,33 @@ $buildingManagerRecordList = $adminService->fetchAllBuildingManagerRecords();
                 <div>
 
                     <div class="view-data-list">
-                        <a href="#apartment-owner-detail-1">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-1')">
-                                Apartment Number: 101 <br />
-                                Building Name: Emerald
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-2')">
-                                Apartment Number: 102 <br />
-                                Building Name: Emerald
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-3')">
-                                Apartment Number: 103 <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-4')">
-                                Apartment Number: 104 <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
+                        <?php foreach($apartmentOwnerRecordList as $key => $value): ?>
+                            <a href="#apartment-owner-detail-<?= htmlspecialchars($key); ?>">
+                                <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-<?= htmlspecialchars($key); ?>')">
+                                    Apartment Number: <?= $value->apartment_number; ?> <br />
+                                    Building Name: <?= $value->building_name; ?>
+                                </button>
+                            </a>
+                        <?php endforeach; ?> 
         
                     </div>
 
                     <div class="view-data">
-                        <div id="apartment-owner-detail-1" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr>
-                                    <tr><td>Apartment Number</td><td>101</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
+                        <?php foreach($apartmentOwnerRecordList as $key => $value): ?>
+                            <div id="apartment-owner-detail-<?= htmlspecialchars($key); ?>" class="apartment-owner-detail">
+                                <div class="apartment-personal-details-table">
+                                    <table>
+                                        <tr><td>Building Name</td><td><?= $value->building_name; ?></td></tr>
+                                        <tr><td>Apartment Number</td><td><?= $value->apartment_number; ?></td></tr>
+                                        <tr><td>First Name</td><td><?= $value->first_name; ?></td></tr>
+                                        <tr><td>Last Name</td><td><?= $value->last_name; ?></td></tr>
+                                        <tr><td>Email Id</td><td><?= $value->email_id; ?></td></tr>
+                                        <tr><td>Phone Number</td><td><?= $value->phone_number; ?></td></tr>
+                                        <tr><td>Joining Date</td><td><?= $value->joining_datetime; ?></td></tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-
-                        <div id="apartment-owner-detail-2" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr>
-                                    <tr><td>Apartment Number</td><td>102</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="apartment-owner-detail-3" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr>
-                                    <tr><td>Apartment Number</td><td>103</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="apartment-owner-detail-4" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr>
-                                    <tr><td>Apartment Number</td><td>104</td></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
+                        <?php endforeach; ?> 
 
                     </div>
                 </div>
