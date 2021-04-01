@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 $rolesList = $signUpService->fetchAllRoles();
 $buildingsList = $signUpService->fetchAllBuildings();
 $subdivisionsList = $signUpService->fetchAllSubdivisions();
+$apartmentsList = $signUpService->fetchAllApartments();
 // var_dump($rolesList);
 // var_dump($buildingsList);
 // var_dump($subdivisionsList);
@@ -128,7 +129,7 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
 
                         <div id="building-dropdown" class="building-dropdown-list">
                             <label for="building">Choose Building:</label>
-                            <select name="building" >
+                            <select name="building" id="building" onchange="getBuildingDropdownValue()">
                                 <?php foreach ($buildingsList as $building): ?>
 
                                     <div>
@@ -139,6 +140,18 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
                                 <?php endforeach; ?>
                             </select>
 
+                        </div>
+
+                        <div id="apartment-dropdown" class="apartment-dropdown-list">
+                            <label for="apartment">Choose Apartment:</label>
+
+                            <select name="apartment" id="apartment">
+                                <?php foreach ($apartmentsList as $apartment): ?>
+                                    <div>
+                                        <option class="apartment-dropdown-option apartment-building-<?= htmlspecialchars($apartment->buildings_building_id); ?>" value="<?= htmlspecialchars($apartment->apartment_id); ?>"><?= htmlspecialchars($apartment->apartment_number); ?></option>
+                                    </div>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         
 

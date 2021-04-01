@@ -31,7 +31,14 @@ class BuildingService {
 	    		
 	    		$apartmentIndex = "apt-num-f$i-a$j";
 	    		// echo "^^apt-num-f$i-a$j~$_POST[$apartmentIndex]";
-	    		$apartment = new Apartment($_POST[$apartmentIndex], $apartmentOccupancyStatus, $buildingId, $buildingsSubdivisionId, $userId);
+	    		// $apartment = new Apartment($_POST[$apartmentIndex], $apartmentOccupancyStatus, $buildingId, $buildingsSubdivisionId, $userId);
+	    		$apartment = new Apartment();
+	    		$apartment->apartment_number = $_POST[$apartmentIndex];
+	    		$apartment->occupancy_status = $apartmentOccupancyStatus;
+	    		$apartment->buildings_building_id = $buildingId;
+	    		$apartment->subdivisions_subdivision_id	= $buildingsSubdivisionId;
+	    		$apartment->users_user_id = $userId;
+
 	    		array_push($apartmentArray, $apartment);
 	    	}
 	    }

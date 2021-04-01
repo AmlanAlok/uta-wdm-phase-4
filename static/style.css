@@ -203,6 +203,10 @@ h2.normal {
     display: none;
 }
 
+.apartment-dropdown-list {
+    display: none;
+}
+
 .hide {
   display: none;
 }
