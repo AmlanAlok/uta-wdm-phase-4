@@ -48,7 +48,7 @@ class SignUpService {
 		$users_user_id = $userId;
 
 		$responsibleContact = new ResponsibleContact(NULL, $name, $address, $city, $zip_code, $country, $phone_number, $users_user_id);
-		var_dump($responsibleContact);
+		// var_dump($responsibleContact);
 
 
 

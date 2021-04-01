@@ -8,7 +8,7 @@ $selectedRole = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // var_dump($_POST);
+    var_dump($_POST);
     $signUpService->storeSignUpInfo();
 
 }
@@ -152,7 +152,42 @@ $apartmentsList = $signUpService->fetchAllApartments();
                                     </div>
                                 <?php endforeach; ?>
                             </select>
+                            <br><br>
+
+                            <p>Choose Service Provider for Utilities:</p><br>
+                            <p>Electricity</p>
+                            <input type="radio" name="electricity-service-provider" value="subdivision services">
+                            <label for="">Subdivision Services</label><br>
+                            <input type="radio" name="electricity-service-provider" value="self-service">
+                            <label for="">Self-Service</label>
+
+                            <br><br>
+
+                            <p>Gas</p>
+                            <input type="radio" name="gas-service-provider" value="subdivision services">
+                            <label for="">Subdivision Services</label><br>
+                            <input type="radio" name="gas-service-provider" value="self-service">
+                            <label for="">Self-Service</label>
+
+                            <br><br>
+
+                            <p>Water</p>
+                            <input type="radio" name="water-service-provider" value="subdivision services">
+                            <label for="">Subdivision Services</label><br>
+                            <input type="radio" name="water-service-provider" value="self-service">
+                            <label for="">Self-Service</label>
+
+                            <br><br>
+
+                            <p>Internet is mandatory self-service </p>
+                            <input type="radio" name="internet-service-provider" value="self-service">
+                            <label for="">Self-Service</label>
+
                         </div>
+                        <br>
+                        <br>
+
+
                         
 
 
