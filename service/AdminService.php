@@ -3,6 +3,7 @@
 require 'SubdivisionService.php';
 require 'BuildingService.php';
 require 'MasterRecordService.php';
+require 'ResetPasswordService.php';
 
 class AdminService {
 
@@ -23,6 +24,26 @@ class AdminService {
 
 	    	return $output;
 	    }   
+	    elseif (isset($_POST['new-password']) && isset($_POST['confirm-password']) && isset($_POST['user-id'])){
+	    	
+	    	$newPassword = $_POST['new-password'];
+	    	$confirmPassword = $_POST['confirm-password'];
+	    	$userIdForResetPassword = $_POST['user-id'];
+
+	    	if ($newPassword == $confirmPassword){
+	    		$resetPasswordService = new ResetPasswordService();
+	    		$output = $resetPasswordService->resetPassword($userIdForResetPassword, $newPassword);
+	    	}
+	    	else{
+	    		echo "Passwords do not match";
+	    	}
+	    }
+	    else {
+	    	echo "Nothing Matched";
+	    	echo $_POST['new-password'];
+	    	echo $_POST['confirm-password'];
+	    	echo $_POST['user-id'];
+	    }
 	}
 
 	function fetchAllSubdivisions(){
@@ -41,11 +62,18 @@ class AdminService {
 		return $subdivisionManagerRecordList;
 	}
 
+	function fetchAllBuildingManagerRecords(){
 
+		$masterRecordService = new MasterRecordService();
+		$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecords();
+		return $buildingManagerRecordList;
+	}
 
+	function fetchAllApartmentOwnerRecords(){
 
-
-
-
+		$masterRecordService = new MasterRecordService();
+		$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecords();
+		return $apartmentOwnerRecordList;
+	}
 
 }
