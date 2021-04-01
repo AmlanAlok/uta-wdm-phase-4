@@ -18,8 +18,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 $subdivisionList = $adminService->fetchAllSubdivisions();
 $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
+$buildingManagerRecordList = $adminService->fetchAllBuildingManagerRecords();
 // echo "POLO--------";
-// var_dump($subdivisionManagerRecordList);
+// var_dump($buildingManagerRecordList);
 // var_dump($subdivisionList);
 
 // foreach ($subdivisionList as $subdivision) {
@@ -328,69 +329,32 @@ $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords
                 <div>
 
                     <div class="view-data-list">
-                        <a href="#building-manager-detail-1">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-1')">
-                                Amlan <br />
-                                Building Name: Emerald
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-2')">
-                                Kishore <br />
-                                Building Name: Sapphire
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-3')">
-                                Rakshita <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-4')">
-                                Alok <br />
-                                Building Name: Diamond
-                            </button>
-                        </a>
+                        <?php foreach($buildingManagerRecordList as $key => $value): ?>
+                            <a href="#building-manager-detail-<?= htmlspecialchars($key); ?>">
+                                <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-<?= htmlspecialchars($key); ?>')">
+                                    <?= $value->first_name; ?> <br />
+                                    Building Name: <?= $value->building_name; ?>
+                                </button>
+                            </a>
+                        <?php endforeach; ?> 
         
                     </div>
 
                     <div class="view-data">
-                        <div id="building-manager-detail-1" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
+                        <?php foreach($buildingManagerRecordList as $key => $value): ?>
+                            <div id="building-manager-detail-<?= htmlspecialchars($key); ?>" class="apartment-owner-detail">
+                                <div class="apartment-personal-details-table">
+                                    <table>
+                                        <tr><td>Building Name</td><td><?= $value->building_name; ?></td></tr>
+                                        <tr><td>First Name</td><td><?= $value->first_name; ?></td></tr>
+                                        <tr><td>Last Name</td><td><?= $value->last_name; ?></td></tr>
+                                        <tr><td>Email Id</td><td><?= $value->email_id; ?></td></tr>
+                                        <tr><td>Phone Number</td><td><?= $value->phone_number; ?></td></tr>
+                                        <tr><td>Joining Date</td><td><?= $value->joining_datetime; ?></td></tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-
-                        <div id="building-manager-detail-2" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Sapphire</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="building-manager-detail-3" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="building-manager-detail-4" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Diamond</td></tr></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
 
                     </div>
                 </div>

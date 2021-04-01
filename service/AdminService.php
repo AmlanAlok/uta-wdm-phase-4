@@ -41,6 +41,13 @@ class AdminService {
 		return $subdivisionManagerRecordList;
 	}
 
+	function fetchAllBuildingManagerRecords(){
+
+		$masterRecordService = new MasterRecordService();
+		$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecords();
+		return $buildingManagerRecordList;
+	}
+
 
 
 

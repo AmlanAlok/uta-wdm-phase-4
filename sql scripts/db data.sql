@@ -21,4 +21,9 @@ on u.user_id = s.users_user_id
 inner join roles as r 
 on u.roles_role_id=r.role_id;
 
-
+-- Add BM 1
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email_id`, `password`, `area_code`, `phone_number`, `joining_datetime`, `roles_role_id`) 
+VALUES (NULL, 'Arya', 'Stark', 'arya@gmail.com', 'arya', '12354', '123456232', '2021-03-01 06:31:03', '3');
+-- Add BM 2
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email_id`, `password`, `area_code`, `phone_number`, `joining_datetime`, `roles_role_id`) 
+VALUES (NULL, 'Sansa', 'Stark', 'sansa@gmail.com', 'sansa', '10001', '1239876232', '2021-03-02 06:31:03', '3');
