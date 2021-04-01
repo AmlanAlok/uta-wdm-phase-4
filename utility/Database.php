@@ -1,6 +1,6 @@
 <?php
 
-class Database{
+class Database {
 
 	public function getDatabaseConnection(){
 
@@ -11,8 +11,17 @@ class Database{
 
 		$dsn = 'mysql:host=' . $dbHost . ';dbname=' . $dbName . ';charset=utf8';
 
-		$dbConnection = new PDO($dsn, $dbUser, $dbPassword);
+		try {
 
-		return $dbConnection;
+			$dbConnection = new PDO($dsn, $dbUser, $dbPassword);
+			$dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			return $dbConnection;
+
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			exit;
+		}
+
+		
 	}
 }
