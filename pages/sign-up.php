@@ -6,13 +6,13 @@ $signUpService = new SignUpService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
+    // var_dump($_POST);
     $signUpService->storeSignUpInfo();
 
 }
 
-// $rolesList = $signUpService->fetchAllRoles();
-// $subdivisionsList = $signUpService->fetchAllSubdivisions();
+$rolesList = $signUpService->fetchAllRoles();
+$subdivisionsList = $signUpService->fetchAllSubdivisions();
 // var_dump($rolesList);
 // var_dump($subdivisionsList);
 
@@ -48,9 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div>
                         <div>
                             <label for="fname"></label>
-                            <input type="text"  id="fname" name="fname" value=""  placeholder= "First Name"> &nbsp
+                            <input type="text"  id="fname" name="first-name" value=""  placeholder= "First Name"> &nbsp
                             <label for="lname"></label>
-                            <input type="text" id="lname" name="lname" value=""  placeholder= "Last Name"> <br><br>
+                            <input type="text" id="lname" name="last-name" value=""  placeholder= "Last Name"> <br><br>
                             <label for="email"></label>
                             <input type="email" id="email"  name="email" value=""  placeholder= "Email"> <br><br>
                             <label for="password"></label>
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             <label for="zip"> </label>
                             <input type="text" id="zip" name="zip"  value="" placeholder= "Zip Code"> <br><br>
                             <label for="phno"> </label>
-                            <input type="tel" id="phno" name="phno"  value="" placeholder= "Phone Number"><br><br>
+                            <input type="tel" id="phno" name="phone-number"  value="" placeholder= "Phone Number"><br><br>
                         </div>
                     </div>
                     
@@ -97,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             <option value="4">Services</option>
                             <option value="5">Self-Service Apartment</option>
                         </select><br><br>
+                        
                         <label for="role">Role:</label>
                         <select name="role"  id="role">
                             <?php foreach ($rolesList as $role): ?>

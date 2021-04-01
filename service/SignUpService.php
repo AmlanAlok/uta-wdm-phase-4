@@ -3,12 +3,34 @@
 require '../utility/Database.php';
 require '../entity/Subdivision.php';
 require '../entity/Role.php';
+require '../entity/User.php';
 
 class SignUpService {
 
 	function storeSignUpInfo(){
 
+		$firstName = $_POST['first-name'];
+		$lastName = $_POST['last-name'];
+		$emailId = $_POST['email'];
+		$password = $_POST['password'];
+		$areaCode = $_POST['zip'];
+		$phoneNumber = $_POST['phone-number'];
+		$joiningDatetime = date("Y-m-d h:i:s", mktime());
+		$rolesRoleId = $_POST['role'];
+
+		$user = new User(NULL, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
+		var_dump($user);
+
+		
+
+
+
 	}
+
+	// function storeInfoInUser($firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime){
+
+
+	// }
 
 	function fetchAllRoles(){
 		

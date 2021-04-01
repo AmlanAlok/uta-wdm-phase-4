@@ -2,15 +2,6 @@
 
 class User {
 
-    // public $userId;
-    // public $firstName;
-    // public $lastName;
-    // public $emailId;
-    // public $password;
-    // public $areaCode;
-    // public $phoneNumber;
-    // public $joiningDatetime;
-    // public $rolesRoleId;
     public $user_id;
     public $first_name;
     public $last_name;
@@ -20,6 +11,20 @@ class User {
     public $phone_number;
     public $joining_datetime;
     public $roles_role_id;
+
+    function __construct($userId, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId){
+        
+        $this->user_id = $userId;
+        $this->first_name = $firstName;
+        $this->last_name = $lastName;
+        $this->email_id = $emailId;
+        $this->password = $password;
+        $this->area_code = $areaCode;
+        $this->phone_number = $phoneNumber;
+        $this->joining_datetime = $joiningDatetime;
+        $this->roles_role_id = $rolesRoleId;
+
+    }
 
     function getId(){
         return $this->user_id;
