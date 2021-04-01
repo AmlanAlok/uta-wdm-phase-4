@@ -11,7 +11,7 @@ $adminService = new AdminService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // var_dump($_POST);
+    var_dump($_POST);
     $adminService->checkFeature($userId);
 
 }
@@ -99,7 +99,8 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
                 <div class="section-heading"><h1>Reset Credentials</h1></div>
 
                 <div class="input-box">
-                    
+
+                    <form method="post">
                         <table>
                             <tr>
                                 <td><label for="user-id">User Id:</label></td>
@@ -107,15 +108,19 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
                             </tr>
                             <tr>
                                 <td><label for="new-password">New Password:</label></td>
-                                <td><input type="text" id="new-password" name="new-password" class="" placeholder=""></td>
+                                <td><input type="password" id="new-password" name="new-password" class="" placeholder=""></td>
                             </tr>
                             <tr>
-                                <td><label for="comfirm-password">Comfirm Password:</label></td>
-                                <td><input type="text" id="comfirm-password" name="comfirm-password" class="" placeholder=""></td>
+                                <td><label for="confirm-password">Comfirm Password:</label></td>
+                                <td><input type="password" id="confirm-password" name="confirm-password" class="" placeholder=""></td>
                             </tr>
                             
                         </table>
                         <button class="submit-button">Submit</button>
+
+                    </form>
+                    
+                        
                        
                     
                 </div>
