@@ -2,22 +2,24 @@
 
 require '../../service/AdminService.php';
 
-var_dump($_GET);
+// var_dump($_GET);
 
 $userId = $_GET['user_id'];
-echo "userId = $userId";
+// echo "userId = $userId";
 
 $adminService = new AdminService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
+    // var_dump($_POST);
     $adminService->checkFeature($userId);
 
 }
 
 $subdivisionList = $adminService->fetchAllSubdivisions();
-echo "POLO";
+$subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
+// echo "POLO--------";
+// var_dump($subdivisionManagerRecordList);
 // var_dump($subdivisionList);
 
 // foreach ($subdivisionList as $subdivision) {
@@ -402,44 +404,39 @@ echo "POLO";
                 <div>
 
                     <div class="view-data-list">
-                        <a href="#subdivision-manager-detail-1">
-                            <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-1')">
-                                Amlan <br />
-                                Subdivision Name: Winterfell
-                            </button>
-                        </a>
-                        <a href="#subdivision-manager-detail-2">
-                            <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-2')">
-                                Kishore <br />
-                                Subdivision Name: Greenland
-                            </button>
-                        </a>
-                        <a href="#subdivision-manager-detail-2">
-                            <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-3')">
-                                Rakshita <br />
-                                Subdivision Name: Centennial
-                            </button>
-                        </a>
-                        <a href="#subdivision-manager-detail-2">
-                            <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-4')">
-                                Alok <br />
-                                Subdivision Name: Rocky Mountain
-                            </button>
-                        </a>
+
+                        <?php foreach($subdivisionManagerRecordList as $key => $value): ?>
+                            <a href="#subdivision-manager-detail-<?= htmlspecialchars($key); ?>">
+                                <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-<?= htmlspecialchars($key); ?>')">
+                                    <?= $value->first_name; ?><br />
+                                    Subdivision Name: <?= $value->subdivision_name; ?>
+                                </button>
+                            </a>
+                        <?php endforeach; ?> 
+                        
         
                     </div>
 
                     <div class="view-data">
-                        <div id="subdivision-manager-detail-1" class="subdivision-manager-detail">
+
+                        <?php foreach($subdivisionManagerRecordList as $key => $value): ?>
+                            <div id="subdivision-manager-detail-<?= htmlspecialchars($key); ?>" class="subdivision-manager-detail">
                             <div class="apartment-personal-details-table">
                                 <table>
-                                    <tr><td>Subdivision Name</td><td>Emerald</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
+                                    <tr><td>Subdivision Name</td><td><?= $value->subdivision_name; ?></td></tr>
+                                    <tr><td>First Name</td><td><?= $value->first_name; ?></td></tr>
+                                    <tr><td>Last Name</td><td><?= $value->last_name; ?></td></tr>
+                                    <tr><td>Email Id</td><td><?= $value->email_id; ?></td></tr>
+                                    <tr><td>Phone Number</td><td><?= $value->phone_number; ?></td></tr>
+                                    <tr><td>Joining Date</td><td><?= $value->joining_datetime; ?></td></tr>
                                 </table>
                             </div>
                         </div>
+                        <?php endforeach; ?> 
 
-                        <div id="subdivision-manager-detail-2" class="subdivision-manager-detail">
+                        
+
+                        <!-- <div id="subdivision-manager-detail-2" class="subdivision-manager-detail">
                             <div class="apartment-personal-details-table">
                                 <table>
                                     <tr><td>Subdivision Name</td><td>Sapphire</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
@@ -464,7 +461,7 @@ echo "POLO";
                                     <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
                                 </table>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
