@@ -4,6 +4,8 @@ require '../utility/Database.php';
 require '../entity/Subdivision.php';
 require '../entity/Role.php';
 require '../entity/User.php';
+require '../entity/Address.php';
+require '../entity/ResponsibleContact.php';
 
 class SignUpService {
 
@@ -19,9 +21,32 @@ class SignUpService {
 		$rolesRoleId = $_POST['role'];
 
 		$user = new User(NULL, $firstName, $lastName, $emailId, $password, $areaCode, $phoneNumber, $joiningDatetime, $rolesRoleId);
-		var_dump($user);
 
-		
+		$userId = '';
+		// var_dump($user);
+
+		$street_address = $_POST['address1'];
+		$street_address_line_2 = $_POST['address2']; 
+		$city = $_POST['city']; 
+		$state = $_POST['state']; 
+		$zip_code = $_POST['zip'];
+		$country = $_POST['country']; 
+		$users_user_id = $userId;
+
+		$address = new Address(NULL, $street_address, $street_address_line_2, $city, $state, $zip_code, $country, $users_user_id);
+		// var_dump($address);
+
+		// $responsible_contact_id = $_POST[''];
+		$name = $_POST['rname']; 
+		$address = $_POST['raddress']; 
+		$city = $_POST['rcity']; 
+		$zip_code = $_POST['rzip']; 
+		$country = $_POST['rcountry'];
+		$phone_number = $_POST['rphno']; 
+		$users_user_id = $userId;
+
+		$responsibleContact = new ResponsibleContact(NULL, $name, $address, $city, $zip_code, $country, $phone_number, $users_user_id);
+		var_dump($responsibleContact);
 
 
 

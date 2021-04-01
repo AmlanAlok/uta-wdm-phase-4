@@ -4,9 +4,11 @@ require '../service/SignUpService.php';
 
 $signUpService = new SignUpService();
 
+$selectedRole = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
+    // var_dump($_POST);
     $signUpService->storeSignUpInfo();
 
 }
@@ -77,37 +79,50 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
                     </div>
                     
                     <div>
-                        <label for="raddress1">Responsible Contact's Address:</label> <br>
-                        <input type="text" id="raddress1" name="raddress1" value=""  placeholder= "Street 1"><br><br>
-                        <label for="raddress2"></label>
-                        <input type="text" id="raddress2" name="raddress2" value="" placeholder= "Street 2"><br><br>
+
+                        <label for="rname">Responsible Contact's Name</label>
+                        <input type="text" id="rname" name="rname" value=""  placeholder= "Name"> <br><br>
+
+                        <label for="raddress">Responsible Contact's Address:</label> <br>
+                        <input type="text" id="raddress" name="raddress" value=""  placeholder= "Address"><br><br>
+                        
+                        <label for="rcity"></label>
+                        <input type="text" id="rcity" name="rcity" value=""  placeholder= "City"><br><br>
                         <label for="rcountry"></label>
                         <input type="text" id="rcountry" name="rcountry" value=""  placeholder= "Country"><br><br>
-                        <label for="rstate"></label>
-                        <input type="text" id="rstate" name="rstate" value=""  placeholder= "State"> <br><br>
-                        <label for="zip"> </label>
+                        
+                        <label for="rzip"> </label>
                         <input type="text" id="rzip" name="rzip" value=""  placeholder= "Zip Code"> <br><br>
                         <label for="rphno"> </label>
                         <input type="tel" id="rphno" name="rphno" value=""  placeholder= "Phone Number"> <br><br>
                     </div>
                     <div>
-                        <label for="selection_type">What do you want to sign up for:</label>
+                        <!-- <label for="selection_type">What do you want to sign up for:</label>
                         <select name="selection_type"  id="selection_type">
                             <option value="1">Subdivision</option>
                             <option value="2">Building</option>
                             <option value="3">Apartment</option>
                             <option value="4">Services</option>
                             <option value="5">Self-Service Apartment</option>
-                        </select><br><br>
+                        </select><br><br> -->
 
                         <label for="role">Role:</label>
-                        <select name="role"  id="role">
+                        <select name="role"  id="role" onchange="getRoleDropdownValue()">
                             <?php foreach ($rolesList as $role): ?>
                                 <option value="<?= htmlspecialchars($role->role_id); ?>"><?= htmlspecialchars($role->role_name); ?></option>
                             <?php endforeach; ?>    
                             
                         </select><br><br>
-                        <br><br>
+
+                        <label for="role">Choose Subdivision:</label>
+                        <select name="subdivision" id="subdivision">
+                            <?php foreach ($subdivisionsList as $subdivision): ?>
+                                <option value="<?= htmlspecialchars($subdivision->subdivision_id); ?>"><?= htmlspecialchars($subdivision->subdivision_name); ?></option>
+                            <?php endforeach; ?>
+
+                        </select>
+
+
                     </div>
                     <div class="SignUpFormButtons" style="text-align: center;">
                         <input id="btnSubmit" type="submit" value="Submit"> &nbsp;&nbsp;
@@ -126,5 +141,7 @@ $subdivisionsList = $signUpService->fetchAllSubdivisions();
                 <span style="float: right;">www.cityview.com</span>
             </p>
         </footer>
+
+        <script src="sign-up.js"></script>
     </body>
 </html>
