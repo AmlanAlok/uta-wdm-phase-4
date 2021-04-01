@@ -7,13 +7,13 @@ require '../service/RoleService.php';
 class LoginService {
 
 	function loginUser($emailId, $password){
-
+		session_start();
 		$dbObject = new Database();
 	    $dbConnection = $dbObject->getDatabaseConnection();
 
 	    $userService = new UserService();
 	    $user = $userService->getUserByEmailIdAndPassword($dbConnection, $emailId, $password);
-
+		$_SESSION['CURRENT_USER'] = $user;
 	    var_dump($user);
 
 	    $user_id = $user->user_id;
@@ -42,7 +42,8 @@ class LoginService {
 	        echo "You are SUBDIVISION MANAGER";
 	        header("Location: ../YouareonDefault/subdivision-manager/subdivision-manager.php?user_id=$user_id");
 	        exit;
-	    } elseif ($role_name == "building manager"){
+	    } elseif (strtolower($role_name) == "building manager"){
+			
 	        echo "You are BUILDING MANAGER";
 	        header("Location: ../YouareonDefault/building-manager/building-manager.php?user_id=$user_id");
 	        exit;

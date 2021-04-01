@@ -1,12 +1,13 @@
 <?php
 
 require '../service/LoginService.php';
+$abc = 'abc';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    var_dump($_POST);
-
+    echo "abcederfadf";
+    // var_dump($_POST);
+    $abc = 'abc';
     $emailId = $_POST['email'];
     $password = $_POST['password'];
     echo "email = $emailId";
@@ -35,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
         crossorigin="anonymous" />
@@ -45,8 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <script src="login.js"></script>
-
+    <!-- <script src="login.js"></script> -->
     <div class="topnav">
         City View
         <a href="/pages/login.html">Login</a>
@@ -63,11 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             <div style="padding:100px 20px">
 
-                <form method="post">
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                     <label for="email"></label>
-                    <input type="email" id="email" name="email" required placeholder="Email"> <br><br>
+                    <input type="email" id="email" name="email" required placeholder="Email" > <br><br>
                     <label for="password"></label>
-                    <input type="password" id="password" name="password" required placeholder="Password"> <br><br>
+                    <input type="password" id="password" name="password" required placeholder="Password" > <br><br>
                     <div class="SignUpFormButtons" style="text-align: center;">
                         <button class="login-button">Login</button>
                     </div>
