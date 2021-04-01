@@ -2,23 +2,23 @@
 
 require '../../service/AdminService.php';
 
-var_dump($_GET);
+// var_dump($_GET);
 
 $userId = $_GET['user_id'];
-echo "userId = $userId";
+// echo "userId = $userId";
 
 $adminService = new AdminService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
+    // var_dump($_POST);
     $adminService->checkFeature($userId);
 
 }
 
 $subdivisionList = $adminService->fetchAllSubdivisions();
-// $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
-// echo "POLO";
+$subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
+// echo "POLO--------";
 // var_dump($subdivisionManagerRecordList);
 // var_dump($subdivisionList);
 
@@ -410,7 +410,7 @@ $subdivisionList = $adminService->fetchAllSubdivisions();
                                 Subdivision Name: Winterfell
                             </button>
                         </a>
-                        <a href="#subdivision-manager-detail-2">
+                        <!-- <a href="#subdivision-manager-detail-2">
                             <button class="subdivision-manager-detail-tile" onclick="viewSubdivisionDetails(event, 'subdivision-manager-detail-2')">
                                 Kishore <br />
                                 Subdivision Name: Greenland
@@ -427,7 +427,7 @@ $subdivisionList = $adminService->fetchAllSubdivisions();
                                 Alok <br />
                                 Subdivision Name: Rocky Mountain
                             </button>
-                        </a>
+                        </a> -->
         
                     </div>
 
