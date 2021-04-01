@@ -6,13 +6,7 @@ function getRoleDropdownValue(event){
 
 	apartmentDropdown = document.getElementById("apartment-dropdown");
 	apartmentDropdown.style.display = "none"
-	// role = document.getElementById("role").value
-	// console.log(role)
 
-	// buildingDropdown = document.getElementById("building-dropdown");
-	// console.log(buildingDropdown)
-
-	// buildingDropdown.style.displpay = "block"
 }
 
 function getSubdivisionDropdownValue(event){
