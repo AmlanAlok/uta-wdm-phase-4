@@ -36,7 +36,7 @@ class SignUpService {
 		elseif ($roleName == 'building manager'){
 			$buildingId = $_POST['building'];
 
-			$isAvailable = $signUpService->checkSubdivisionAvailability($buildingId, $adminUserId);
+			$isAvailable = $signUpService->checkBuildingAvailability($buildingId, $adminUserId);
 			if(!$isAvailable){
 				return new Response('Failed', 'Chosen building already has a manager','Chosen building already has a manager');
 			}
@@ -107,6 +107,10 @@ class SignUpService {
 		if ($roleName == 'subdivision manager'){
 			return $signUpService->updateSubdivisionUserId($userId, $subdivisionId);
 		}
+		elseif ($roleName == 'building manager'){
+			$buildingId = $_POST['building'];
+			return $signUpService->updateBuildingUserId($userId, $buildingId);
+		}
 
 		
 
@@ -121,7 +125,17 @@ class SignUpService {
 		} else{
 			return false;
 		}
+	}
 
+	function checkBuildingAvailability($buildingId, $adminUserId){
+		$signUpService = new SignUpService();
+		$buildingRecord = $signUpService->getBuildingRecordByBuildingId($buildingId);
+
+		if ($buildingRecord->users_user_id == $adminUserId){
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 	function getAdminUserId(){
@@ -163,7 +177,29 @@ class SignUpService {
 			return new Response('Failed', $e->getMessage(),'user id for subdivision was not updated');
 			}
 			// exit;
+	}
+
+	function updateBuildingUserId($userId, $buildingId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "UPDATE buildings SET users_user_id = :userId WHERE building_id = :buildingId";
+
+		$stmt = $dbConnection->prepare($sql);
 		
+		$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+		$stmt->bindValue(':buildingId', $buildingId, PDO::PARAM_INT);
+		
+		try{
+			if ($stmt->execute()){
+				return new Response('Success', '','Building assigned Successfully');
+			} else{
+				echo "Failed";
+			}
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			return new Response('Failed', $e->getMessage(),'user id for Building was not updated');
+			}
 	}
 
 	function getSubdivisionRecordBySubdivisionId($subdivisionId){
@@ -173,6 +209,23 @@ class SignUpService {
 		$stmt = $dbConnection->prepare($sql);
 		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
+
+	}
+
+	function getBuildingRecordByBuildingId($buildingId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT * from buildings WHERE building_id = :buildingId";
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->bindValue(':buildingId', $buildingId, PDO::PARAM_INT);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Building');
 
 		if ($stmt->execute()){
 			return $stmt->fetch();

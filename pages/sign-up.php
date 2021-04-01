@@ -90,10 +90,10 @@ $apartmentsList = $signUpService->fetchAllApartments();
                     
                     <div>
 
-                        <label for="rname">Responsible Contact's Name</label>
+                        <label for="rname">Responsible Contact Details</label>
                         <input type="text" id="rname" name="rname" value=""  placeholder= "Name"> <br><br>
 
-                        <label for="raddress">Responsible Contact's Address:</label> <br>
+                        <label for="raddress"></label> <br>
                         <input type="text" id="raddress" name="raddress" value=""  placeholder= "Address"><br><br>
                         
                         <label for="rcity"></label>
