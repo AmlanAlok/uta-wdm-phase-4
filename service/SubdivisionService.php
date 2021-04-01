@@ -1,6 +1,7 @@
 <?php
 
 require '../../utility/Database.php';
+require '../../entity/Subdivision.php';
 
 class SubdivisionService {
 
@@ -19,12 +20,32 @@ class SubdivisionService {
 			$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
 
 			if ($stmt->execute()){
-				// echo "returned = $stmt->fetch()";
+				return 'New Subdivision Added Successfully';
+			} else{
+				return 'Failed';
 			}
 
 		}
-
 		
+	}
+
+	function fetchAllSubdivisions(){
+		
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * from subdivisions";
+
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Subdivision');
+
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+
 	}
 
 }

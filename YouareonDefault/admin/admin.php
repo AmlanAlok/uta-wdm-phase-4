@@ -7,15 +7,22 @@ var_dump($_GET);
 $userId = $_GET['user_id'];
 echo "userId = $userId";
 
+$adminService = new AdminService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     var_dump($_POST);
-
-    $adminService = new AdminService();
     $adminService->checkFeature($userId);
 
 }
+
+$subdivisionList = $adminService->fetchAllSubdivisions();
+echo "POLO";
+// var_dump($subdivisionList);
+
+// foreach ($subdivisionList as $subdivision) {
+//     echo "$subdivision->subdivision_id - $subdivision->subdivision_name";
+// }
 
 ?>
 
@@ -132,15 +139,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="section-heading"><h1>Add Building</h1></div>
 
                 <div class="input-box">
-                    <table>
+
+                    <form method="post">
+                        <table>
                         <tr>
                             <td><label for="subdivision-name">Select Subdivision Name:</label></td>
                             <td><select id="subdivision-name" name="subdivision-name" class="">
                                 <optgroup label="Subdivision Names">
-                                    <option value="greenland">Greenland</option>
-                                    <option value="winterfell">Winterfell</option>
-                                    <option value="centennial">Centennial</option>
-                                  </optgroup>
+                                    <?php ?>
+                                    <?php foreach ($subdivisionList as $subdivision): ?>
+                                        <option value="<?= $subdivision->subdivision_id?>">
+                                        <?= $subdivision->subdivision_name; ?> 
+                                        </option>
+                                    <?php endforeach; ?>
+                                </optgroup>
                                 </select>
                             </td>
                         </tr>
@@ -153,73 +165,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             <td></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 1 - Apartment 1:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f1-a1">Floor 1 - Apartment 1:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f1-a1" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 1 - Apartment 2:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f1-a2">Floor 1 - Apartment 2:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f1-a2" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 1 - Apartment 3:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f1-a3">Floor 1 - Apartment 3:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f1-a3" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 1 - Apartment 4:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f1-a4">Floor 1 - Apartment 4:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f1-a4" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 2 - Apartment 1:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f2-a1">Floor 2 - Apartment 1:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f2-a1" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 2 - Apartment 2:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f2-a2">Floor 2 - Apartment 2:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f2-a2" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 2 - Apartment 3:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f2-a3">Floor 2 - Apartment 3:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f2-a3" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 2 - Apartment 4:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f2-a4">Floor 2 - Apartment 4:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f2-a4" class="" placeholder=""></td>
                         </tr>
 
                         <tr>
-                            <td><label for="new-building-name">Floor 3 - Apartment 1:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f3-a1">Floor 3 - Apartment 1:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f3-a1" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 3 - Apartment 2:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f3-a2">Floor 3 - Apartment 2:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f3-a2" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 3 - Apartment 3:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f3-a3">Floor 3 - Apartment 3:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f3-a3" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 3 - Apartment 4:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f3-a4">Floor 3 - Apartment 4:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f3-a4" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 4 - Apartment 1:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f4-a1">Floor 4 - Apartment 1:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f4-a1" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 4 - Apartment 2:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f4-a2">Floor 4 - Apartment 2:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f4-a2" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 4 - Apartment 3:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f4-a3">Floor 4 - Apartment 3:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f4-a3" class="" placeholder=""></td>
                         </tr>
                         <tr>
-                            <td><label for="new-building-name">Floor 4 - Apartment 4:</label></td>
-                            <td><input type="text" id="new-building-name" name="new-building-name" class="" placeholder=""></td>
+                            <td><label for="apt-num-f4-a4">Floor 4 - Apartment 4:</label></td>
+                            <td><input type="text" id="apartment-number" name="apt-num-f4-a4" class="" placeholder=""></td>
                         </tr>
                         
                     </table>
                     <button class="submit-button">Submit</button>
+                    </form>
+                    
                     
                 </div>
             </div>
