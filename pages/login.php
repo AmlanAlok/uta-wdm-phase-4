@@ -50,10 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         City View
         <a href="./login.php">Login</a>
         <a class="active" href="./sign-up.php">SignUp</a>
-        <a href="./contact_us.html">Contact Us</a>
+        <a href="./contact_us.php">Contact Us</a>
         <a href="/blog">Forum</a>
-        <a href="./about.html">About Us</a>
-        <a href="../index.html">Home</a>
+        <a href="./about.php">About Us</a>
+        <a href="../index.php">Home</a>
     </div>
     <div class="container">
         <div class="contact_container">
