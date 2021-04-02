@@ -15,6 +15,8 @@ class UtilityBillService {
 		$gBill = $_POST['gasBill'];
 		$wBill = $_POST['waterBill'];
 		$iBill = $_POST['internetBill'];
+		$month = $_POST['month'];
+		$year = $_POST['year'];
 
 		$ubs = new UtilityBillService();
 		$aptServiceUtitlityList = $ubs->getServiceChoicePerUtiltity($aptId);
@@ -29,9 +31,10 @@ class UtilityBillService {
 		foreach ($aptServiceUtitlityList as $asu){
 
 			$aub = new ApartmentUtilityBill();
-			
-			$aub->month = $date->format('m');
-			$aub->year = $date->format('Y');
+
+
+			$aub->month = $month;
+			$aub->year = $year;
 
 			$aub->apartments_apartment_id = $asu->apartments_apartment_id;
 			$aub->buildings_building_id = $asu->buildings_building_id;

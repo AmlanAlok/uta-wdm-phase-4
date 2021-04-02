@@ -31,6 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 				<input type="text" id="i-bill"  name="internetBill" value=""  placeholder= "internet"> <br><br>
 
+				<input type="text" id="month"  name="month" value=""  placeholder= "month"> <br><br>
+
+				<input type="text" id="year"  name="year" value=""  placeholder= "year"> <br><br>
+
 				<input id="btnSubmit" type="submit" value="Submit">
 				
 			</div>

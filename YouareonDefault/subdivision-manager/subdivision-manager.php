@@ -1,13 +1,27 @@
 <?php 
 
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
+require '../../service/SubdivisionManagerService.php';
 
-    var_dump($_GET);
+$userId = $_GET['user_id'];
 
-    $userId = $_GET['user_id'];
-    echo "userId = $userId";
+$subdivisionManagerService = new SubdivisionManagerService();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    // var_dump($_GET);
+    $subdivisionManagerService->utilityReportData($userId);
+    
+    // echo "userId = $userId";
 
 }
+
+$subdivisionManagerService->utilityReportData($userId);
+
+// $months = ['Jan','Feb'];
+// $eb = [12, 20];
+
+// $buildingManagerRecordList = $subdivisionManagerService->fetchAllBuildingManagerRecords();
+// $apartmentOwnerRecordList = $subdivisionManagerService->fetchAllApartmentOwnerRecords();
 
 ?>
 
@@ -19,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles.css">
     <script src="https://kit.fontawesome.com/ece9692bda.js" crossorigin="anonymous"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 </head>
 
 <body>
@@ -366,6 +381,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
 
                 </div>
             </div>
+
+            <div id="dashboard-electricity-bill" class="section-content">
+                <div class="section-heading"><h1>Electricity Dashboard</h1></div>
+
+                <div>
+                    <canvas id="electricity-chart"></canvas>
+                </div>
+
+                <script>
+                    let eChart = document.getElementById('electricity-chart').getContext('2d');
+
+                    let eDashboard = new Chart(eChart, {
+                        type:'bar',
+                        data:{
+                            labels: ['Jan','Feb','Mar'],
+                            datasets:[{
+                                label:'Bill Amount',
+                                data: [20, 30, 50],
+                                backgroundColor:'green'
+                            }]
+                        }
+                    });
+
+                    
+                </script>
+                
+            </div>
+
 
             <!-- Subdivision Manager New IT Requests -->
 
