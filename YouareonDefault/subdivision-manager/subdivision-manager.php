@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                         <button class="subdivision-it-request-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'view-it-requests')">View IT Requests</button>
                     </div>
 
-                <a href="../../">
+                <a href="../../index.php">
                     <button class="admin-option text-left opacity" onclick="myFunction(event, 'sign-out')">Sign out</button>
                 </a>
 

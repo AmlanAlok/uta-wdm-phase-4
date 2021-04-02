@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                     
                 <a href="#manage-complaints"><button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'manage-complaints')">View Complaints</button></a>
 
-                <a href="../../index.html">
+                <a href="../../index.php">
                     <button class="admin-option text-left opacity" onclick="myFunction(event, 'sign-out')">Sign out</button>
                 </a>
             </div>
