@@ -80,7 +80,7 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
 
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'contact-us-messages')">Contact Us Messages</button>
 
-                <a href="../../index.html">
+                <a href="../../index.php">
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'sign-out')">Sign
                         out</button>
                 </a>
