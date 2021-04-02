@@ -13,6 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 }
 
+$mrList = $apartmentOwnerService->fetchAllMR();
+// var_dump($mrList);
+
 ?>
 
 <!DOCTYPE html>
@@ -229,36 +232,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div>
 
                     <div class="maintenance-request-list">
-                        <button class="maintenance-request" onclick="viewMaintenanceDetails(event, 'mr-1')">
-                            Maintenance Request ID: 1 <br />
-                            Date: 01/27/2021 <br />
-                            Status: In-Progress
-                        </button>
-                        <button class="maintenance-request" onclick="viewMaintenanceDetails(event, 'mr-2')">
-                            Maintenance Request ID: 2 <br />
-                            Date: 02/09/2021 <br />
-                            Status: Completed
-                        </button>
+                        <?php foreach ($mrList as $mr): ?>
+                            <button class="maintenance-request" onclick="viewMaintenanceDetails(event, 'mr-<?= htmlspecialchars($mr->maintenance_request_id); ?>')">
+                                Maintenance Request ID: <?= htmlspecialchars($mr->maintenance_request_id); ?> <br />
+                                Date: <?= htmlspecialchars($mr->message_datetime); ?> <br />
+                                Status: <?= htmlspecialchars($mr->status); ?>
+                            </button>
+                        <?php endforeach; ?>
+                        
                     </div>
 
                     <div class="display-maintenance-request">
-                        <div id="mr-1" class="maintenance-request-details">
-                            <h3>Datetime</h3>
-                            <p>01/27/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Pipe needs maintenance.</p>
-                            <h3>Status</h3>
-                            <p>In-progress</p>
-                        </div>
+                        <?php foreach ($mrList as $mr): ?>
+                            <div id="mr-<?= htmlspecialchars($mr->maintenance_request_id); ?>" class="maintenance-request-details">
+                                <h3>Datetime</h3>
+                                <p><?= htmlspecialchars($mr->message_datetime); ?></p>
+                                <h3>Message</h3>
+                                <p><?= htmlspecialchars($mr->message); ?></p>
+                                <h3>Status</h3>
+                                <p><?= htmlspecialchars($mr->status); ?></p>
+                            </div>
+                        <?php endforeach; ?>
 
-                        <div id="mr-2" class="maintenance-request-details">
-                            <h3>Datetime</h3>
-                            <p>02/09/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Electric maintenance required.</p>
-                            <h3>Status</h3>
-                            <p>Completed</p>
-                        </div>
+                        
                     </div>
                 </div>
                 

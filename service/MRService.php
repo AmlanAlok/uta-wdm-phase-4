@@ -76,4 +76,38 @@ class MRService {
 			return 'Failed';
 		}
 	}
+
+	function fetchAllMR(){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * from maintenance_requests";
+
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'MR');
+
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
