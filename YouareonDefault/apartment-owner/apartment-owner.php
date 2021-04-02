@@ -1,11 +1,15 @@
 <?php 
 
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
+require '../../service/ApartmentOwnerService.php';
 
-    var_dump($_GET);
+$userId = $_GET['user_id'];
 
-    $userId = $_GET['user_id'];
-    echo "userId = $userId";
+$apartmentOwnerService = new ApartmentOwnerService();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    var_dump($_POST);
+    $apartmentOwnerService->checkFeature($userId);
 
 }
 
@@ -77,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'new-complaint')">New Complaint</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'view-complaints')">View Complaints</button>
                 </div>
-                <a href="../../index.html">
+                <a href="../../index.php">
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'sign-out')">Sign out</button>
                 </a>
             </div>
@@ -208,10 +212,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                 <h3>Create New Maintenance Request</h3>
 
                 <div>
-                    <form>
+                    <form method="post">
                         <label for="maintenance-request-input-message"><h4>Enter details:</h4></label>
                         <textarea id="maintenance-request-input-message" name="maintenance-request-input-message" class="textarea-size"rows="4" cols="50"></textarea><br/>
-                        <input type="submit" value="Submit" class="submit-button">
+                        <button  class="submit-button">Submit</button>
+                        <!-- <input type="submit" value="Submit" class="submit-button"> -->
                     </form>
                 </div>
             </div>
