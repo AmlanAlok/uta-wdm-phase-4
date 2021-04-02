@@ -9,6 +9,12 @@ class Database {
 		$dbUser = "root";
 		$dbPassword = "";
 
+		// Amlan UTA cloud cred
+		// $dbHost = "localhost";
+		// $dbName = "axa5861_city_view";
+		// $dbUser = "axa5861_admin";
+		// $dbPassword = "cityview99";
+
 		$dsn = 'mysql:host=' . $dbHost . ';dbname=' . $dbName . ';charset=utf8';
 
 		try {
