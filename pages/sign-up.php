@@ -48,12 +48,12 @@ $apartmentsList = $signUpService->fetchAllApartments();
     <body>
         <div class="topnav">
             City View
-            <a href="./login.html">Login</a>
-            <a class="active" href="./sign-up.html">SignUp</a>
-            <a href="./contact_us.html">Contact Us</a>
+            <a href="./login.php">Login</a>
+            <a class="active" href="./sign-up.php">SignUp</a>
+            <a href="./contact_us.php">Contact Us</a>
             <a href="/blog">Forum</a>
-            <a href="./about.html">About Us</a>
-            <a href="../index.html">Home</a>
+            <a href="./about.php">About Us</a>
+            <a href="../index.php">Home</a>
         </div>
         <div class="container">
             <h2 class="sign" align="center" style="color:#4F4846;">Sign up</h2> <br>
