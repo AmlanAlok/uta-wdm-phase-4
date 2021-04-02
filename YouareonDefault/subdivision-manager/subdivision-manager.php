@@ -3,7 +3,7 @@
 require '../../service/SubdivisionManagerService.php';
 
 $userId = $_GET['user_id'];
-
+$eb = [999,888,777];
 $subdivisionManagerService = new SubdivisionManagerService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -15,10 +15,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 }
 
-$subdivisionManagerService->utilityReportData($userId);
+$personalDetails = $subdivisionManagerService->getPersonalDetails($userId);
+var_dump($personalDetails);
+$utilityReportData = $subdivisionManagerService->utilityReportData($userId);
 
 // $months = ['Jan','Feb'];
-// $eb = [12, 20];
+// $eb = [12, 20, 30];
+
 
 // $buildingManagerRecordList = $subdivisionManagerService->fetchAllBuildingManagerRecords();
 // $apartmentOwnerRecordList = $subdivisionManagerService->fetchAllApartmentOwnerRecords();
@@ -116,27 +119,27 @@ $subdivisionManagerService->utilityReportData($userId);
                             
                             <tr>
                                 <td>User ID</td>
-                                <td>1</td>
+                                <td><?= $personalDetails->user_id; ?></td>
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td>Amlan</td>
+                                <td><?= $personalDetails->first_name; ?></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>Alok</td>
+                                <td><?= $personalDetails->last_name; ?></td>
                             </tr>
                             <tr>
                                 <td>Email Id</td>
-                                <td>amlanalok@gmail.com</td>
+                                <td><?= $personalDetails->email_id; ?></td>
                             </tr>
                             <tr>
                                 <td>Phone Number</td>
-                                <td>1231231234</td>
+                                <td><?= $personalDetails->phone_number; ?></td>
                             </tr>
                             <tr>
                                 <td>Joining Date</td>
-                                <td>01/19/2021</td>
+                                <td><?= $personalDetails->joining_datetime; ?></td>
                             </tr>
                         </table>
                     </div>
@@ -386,11 +389,19 @@ $subdivisionManagerService->utilityReportData($userId);
                 <div class="section-heading"><h1>Electricity Dashboard</h1></div>
 
                 <div>
+                    <div>
+                        <input type="text" id="mojo" value=" <?= $eb; ?>">
+                    </div>
+
                     <canvas id="electricity-chart"></canvas>
                 </div>
 
                 <script>
                     let eChart = document.getElementById('electricity-chart').getContext('2d');
+
+                    // let polo = document.getElementById('mojo').value;
+                    // let polo = <?php  $eb ?>;
+                    // console.log(polo);
 
                     let eDashboard = new Chart(eChart, {
                         type:'bar',
@@ -398,11 +409,23 @@ $subdivisionManagerService->utilityReportData($userId);
                             labels: ['Jan','Feb','Mar'],
                             datasets:[{
                                 label:'Bill Amount',
-                                data: [20, 30, 50],
+                                data: [10, 20, 30],
                                 backgroundColor:'green'
                             }]
                         }
                     });
+
+                    // let eDashboard = new Chart(eChart, {
+                    //     type:'bar',
+                    //     data:{
+                    //         labels: ['Jan','Feb','Mar'],
+                    //         datasets:[{
+                    //             label:'Bill Amount',
+                    //             data: [20, 30, 50],
+                    //             backgroundColor:'green'
+                    //         }]
+                    //     }
+                    // });
 
                     
                 </script>

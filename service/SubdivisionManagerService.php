@@ -3,6 +3,7 @@
 // require 'MasterRecordService.php';
 require 'SubdivisionService.php';
 // require '../model/SubdivisionUtilityBillRecord.php';
+require 'UserService.php';
 
 class SubdivisionManagerService {
 
@@ -35,6 +36,11 @@ class SubdivisionManagerService {
 		// 		// gas;
 		// 		// water;
 		// }
+	}
+
+	function getPersonalDetails($userId){
+		$userService = new UserService();
+    	return $userService->getuserById($userId);
 	}
 	// function fetchAllBuildingManagerRecords(){
 

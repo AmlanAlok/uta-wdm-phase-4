@@ -44,7 +44,8 @@ SELECT b.building_name, a.apartment_number, aub.utility_monthly_bill_amount, aub
 inner join apartments as a on aub.apartments_apartment_id = a.apartment_id
 inner join buildings as b on aub.buildings_building_id = b.building_id
 inner join utilities as u on aub.utilities_utility_id = u.utility_id
-WHERE aub.subdivisions_subdivision_id = 4;
+WHERE aub.subdivisions_subdivision_id = 4
+and aub.month = 4 and aub.year = 2021;
 
 
 
