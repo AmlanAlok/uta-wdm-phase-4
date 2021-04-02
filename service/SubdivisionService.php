@@ -67,7 +67,7 @@ class SubdivisionService {
 
 	}
 
-	function getCurrentMonthBillsAllApartments($subdivisionId, $month, $year, $utilityName){
+	function getCurrentMonthBillsAllApartments($subdivisionId, $month, $year){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 		$sql = "SELECT b.building_name, a.apartment_number, aub.utility_monthly_bill_amount, aub.month, aub.year, u.utility_name from apartment_utility_bills as aub
@@ -77,14 +77,14 @@ class SubdivisionService {
 		WHERE aub.subdivisions_subdivision_id = :subdivisionId
 		and aub.month = :month
 		and aub.year = :year
-		and u.utility_name = :utilityName";
+		order by b.building_name, a.apartment_number";
 
 		$stmt = $dbConnection->prepare($sql);
 
 		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
 		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
 		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
-		$stmt->bindValue(':utilityName', $utilityName, PDO::PARAM_STR);
+		// $stmt->bindValue(':utilityName', $utilityName, PDO::PARAM_STR);
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'SubdivisionUtilityBillRecord');
 
 		if ($stmt->execute()){
@@ -95,6 +95,51 @@ class SubdivisionService {
 		}
 	}
 
+	function getApartmentCount($subdivisionId, $month, $year){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT count(a.apartment_number) from apartment_utility_bills as aub
+		inner join apartments as a on aub.apartments_apartment_id = a.apartment_id
+		WHERE aub.subdivisions_subdivision_id = :subdivisionId
+		and aub.month = :month
+		and aub.year = :year";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
+		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
+	}
+
+	function getUtilityBillTotal($subdivisionId, $month, $year){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT sum(aub.utility_monthly_bill_amount) from apartment_utility_bills as aub
+		inner join apartments as a on aub.apartments_apartment_id = a.apartment_id
+		WHERE aub.subdivisions_subdivision_id = :subdivisionId
+		and aub.month = :month
+		and aub.year = :year";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
+		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
+	}
 
 
 

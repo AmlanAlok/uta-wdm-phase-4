@@ -14,28 +14,53 @@ class SubdivisionManagerService {
 		// var_dump($subdivisionRecord);
 
 		$subdivisionId = $subdivisionRecord->subdivision_id;
-		$date = new DateTime("now", new DateTimeZone('America/Chicago') );
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
 		$month = $date->format('m');
 		$year = $date->format('Y');
 
-		$utilityBillRecordList = $subdivisionService->getCurrentMonthBillsAllApartments($subdivisionId, $month, $year, 'electricity');
+		return $subdivisionService->getCurrentMonthBillsAllApartments($subdivisionId, $month, $year);
 
-		var_dump($utilityBillRecordList);
+	}
 
-		
-		// foreach ($utilityBillRecordList as $key =>  $value){
-		// 	echo "e = $";
-		// }
-		// foreach ($aptCurrentUtilityBill as $aptUtilityRecord){
+	function getApartmentCount($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
 
-		// 	$subRecord = $new SubdivisionUtilityBillRecord();
+		$subdivisionId = $subdivisionRecord->subdivision_id;
 
-		// 	// buildingName;
-		// 		// apartmentNumber;
-		// 		// electricity;
-		// 		// gas;
-		// 		// water;
-		// }
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $subdivisionService->getApartmentCount($subdivisionId, $month, $year);
+	}
+
+	function getUtilityBillTotal($userId){
+
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $subdivisionService->getUtilityBillTotal($subdivisionId, $month, $year);
+	}
+
+	function getPreviousMonth(){
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		return $month;
+	}
+
+	function getPreviousMonthYear(){
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+
+		return  $date->format('Y');
 	}
 
 	function getPersonalDetails($userId){

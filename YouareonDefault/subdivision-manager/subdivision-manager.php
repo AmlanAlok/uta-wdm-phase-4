@@ -16,9 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 
 $personalDetails = $subdivisionManagerService->getPersonalDetails($userId);
-var_dump($personalDetails);
-$utilityReportData = $subdivisionManagerService->utilityReportData($userId);
-
+// var_dump($personalDetails);
+$utilityBillRecordList = $subdivisionManagerService->utilityReportData($userId);
+// var_dump($utilityBillRecordList);
+$aptCount = $subdivisionManagerService->getApartmentCount($userId);
+// var_dump($aptCount);
+$billTotal = $subdivisionManagerService->getUtilityBillTotal($userId);
+// var_dump($billTotal);
+$utilityReportMonth = $subdivisionManagerService->getPreviousMonth();
+$utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
 // $eb = [12, 20, 30];
 
@@ -650,23 +656,36 @@ $utilityReportData = $subdivisionManagerService->utilityReportData($userId);
             <!-- Subdivision Manager Utility Bill -->
 
             <div id="utility-bill-report" class="section-content">
-                <div class="section-heading"><h1>Community Service Bill Report</h1></div>
+                <div class="section-heading"><h1>Utility Bill Report</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="subdivision-manager-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
                         <table>
-                            <tr><th>Building Name</th><th>Apartment Number</th><th>Electricity</th><th>Water</th><th>Gas</th><th>Apartment Total</th></tr>
-                            <tr><td>Emerald</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>102</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>103</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>104</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Ruby</td><td>102</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Diamond</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Sapphire</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Building Total</td><td>8</td><td>$800.00</td><td>$80.00</td><td>$160.00</td><td>$1040.00</td></tr>
+                            <tr>
+                                <th>Building Name</th>
+                                <th>Apartment Number</th>
+                                <th>Bill Amount</th>
+                                <th>Utility Name</th>
+
+                            </tr>
+                            <?php foreach ($utilityBillRecordList as $ubr): ?>
+                            <tr>
+                                <td><?= $ubr->building_name ?></td>
+                                <td><?= $ubr->apartment_number ?></td>
+                                <td><?= $ubr->utility_monthly_bill_amount ?></td>
+                                <td><?= $ubr->utility_name ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+
+                            <tr>
+                                <td>Subdivision Total</td>
+                                <td><?= $aptCount['count(a.apartment_number)']; ?></td>
+                                <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
+                            </tr>
+                            
                         </table>
                     </div>    
                 </div>
