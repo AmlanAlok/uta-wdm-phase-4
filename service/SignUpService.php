@@ -62,7 +62,11 @@ class SignUpService {
 		$password = $_POST['password'];
 		$areaCode = $_POST['zip'];
 		$phoneNumber = $_POST['phone-number'];
-		$joiningDatetime = date("Y-m-d h:i:s", mktime());
+
+		$date = new DateTime("now", new DateTimeZone('America/Chicago') );
+		// echo $date->format('Y-m-d H:i:s');
+
+		$joiningDatetime = $date->format('Y-m-d H:i:s');
 		$role_id = '';
 		$admin_role_id = '';
 
@@ -110,10 +114,7 @@ class SignUpService {
 		// var_dump($responsibleContact);
 		$responsibleContactStoredStatus = $signUpService->storeResponsibleContactInformation($name, $address, $city, $zipCode, $country, $phoneNumber, $usersUserId);
 
-		$electricity_service_provider = $_POST['electricity'];
-		$gas_service_provider = $_POST['gas'];
-		$water_service_provider = $_POST['water'];
-		$internet_service_provider = $_POST['internet'];
+		
 
 
 		
@@ -125,6 +126,12 @@ class SignUpService {
 			return $signUpService->updateBuildingUserId($userId, $buildingId);
 		}
 		elseif ($roleName == 'apartment owner'){
+
+			$electricity_service_provider = $_POST['electricity'];
+			$gas_service_provider = $_POST['gas'];
+			$water_service_provider = $_POST['water'];
+			$internet_service_provider = $_POST['internet'];
+
 			$apartmentId = $_POST['apartment'];
 			$signUpService->updateApartmentUserId($userId, $apartmentId);
 			$apartment = $signUpService->getApartmentByApartmentId($apartmentId);

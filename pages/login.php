@@ -48,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     <!-- <script src="login.js"></script> -->
     <div class="topnav">
         City View
-        <a href="./login.html">Login</a>
-        <a class="active" href="./sign-up.html">SignUp</a>
+        <a href="./login.php">Login</a>
+        <a class="active" href="./sign-up.php">SignUp</a>
         <a href="./contact_us.html">Contact Us</a>
         <a href="/blog">Forum</a>
         <a href="./about.html">About Us</a>

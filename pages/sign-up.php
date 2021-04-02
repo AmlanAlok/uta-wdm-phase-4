@@ -6,6 +6,7 @@ $signUpService = new SignUpService();
 
 $selectedRole = '';
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // var_dump($_POST);
@@ -15,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         var_dump($result);
     }
     else{
+
+        header("Location: /pages/login.php");
         // echo $result->message;
     }
 
