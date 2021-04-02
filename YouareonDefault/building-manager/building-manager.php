@@ -1,6 +1,7 @@
 <?php 
 
 include __DIR__.'../../../service/UserService.php';
+include __DIR__.'../../../service/BuildingService.php';
 include_once __DIR__.'../../../utility/Database.php';
 
 
@@ -10,9 +11,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
     $dbConn = $dbObject->getDatabaseConnection();
     $userService = new UserService();
     $user = $userService->getuserById($userId);
+    $buildingService = new BuildingService();
+    $apartments = $buildingService->getApartmentsUnderBm($userId);
 }
-// $var = $_SESSION['CURRENT_USER'];
-// var_dump($var);
 
 ?>
 
@@ -156,7 +157,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                                 <td>$20.00</td>
                                 <td>$130.00</td>
                             </tr>
-                            <tr>
+                            <?php } ?>
+                            <!-- <tr>
                                 <td>102</td>
                                 <td>$100.00</td>
                                 <td>$10.00</td>
@@ -183,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                                 <td>$40.00</td>
                                 <td>$80.00</td>
                                 <td>$520.00</td>
-                            </tr>
+                            </tr> -->
                         </table>
                     </div>    
                 </div>
@@ -200,33 +202,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                             <tr>
                                 <th>Apartment Number</th>
                                 <th>Maintenance Fee</th>
-                                <th>Apartment Total</th>
                             </tr>
+                            <?php $csbReport = $buildingService->getCsbReportById($userId) ;
+                            foreach($csbReport as $csb){
+                            ?>
                             <tr>
-                                <td>101</td>
-                                <td>$100.00</td>
-                                <td>$100.00</td>
+                                <td><?= $csb['apartment_number'] ?></td>
+                                <td><?= $csb['bill'] ?></td>
                             </tr>
-                            <tr>
-                                <td>102</td>
-                                <td>$100.00</td>
-                                <td>$100.00</td>
-                            </tr>
-                            <tr>
-                                <td>103</td>
-                                <td>$100.00</td>
-                                <td>$100.00</td>
-                            </tr>
-                            <tr>
-                                <td>104</td>
-                                <td>$100.00</td>
-                                <td>$100.00</td>
-                            </tr>
-                            <tr>
-                                <td>Building Total</td>
-                                <td>$400.00</td>
-                                <td>$400.00</td>
-                            </tr>
+                            <?php } ?>
                         </table>
                     </div>    
                 </div>
@@ -235,8 +219,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
             <div id="maintenance-request-report" class="section-content">
                 <div class="section-heading"><h1>Community Service Bill Report</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+<?php 
 
+$mr = $buildingService->getMaintenanceRequestByUserId($userId);
+?>
+                <div><h2>Month-Year: February-2021</h2></div>
                 <div class="building-manager-request-table-position">
                     <div class="apartment-owner-bill-table">
                         <table>
@@ -246,18 +233,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                                 <th>Date</th>
                                 <th>Status</th>
                             </tr>
+                            <?php foreach($mr as $m){ ?> 
                             <tr>
-                                <td>1</td>
-                                <td>101</td>
-                                <td>01/27/2021</td>
-                                <td>In-progress</td>
+                                <td><?= $m['maintenance_request_id'] ?></td>
+                                <td><?= $m['apartment_number'] ?></td>
+                                <td><?= $m['message_datetime'] ?></td>
+                                <td><?= $m['status'] ?></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>104</td>
-                                <td>01/29/2021</td>
-                                <td>Completed</td>
-                            </tr>
+                            <?php } ?>
                         </table>
                     </div>    
                 </div>
@@ -444,65 +427,31 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                 <div>
 
                     <div class="view-data-list">
+                    <?php foreach($apartments as $apt)  { ?>
                         <a href="#apartment-owner-detail-1">
                             <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-1')">
-                                Apartment Number: 101 <br />
+                                Apartment Number: <?php echo $apt['apartment_number'] ?> <br />
                             </button>
                         </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-2')">
-                                Apartment Number: 102 <br />
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-3')">
-                                Apartment Number: 103 <br />
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-4')">
-                                Apartment Number: 104 <br />
-                            </button>
-                        </a>
-        
+                            <?php } ?>
                     </div>
-
+                    <?php 
+                        $aptUser = $userService->getuserById($apt['users_user_id']);
+                    ?>
                     <div class="view-data">
                         <div id="apartment-owner-detail-1" class="apartment-owner-detail">
                             <div class="apartment-personal-details-table">
                                 <table>
-                                    <tr><td>Apartment Number</td><td>101</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
+                                    <tr><td>Apartment Number</td><td><?php echo $apt['apartment_number']?></td></tr>
+                                    <tr><td>First Name</td><td><?php echo $aptUser->first_name?></td></tr>
+                                    <tr><td>Last Name</td><td><?php echo $aptUser->last_name ?></td></tr>
+                                    <tr><td>Email Id</td><td><?php echo $aptUser->email_id ?></td></tr>
+                                    <tr><td>Phone Number</td><td><?php echo $aptUser->phone_number ?></td></tr>
+                                    <tr><td>Joining Date</td><td><?php echo $aptUser->joining_datetime ?></td></tr>
                                 </table>
                             </div>
                         </div>
 
-                        <div id="apartment-owner-detail-2" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Apartment Number</td><td>102</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="apartment-owner-detail-3" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Apartment Number</td><td>103</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="apartment-owner-detail-4" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Apartment Number</td><td>104</td></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
 
                     </div>
                 </div>
