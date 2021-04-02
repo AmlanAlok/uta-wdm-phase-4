@@ -14,10 +14,12 @@ class ApartmentOwnerService {
 
 			$mrService = new MRService();
 			$mrService->saveMR($userId, $mrMsg);
-
-
-			
 			
 		}
+	}
+
+	function fetchAllMR(){
+		$mrService = new MRService();
+		return $mrService->fetchAllMR();
 	}
 }
