@@ -66,7 +66,8 @@ function inputSubdivisionManagerChat(event){
 }
 
 function viewApartmentOwnerChatMenu(event, elementId){
-
+  console.log('hits');
+    console.log(elementId);
     displayChatNameList = document.getElementsByClassName("display-chat-name");
     console.log(displayChatNameList)
 
@@ -107,6 +108,13 @@ function viewApartmentDetails(event, elementId){
 
     console.log(event.currentTarget)
     event.currentTarget.className += " active";
+}
+
+function viewApartmentOwnerTable(event, elementId){
+    console.log(event);
+    console.log(elementId);
+    var owner = document.getElementById('apartment-owner-detail');
+    owner.display = 'block';
 }
 
 function viewMaintenanceDetails(event, elementId){
