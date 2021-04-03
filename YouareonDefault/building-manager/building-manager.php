@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                                 <td>$20.00</td>
                                 <td>$130.00</td>
                             </tr>
-                            <?php } ?>
+                            <?php  ?>
                             <!-- <tr>
                                 <td>102</td>
                                 <td>$100.00</td>
