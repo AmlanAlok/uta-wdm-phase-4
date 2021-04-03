@@ -3,13 +3,7 @@
 require '../../service/SubdivisionManagerService.php';
 
 $userId = $_GET['user_id'];
-$eb = [90,50,30];
-// var_dump($eb);
 
-
-
-$ebilljson = json_encode($eb);
-// var_dump($ebilljson);
 $subdivisionManagerService = new SubdivisionManagerService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -103,7 +97,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                     <button href="#dashboard-electricity-bill" class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-internet-bill')">Internet Bill</button>
+
                 </div>
                 
                 <button class="sidebar-menu-option text-left opacity" onclick="openMenu(event, 'master-record-menu')">Master Record<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
@@ -428,41 +422,71 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
 
                 <script>
                     let eChart = document.getElementById('electricity-chart').getContext('2d');
-
-                    // let polo = document.getElementById('mojo').value;
-                    let polo = <?php echo $ebilljson; ?>;
                     // let polo = JSON.stringify(<?php $ebilljson ?>);
-                    console.log(polo);
-
-                    // let poloArray = [90,50,30];
-                    // console.log(typeof(poloArray));
-                    console.log(typeof(polo));
 
                     let eDashboard = new Chart(eChart, {
                         type:'bar',
                         data:{
                             labels: <?php echo $monthLabels ?>,
                             datasets:[{
-                                label:'Bill Amount',
+                                label:'Total Electricty Bill of Subdivision/Month',
                                 data: <?php echo $electricityBillLabels ?>,
                                 backgroundColor:'green'
                             }]
                         }
                     });
+                </script>
+                
+            </div>
 
-                    // let eDashboard = new Chart(eChart, {
-                    //     type:'bar',
-                    //     data:{
-                    //         labels: ['Jan','Feb','Mar'],
-                    //         datasets:[{
-                    //             label:'Bill Amount',
-                    //             data: [20, 30, 50],
-                    //             backgroundColor:'green'
-                    //         }]
-                    //     }
-                    // });
+            <div id="dashboard-gas-bill" class="section-content">
+                <div class="section-heading"><h1>Gas Dashboard</h1></div>
 
-                    
+                <div>
+                    <canvas id="gas-chart"></canvas>
+                </div>
+
+                <script>
+                    let gasChart = document.getElementById('gas-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let gasDashboard = new Chart(gasChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $gasBillLabels ?>,
+                                backgroundColor:'red'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+            <div id="dashboard-water-bill" class="section-content">
+                <div class="section-heading"><h1>Water Dashboard</h1></div>
+
+                <div>
+                    <canvas id="water-chart"></canvas>
+                </div>
+
+                <script>
+                    let waterChart = document.getElementById('water-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let waterDashboard = new Chart(waterChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $waterBillLabels ?>,
+                                backgroundColor:'blue'
+                            }]
+                        }
+                    });
                 </script>
                 
             </div>
