@@ -3,7 +3,13 @@
 require '../../service/SubdivisionManagerService.php';
 
 $userId = $_GET['user_id'];
-$eb = [999,888,777];
+$eb = [90,50,30];
+// var_dump($eb);
+
+
+
+$ebilljson = json_encode($eb);
+// var_dump($ebilljson);
 $subdivisionManagerService = new SubdivisionManagerService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -14,6 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     // echo "userId = $userId";
 
 }
+
+$dashboardData = $subdivisionManagerService->getDashboardDataPerUtility($userId);
+// var_dump($dashboardData);
+$monthLabels = json_encode($dashboardData->monthNumbers);
+// echo $monthLabels;
+$electricityBillLabels = json_encode($dashboardData->electricityMonthTotal);
+// echo $electricityBillLabels;
+$gasBillLabels = json_encode($dashboardData->gasMonthTotal);
+// echo $gasBillLabels;
+$waterBillLabels = json_encode($dashboardData->waterMonthTotal);
+// echo $waterBillLabels;
+
 
 $personalDetails = $subdivisionManagerService->getPersonalDetails($userId);
 // var_dump($personalDetails);
@@ -82,7 +100,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="openMenu(event, 'apartment-dashboard-menu')">Dashboard<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
                 <div id="apartment-dashboard-menu" class="apartment-dashboard-menu">
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button>
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
+                    <button href="#dashboard-electricity-bill" class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-internet-bill')">Internet Bill</button>
@@ -405,10 +423,6 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                 <div class="section-heading"><h1>Electricity Dashboard</h1></div>
 
                 <div>
-                    <div>
-                        <input type="text" id="mojo" value=" <?= $eb; ?>">
-                    </div>
-
                     <canvas id="electricity-chart"></canvas>
                 </div>
 
@@ -416,16 +430,21 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                     let eChart = document.getElementById('electricity-chart').getContext('2d');
 
                     // let polo = document.getElementById('mojo').value;
-                    // let polo = <?php  $eb ?>;
-                    // console.log(polo);
+                    let polo = <?php echo $ebilljson; ?>;
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+                    console.log(polo);
+
+                    // let poloArray = [90,50,30];
+                    // console.log(typeof(poloArray));
+                    console.log(typeof(polo));
 
                     let eDashboard = new Chart(eChart, {
                         type:'bar',
                         data:{
-                            labels: ['Jan','Feb','Mar'],
+                            labels: <?php echo $monthLabels ?>,
                             datasets:[{
                                 label:'Bill Amount',
-                                data: [10, 20, 30],
+                                data: <?php echo $electricityBillLabels ?>,
                                 backgroundColor:'green'
                             }]
                         }

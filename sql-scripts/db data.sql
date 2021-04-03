@@ -51,8 +51,20 @@ inner join utilities as u on aub.utilities_utility_id = u.utility_id
 WHERE aub.subdivisions_subdivision_id = 4
 and aub.month = 4 and aub.year = 2021;
 
+SELECT b.building_name, a.apartment_number, aub.utility_monthly_bill_amount, aub.month, aub.year, u.utility_name from apartment_utility_bills as aub
+inner join apartments as a on aub.apartments_apartment_id = a.apartment_id
+inner join buildings as b on aub.buildings_building_id = b.building_id
+inner join utilities as u on aub.utilities_utility_id = u.utility_id
+WHERE aub.subdivisions_subdivision_id = 4
+and aub.month = 4 and aub.year = 2021
+and u.utility_name='electricity';
 
 
+SELECT SUM(aub.utility_monthly_bill_amount), u.utility_name from apartment_utility_bills as aub
+		inner join utilities as u on aub.utilities_utility_id = u.utility_id
+		WHERE aub.subdivisions_subdivision_id = 4
+		and aub.year = 2021 and aub.month = 4
+		and u.utility_name = 'electricity';
 
 
 
