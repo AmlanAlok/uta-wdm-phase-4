@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // var_dump($_GET);
     $subdivisionManagerService->utilityReportData($userId);
-    
+    $subdivisionManagerService->checkFeature($userId);
     // echo "userId = $userId";
 
 }
@@ -24,15 +24,17 @@ $communityServiceBillRecordList = $subdivisionManagerService->communityServiceRe
 $aptCount = $subdivisionManagerService->getApartmentCount($userId);
 // var_dump($aptCount);
 $aptCSCount = $subdivisionManagerService->getCommunityServiceApartmentCount($userId);
-var_dump($aptCSCount);
+// var_dump($aptCSCount);
 $billTotal = $subdivisionManagerService->getUtilityBillTotal($userId);
 // var_dump($billTotal);
 $csBillTotal = $subdivisionManagerService->getCommunityServiceBillTotal($userId);
-var_dump($csBillTotal);
+// var_dump($csBillTotal);
 $utilityReportMonth = $subdivisionManagerService->getPreviousMonth();
 $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
 // $eb = [12, 20, 30];
+
+$itrlist = $subdivisionManagerService->fetchAllITRequests();
 
 
 // $buildingManagerRecordList = $subdivisionManagerService->fetchAllBuildingManagerRecords();
@@ -452,7 +454,7 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <h3>Create New IT Request</h3>
 
                 <div>
-                    <form>
+                    <form method="post">
                         <label for="it-request-input-message"><h4>Enter details:</h4></label>
                         <textarea id="it-request-input-message" name="it-request-input-message" class="textarea-size"rows="4" cols="50"></textarea><br/>
                         <input type="submit" value="Submit" class="submit-button">
@@ -468,36 +470,29 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <div>
 
                     <div class="it-request-list">
-                        <button class="it-request" onclick="viewItDetails(event, 'it-1')">
-                            IT Request ID: 1 <br />
-                            Date: 01/27/2021 <br />
-                            Status: In-Progress
-                        </button>
-                        <button class="it-request" onclick="viewItDetails(event, 'it-2')">
-                            IT Request ID: 2 <br />
-                            Date: 02/09/2021 <br />
-                            Status: Completed
-                        </button>
+                        <?php foreach ($itrlist as $itr): ?>
+                            <button class="it-request" onclick="viewItDetails(event, 'it-<?= $itr->it_request_id ?>')">
+                                IT Request ID: <?= $itr->it_request_id ?> <br />
+                                Date: <?= $itr->message_datetime ?> <br />
+                                Status: <?= $itr->status ?>
+                            </button>
+                        <?php endforeach; ?>
+                        
                     </div>
 
                     <div class="display-it-request">
-                        <div id="it-1" class="it-request-details">
+                        <?php foreach ($itrlist as $itr): ?>
+                        
+                        <div id="it-<?= $itr->it_request_id ?>" class="it-request-details">
                             <h3>Datetime</h3>
-                            <p>01/27/2021 04:05:06</p>
+                            <p><?= $itr->message_datetime ?></p>
                             <h3>Message</h3>
-                            <p>Something not working.</p>
+                            <p><?= $itr->message ?></p>
                             <h3>Status</h3>
-                            <p>In-progress</p>
+                            <p><?= $itr->status ?></p>
                         </div>
+                        <?php endforeach; ?>
 
-                        <div id="it-2" class="it-request-details">
-                            <h3>Datetime</h3>
-                            <p>02/09/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Need access to something.</p>
-                            <h3>Status</h3>
-                            <p>Completed</p>
-                        </div>
                     </div>
                 </div>
                 

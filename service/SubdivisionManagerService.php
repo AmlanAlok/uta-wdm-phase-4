@@ -4,8 +4,25 @@
 require 'SubdivisionService.php';
 // require '../model/SubdivisionUtilityBillRecord.php';
 require 'UserService.php';
+require '../../service/ITRequestService.php';
 
 class SubdivisionManagerService {
+
+
+	function checkFeature($userId){
+		
+		if (isset($_POST['it-request-input-message'])){
+	        
+	        $itrMsg = $_POST['it-request-input-message'];
+
+			$itrService = new ITRequestService();
+			$itrService->saveITR($userId, $itrMsg);
+	    }	
+	 
+	    else {
+	    	echo "Nothing Matched";
+	    }
+	}
 
 	function communityServiceReportData($userId){
 
@@ -110,6 +127,11 @@ class SubdivisionManagerService {
 		$year = $date->format('Y');
 
 		return $subdivisionService->getCommunityServiceBillTotal($subdivisionId, $month, $year);
+	}
+
+	function fetchAllITRequests(){
+		$itrService = new ITRequestService();
+		return $itrService->fetchAllITRequest();
 	}
 	// function fetchAllBuildingManagerRecords(){
 
