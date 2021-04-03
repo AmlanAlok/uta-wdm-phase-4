@@ -5,6 +5,7 @@ require 'SubdivisionService.php';
 // require '../model/SubdivisionUtilityBillRecord.php';
 require 'UserService.php';
 require '../../service/ITRequestService.php';
+require '../../model/SubdivisionDashboardData.php';
 
 class SubdivisionManagerService {
 
@@ -22,6 +23,86 @@ class SubdivisionManagerService {
 	    else {
 	    	echo "Nothing Matched";
 	    }
+	}
+
+	function getDashboardDataPerUtility($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		// $month = $date->format('m');
+		$year = $date->format('Y');
+
+		$maxMonth = 12;
+		$utilityNameList = ['electricity', 'gas', 'water'];
+
+		$electricityMonthlyBillPerYearList = [];
+		$gasMonthlyBillPerYearList = [];
+		$waterMonthlyBillPerYearList = [];
+
+		foreach($utilityNameList as $utilityName){
+			for($i=1;$i<=$maxMonth;$i=$i+1){
+
+				$month = $i;
+
+				$utilityBillRecord = $subdivisionService->getCurrentMonthUtilityBillsAllApartmentsForOneUtility($subdivisionId, $month, $year, $utilityName);
+				// echo "-------		echo "-----1----";-------";
+				// var_dump($utilityBillRecord);
+				$monthTotal = $utilityBillRecord['SUM(aub.utility_monthly_bill_amount)'];
+				$utilityNameOfTotal = $utilityBillRecord['utility_name'];
+
+				if ($utilityNameOfTotal == 'electricity'){
+					if ($monthTotal != NULL){
+						// echo $monthTotal;
+						array_push($electricityMonthlyBillPerYearList, $monthTotal);
+					}
+					else{
+						// echo "No";
+						array_push($electricityMonthlyBillPerYearList, 0);
+					}
+				}
+				elseif ($utilityNameOfTotal == 'gas'){
+					if ($monthTotal != NULL){
+						// echo $monthTotal;
+						array_push($gasMonthlyBillPerYearList, $monthTotal);
+					}
+					else{
+						// echo "No";
+						array_push($gasMonthlyBillPerYearList, 0);
+					}
+				}
+				elseif ($utilityNameOfTotal == 'water'){
+					if ($monthTotal != NULL){
+						// echo $monthTotal;
+						array_push($waterMonthlyBillPerYearList, $monthTotal);
+					}
+					else{
+						// echo "No";
+						array_push($waterMonthlyBillPerYearList, 0);
+					}
+				}
+				
+			}
+		}
+		// echo "-----elec----";
+		// var_dump($electricityMonthlyBillPerYearList);
+		// echo "-----gas----";
+		// var_dump($gasMonthlyBillPerYearList);
+		// echo "-----water----";
+		// var_dump($waterMonthlyBillPerYearList);
+
+		
+		// $monthData = ['Jan','Feb','Mar','Apr','May',];
+		$billTotal = [10,20,30];
+
+		$sdd = new SubdivisionDashboardData();
+		$sdd->monthNumbers = ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'];
+		$sdd->electricityMonthTotal = $electricityMonthlyBillPerYearList;
+		$sdd->gasMonthTotal = $gasMonthlyBillPerYearList;
+		$sdd->waterMonthTotal = $waterMonthlyBillPerYearList;
+		return $sdd;
+
 	}
 
 	function communityServiceReportData($userId){
