@@ -77,7 +77,7 @@ class SubdivisionService {
 		WHERE aub.subdivisions_subdivision_id = :subdivisionId
 		and aub.month = :month
 		and aub.year = :year
-		order by b.building_name, a.apartment_number";
+		order by b.building_name, a.apartment_number, u.utility_name";
 
 		$stmt = $dbConnection->prepare($sql);
 
