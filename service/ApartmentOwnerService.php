@@ -2,6 +2,7 @@
 <?php
 
 require '../../service/MRService.php';
+require '../../service/ComplaintsService.php';
 
 class ApartmentOwnerService {
 
@@ -21,5 +22,22 @@ class ApartmentOwnerService {
 	function fetchAllMR(){
 		$mrService = new MRService();
 		return $mrService->fetchAllMR();
+	}
+
+	function checkComplaints($userId){
+
+		if (isset($_POST['complaints-request-input-message'])){
+
+			$cmMsg = $_POST['complaints-request-input-message'];
+
+			$cmService = new ComplaintsService();
+			$cmService->saveComplaints($userId, $cmMsg);
+			
+		}
+	}
+
+	function fetchAllComplaints(){
+		$cmService = new ComplaintsService();
+		return $cmService->fetchAllComplaints();
 	}
 }
