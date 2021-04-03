@@ -36,21 +36,21 @@ class LoginService {
 
 	    if ($role_name == "admin"){
             // echo "You are ADMIN";
-            header("Location: /YouareonDefault/admin/admin.php?user_id=$user_id");
+            header("Location: ../YouareonDefault/admin/admin.php?user_id=$user_id");
             // echo "     testing";
             exit;
         } elseif ($role_name == "subdivision manager"){
             // echo "You are SUBDIVISION MANAGER";
-            header("Location: /YouareonDefault/subdivision-manager/subdivision-manager.php?user_id=$user_id");
+            header("Location: ../YouareonDefault/subdivision-manager/subdivision-manager.php?user_id=$user_id");
             exit;
         } elseif (strtolower($role_name) == "building manager"){
             
             // echo "You are BUILDING MANAGER";
-            header("Location: /YouareonDefault/building-manager/building-manager.php?user_id=$user_id");
+            header("Location: ../YouareonDefault/building-manager/building-manager.php?user_id=$user_id");
             exit;
         } elseif ($role_name == "apartment owner"){
             // echo "You are APARTMENT OWNER";
-            header("Location: /YouareonDefault/apartment-owner/apartment-owner.php?user_id=$user_id");
+            header("Location: ../YouareonDefault/apartment-owner/apartment-owner.php?user_id=$user_id");
             exit;
         } else {
             echo "Role does not match any preset ones. Error";

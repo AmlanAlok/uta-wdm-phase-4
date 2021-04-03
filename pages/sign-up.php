@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     else{
 
-        header("Location: /pages/login.php");
+        header("Location: ../pages/login.php");
         // echo $result->message;
     }
 
