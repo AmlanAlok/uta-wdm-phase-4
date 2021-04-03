@@ -1,6 +1,6 @@
 <?php
 
-// require 'MasterRecordService.php';
+require 'MasterRecordService.php';
 require 'SubdivisionService.php';
 // require '../model/SubdivisionUtilityBillRecord.php';
 require 'UserService.php';
@@ -133,17 +133,29 @@ class SubdivisionManagerService {
 		$itrService = new ITRequestService();
 		return $itrService->fetchAllITRequest();
 	}
-	// function fetchAllBuildingManagerRecords(){
 
-	// 	$masterRecordService = new MasterRecordService();
-	// 	$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecords();
-	// 	return $buildingManagerRecordList;
-	// }
+	function fetchAllApartmentOwnerRecords($userId){
 
-	// function fetchAllApartmentOwnerRecords(){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
 
-	// 	$masterRecordService = new MasterRecordService();
-	// 	$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecords();
-	// 	return $apartmentOwnerRecordList;
-	// }
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$masterRecordService = new MasterRecordService();
+		$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecordsOfASubdivision($subdivisionId);
+		return $apartmentOwnerRecordList;
+	}
+
+	function fetchAllBuildingManagerRecords($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$masterRecordService = new MasterRecordService();
+		$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecordsOfASubdivision($subdivisionId);
+		return $buildingManagerRecordList;
+	}
 }

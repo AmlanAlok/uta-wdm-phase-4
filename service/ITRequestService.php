@@ -49,7 +49,7 @@ class ITRequestService {
 
 	function fetchSubdivisionViaUserId($userId){
 		// echo "inside fetch = ";
-		var_dump($userId);
+		// var_dump($userId);
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 		$sql = "SELECT * from subdivisions WHERE users_user_id = :userId";
