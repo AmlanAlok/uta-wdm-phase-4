@@ -196,4 +196,22 @@ class BuildingService {
 		}
 	}
 
+	function getElectricityBillsByMonth($userId, $type){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		
+		$sql = "SELECT SUM(ub.utility_monthly_bill_amount), a.apartment_number, ub.buildings_building_id, ub.users_user_id, b.users_user_id as bm_id, ub.month 
+		FROM `apartment_utility_bills` as ub JOIN apartments as a ON a.apartment_id=ub.apartments_apartment_id 
+		JOIN buildings as b ON b.building_id=ub.buildings_building_id WHERE b.users_user_id = $userId AND ub.utilities_utility_id = $type GROUP BY ub.month";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else {
+			return 'Failed';
+		}
+
+	}
+
 }

@@ -26,6 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles.css">
     <script src="https://kit.fontawesome.com/ece9692bda.js" crossorigin="anonymous"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <style>
+        .logo-and-menu{
+            display: flex;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,10 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <div class="left-panel">
 
             <div class="logo-and-menu">
-                <div id="logo" class="logo">
-                    <h1>City View for <?php $userId ?></h1>
-                </div>
-
                 <div class="menu-bar">
                     <a href="javascript:void(0);" id="menu-icon" onclick="menuFunction()">
                         <div class="menu-icon">
@@ -47,6 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         </div>
                     </a>
                 </div>
+                <div id="logo" class="logo">
+                    <h1>&nbsp; &nbsp; City View <?php $userId ?></h1>
+                </div>
+               
             </div>
 
             <div id="sidebar" class="sidebar">
@@ -54,12 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="openMenu(event, 'apartment-dashboard-menu')">Dashboard<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
                 <div id="apartment-dashboard-menu" class="apartment-dashboard-menu">
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button>
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill'">Electricity Bill</button>
+                    <!-- <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button> -->
+                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-maintenance-requests')">Maintenance Requests</button>
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-complaints')">Complaints</button>
+                    <!-- <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-maintenance-requests')">Maintenance Requests</button>
+                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-complaints')">Complaints</button> -->
                 </div>
 
                 <a href="#apartment-details"><button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'apartment-details')">Apartment Details</button></a>
@@ -577,6 +583,121 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         <?php } ?>
                     </div>
                 </div>
+            </div>
+
+            <div id="dashboard-electricity-bill" class="section-content">
+                <div class="section-heading"><h1>Electricity Dashboard</h1></div>
+
+                <div>
+                    <canvas id="electricity-chart"></canvas>
+                </div>
+                <?php
+                    $electricityByMonth = $buildingService->getElectricityBillsByMonth($userId, 1);
+                    $electricity = array();
+                    $bill = array();
+                    $months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+                    foreach($electricityByMonth as $em){
+                        array_push($electricity, $months[$em['month']- 1]);
+                        array_push($bill, $em['SUM(ub.utility_monthly_bill_amount)']);
+                    }
+                    $eJson = json_encode($electricity);
+                    array_push($bill, 0);
+                    $billJson = json_encode($bill);
+                ?>
+                <script>
+                    let eChart = document.getElementById('electricity-chart').getContext('2d');
+                    
+                    
+                    let eDashboard = new Chart(eChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $eJson ?>,
+                            datasets:[{
+                                label:'Total Electricty Bill of Buildings/Month',
+                                data: <?php echo $billJson ?>,
+                                backgroundColor:'#bbb'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+
+            <div id="dashboard-gas-bill" class="section-content">
+                <div class="section-heading"><h1>Gas Dashboard</h1></div>
+
+                <div>
+                    <canvas id="gas-chart"></canvas>
+                </div>
+                <?php
+                    $gasByMonth = $buildingService->getElectricityBillsByMonth($userId, 2);
+                    $gas = array();
+                    $bill = array();
+                    $months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+                    foreach($gasByMonth as $em){
+                        array_push($gas, $months[$em['month']- 1]);
+                        array_push($bill, $em['SUM(ub.utility_monthly_bill_amount)']);
+                    }
+                    $eJson = json_encode($gas);
+                    array_push($bill, 0);
+                    $billJson = json_encode($bill);
+                ?>
+                <script>
+                    let gasChart = document.getElementById('gas-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let gasDashboard = new Chart(gasChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $eJson ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $billJson ?>,
+                                backgroundColor:'red'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+            <div id="dashboard-water-bill" class="section-content">
+                <div class="section-heading"><h1>Water Dashboard</h1></div>
+
+                <div>
+                    <canvas id="water-chart"></canvas>
+                </div>
+                <?php
+                    $waterByMonth = $buildingService->getElectricityBillsByMonth($userId, 3);
+                    $water = array();
+                    $bill = array();
+                    $months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+                    foreach($waterByMonth as $em){
+                        array_push($water, $months[$em['month']- 1]);
+                        array_push($bill, $em['SUM(ub.utility_monthly_bill_amount)']);
+                    }
+                    $eJson = json_encode($water);
+                    array_push($bill, 0);
+                    $billJson = json_encode($bill);
+                ?>
+                <script>
+                    let waterChart = document.getElementById('water-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let waterDashboard = new Chart(waterChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $eJson ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $billJson ?>,
+                                backgroundColor:'blue'
+                            }]
+                        }
+                    });
+                </script>
+                
             </div>
 
         </div>
