@@ -5,7 +5,7 @@ class Database {
 	public function getDatabaseConnection(){
 
 		$dbHost = "localhost";
-		$dbName = "city_view_db";
+		$dbName = "example";
 		$dbUser = "root";
 		$dbPassword = "";
 

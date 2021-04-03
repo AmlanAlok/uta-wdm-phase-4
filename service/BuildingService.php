@@ -109,23 +109,10 @@ class BuildingService {
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 
-		$sql = "SELECT * FROM `apartments` as a JOIN buildings as b ON b.building_id = a.buildings_building_id WHERE b.users_user_id = $userId
-		order by a.apartment_number";
-
-		$stmt = $dbConnection->prepare($sql);
-
-		if ($stmt->execute()){
-			return $stmt->fetchAll();
-		} else {
-			return 'Failed';
-		}
-	}
-
-	function getMaintenanceRequestByUserId($userId) {
-		$dbObject = new Database();
-		$dbConnection = $dbObject->getDatabaseConnection();
-
-		$sql = "SELECT * FROM `maintenance_requests` as mr JOIN apartments as a ON mr.apartments_apartment_id=a.apartment_id WHERE mr.users_user_id = $userId";
+		$sql = "SELECT a.apartment_number, u.first_name, u.last_name, u.email_id, u.phone_number, u.joining_datetime FROM `apartments` as a 
+		JOIN users as u ON a.users_user_id = u.user_id
+		JOIN buildings as b ON a.buildings_building_id=b.building_id
+		WHERE b.users_user_id = $userId";
 
 		$stmt = $dbConnection->prepare($sql);
 
@@ -140,7 +127,11 @@ class BuildingService {
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 
-		$sql = "SELECT * FROM `apartment_utility_bills` as ub JOIN `apartments` as a ON ub.apartments_apartment_id=a.apartment_id where ub.users_user_id = $userId";
+		$sql = "SELECT * FROM `apartment_utility_bills` as ub 
+		LEFT JOIN `apartments` as a ON a.apartment_id = ub.apartments_apartment_id 
+		LEFT JOIN buildings as b ON b.building_id = a.buildings_building_id
+		 LEFT JOIN utilities as ut ON ut.utility_id = ub.`utilities_utility_id` 
+		 WHERE b.users_user_id = $userId order by a.apartment_number";
 
 		$stmt = $dbConnection->prepare($sql);
 
@@ -150,11 +141,51 @@ class BuildingService {
 			return 'Failed';
 		}
 	}
+
+	function getMaintenanceRequestByUserId($userId) {
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * FROM `maintenance_requests` as mr 
+		JOIN apartments as a ON mr.apartments_apartment_id=a.apartment_id 
+		LEFT JOIN buildings as b ON b.building_id = a.buildings_building_id
+		WHERE b.users_user_id = $userId";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else {
+			return 'Failed';
+		}
+	}
+
 	function getCsbReportById($userId){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 
-		$sql = "SELECT a.apartment_number, SUM(acsb.community_service_monthly_bill_amount) as bill FROM `apartment_community_service_bills` as acsb JOIN `apartments` as a ON a.apartment_id=acsb.apartments_apartment_id WHERE acsb.users_user_id = $userId GROUP BY a.apartment_number";
+		$sql = "SELECT a.apartment_number, SUM(acsb.community_service_monthly_bill_amount) as bill FROM `apartment_community_service_bills` as acsb 
+		JOIN `apartments` as a ON a.apartment_id=acsb.apartments_apartment_id 
+		LEFT JOIN buildings as b ON b.building_id = a.buildings_building_id 
+		WHERE b.users_user_id = $userId GROUP BY a.apartment_number";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else {
+			return 'Failed';
+		}
+	}
+
+	function getComplaintsByUserId($userId) {
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * FROM `complaints` as mr 
+		JOIN apartments as a ON mr.apartments_apartment_id=a.apartment_id 
+		LEFT JOIN buildings as b ON b.building_id = a.buildings_building_id
+		WHERE b.users_user_id = $userId";
 
 		$stmt = $dbConnection->prepare($sql);
 

@@ -150,6 +150,11 @@ a {
 /* Maintenance Request */
 
 .maintenance-request-list {
+    width: 100%;
+    float: left;
+}
+
+.maintenance-request-list a{
     width: 25%;
     float: left;
 }

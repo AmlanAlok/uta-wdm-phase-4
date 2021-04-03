@@ -88,10 +88,17 @@ function viewApartmentOwnerChatMenu(event, elementId){
     event.currentTarget.className += " active";
 }
 
-function viewApartmentDetails(event, elementId){
-
+function viewApartmentDetails(event, elementId, user){
+    console.log(JSON.parse(user));
+    user = JSON.parse(user);
     apartmentOwnerDetailsList = document.getElementsByClassName("apartment-owner-detail");
-    console.log(apartmentOwnerDetailsList)
+    console.log(apartmentOwnerDetailsList);
+    document.getElementById('aptNum').innerText = user.apartment_number;
+    document.getElementById('firstName').innerText = user.first_name;
+    document.getElementById('lastName').innerText = user.last_name;
+    document.getElementById('emailId').innerText = user.email_id;
+    document.getElementById('phoneNum').innerText = user.phone_number;
+    document.getElementById('joinDate').innerText = user.joining_datetime;
 
     for (i=0; i<apartmentOwnerDetailsList.length; i++){
         apartmentOwnerDetailsList[i].style.display = "none";
