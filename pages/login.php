@@ -5,16 +5,18 @@ $abc = 'abc';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
-    echo "abcederfadf";
+    // echo "abcederfadf";
     // var_dump($_POST);
     $abc = 'abc';
     $emailId = $_POST['email'];
     $password = $_POST['password'];
-    echo "email = $emailId";
-    echo "password = $password";
+    // echo "email = $emailId";
+    // echo "password = $password";
 
     $loginService = new LoginService();
     $loginService->loginUser($emailId, $password);
+
+    
 }
 
 

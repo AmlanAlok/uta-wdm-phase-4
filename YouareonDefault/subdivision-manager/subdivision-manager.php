@@ -1,13 +1,42 @@
 <?php 
 
-if ($_SERVER["REQUEST_METHOD"] == "GET"){
+require '../../service/SubdivisionManagerService.php';
 
-    var_dump($_GET);
+$userId = $_GET['user_id'];
+$eb = [999,888,777];
+$subdivisionManagerService = new SubdivisionManagerService();
 
-    $userId = $_GET['user_id'];
-    echo "userId = $userId";
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    // var_dump($_GET);
+    $subdivisionManagerService->utilityReportData($userId);
+    
+    // echo "userId = $userId";
 
 }
+
+$personalDetails = $subdivisionManagerService->getPersonalDetails($userId);
+// var_dump($personalDetails);
+$utilityBillRecordList = $subdivisionManagerService->utilityReportData($userId);
+// var_dump($utilityBillRecordList);
+$communityServiceBillRecordList = $subdivisionManagerService->communityServiceReportData($userId);
+// var_dump($communityServiceBillRecordList);
+$aptCount = $subdivisionManagerService->getApartmentCount($userId);
+// var_dump($aptCount);
+$aptCSCount = $subdivisionManagerService->getCommunityServiceApartmentCount($userId);
+var_dump($aptCSCount);
+$billTotal = $subdivisionManagerService->getUtilityBillTotal($userId);
+// var_dump($billTotal);
+$csBillTotal = $subdivisionManagerService->getCommunityServiceBillTotal($userId);
+var_dump($csBillTotal);
+$utilityReportMonth = $subdivisionManagerService->getPreviousMonth();
+$utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
+// $months = ['Jan','Feb'];
+// $eb = [12, 20, 30];
+
+
+// $buildingManagerRecordList = $subdivisionManagerService->fetchAllBuildingManagerRecords();
+// $apartmentOwnerRecordList = $subdivisionManagerService->fetchAllApartmentOwnerRecords();
 
 ?>
 
@@ -19,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles.css">
     <script src="https://kit.fontawesome.com/ece9692bda.js" crossorigin="anonymous"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 </head>
 
 <body>
@@ -101,27 +131,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                             
                             <tr>
                                 <td>User ID</td>
-                                <td>1</td>
+                                <td><?= $personalDetails->user_id; ?></td>
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td>Amlan</td>
+                                <td><?= $personalDetails->first_name; ?></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>Alok</td>
+                                <td><?= $personalDetails->last_name; ?></td>
                             </tr>
                             <tr>
                                 <td>Email Id</td>
-                                <td>amlanalok@gmail.com</td>
+                                <td><?= $personalDetails->email_id; ?></td>
                             </tr>
                             <tr>
                                 <td>Phone Number</td>
-                                <td>1231231234</td>
+                                <td><?= $personalDetails->phone_number; ?></td>
                             </tr>
                             <tr>
                                 <td>Joining Date</td>
-                                <td>01/19/2021</td>
+                                <td><?= $personalDetails->joining_datetime; ?></td>
                             </tr>
                         </table>
                     </div>
@@ -367,6 +397,54 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
                 </div>
             </div>
 
+            <div id="dashboard-electricity-bill" class="section-content">
+                <div class="section-heading"><h1>Electricity Dashboard</h1></div>
+
+                <div>
+                    <div>
+                        <input type="text" id="mojo" value=" <?= $eb; ?>">
+                    </div>
+
+                    <canvas id="electricity-chart"></canvas>
+                </div>
+
+                <script>
+                    let eChart = document.getElementById('electricity-chart').getContext('2d');
+
+                    // let polo = document.getElementById('mojo').value;
+                    // let polo = <?php  $eb ?>;
+                    // console.log(polo);
+
+                    let eDashboard = new Chart(eChart, {
+                        type:'bar',
+                        data:{
+                            labels: ['Jan','Feb','Mar'],
+                            datasets:[{
+                                label:'Bill Amount',
+                                data: [10, 20, 30],
+                                backgroundColor:'green'
+                            }]
+                        }
+                    });
+
+                    // let eDashboard = new Chart(eChart, {
+                    //     type:'bar',
+                    //     data:{
+                    //         labels: ['Jan','Feb','Mar'],
+                    //         datasets:[{
+                    //             label:'Bill Amount',
+                    //             data: [20, 30, 50],
+                    //             backgroundColor:'green'
+                    //         }]
+                    //     }
+                    // });
+
+                    
+                </script>
+                
+            </div>
+
+
             <!-- Subdivision Manager New IT Requests -->
 
             <div id="new-it-request" class="section-content">
@@ -584,23 +662,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
             <!-- Subdivision Manager Utility Bill -->
 
             <div id="utility-bill-report" class="section-content">
-                <div class="section-heading"><h1>Community Service Bill Report</h1></div>
+                <div class="section-heading"><h1>Utility Bill Report</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="subdivision-manager-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
                         <table>
-                            <tr><th>Building Name</th><th>Apartment Number</th><th>Electricity</th><th>Water</th><th>Gas</th><th>Apartment Total</th></tr>
-                            <tr><td>Emerald</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>102</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>103</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Emerald</td><td>104</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Ruby</td><td>102</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Diamond</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Sapphire</td><td>101</td><td>$100.00</td><td>$10.00</td><td>$20.00</td><td>$130.00</td></tr>
-                            <tr><td>Building Total</td><td>8</td><td>$800.00</td><td>$80.00</td><td>$160.00</td><td>$1040.00</td></tr>
+                            <tr>
+                                <th>Building Name</th>
+                                <th>Apartment Number</th>
+                                <th>Bill Amount</th>
+                                <th>Utility Name</th>
+
+                            </tr>
+                            <?php foreach ($utilityBillRecordList as $ubr): ?>
+                            <tr>
+                                <td><?= $ubr->building_name ?></td>
+                                <td><?= $ubr->apartment_number ?></td>
+                                <td><?= $ubr->utility_monthly_bill_amount ?></td>
+                                <td><?= $ubr->utility_name ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+
+                            <tr>
+                                <td>Subdivision Total</td>
+                                <td><?= $aptCount['count(a.apartment_number)']; ?></td>
+                                <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
+                            </tr>
+                            
                         </table>
                     </div>    
                 </div>
@@ -611,21 +702,33 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
             <div id="community-service-bill-report" class="section-content">
                 <div class="section-heading"><h1>Community Service Bill Report</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="subdivision-manager-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
                         <table>
-                            <tr><th>Building Name</th><th>Apartment Number</th><th>Maintenance Fee</th><th>Apartment Total</th></tr>
-                            <tr><td>Emerald</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>102</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>103</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>104</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Diamond</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Sapphire</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Building Total</td><td>8</td><td>$400.00</td><td>$400.00</td></tr>
+                            <tr>
+                                <th>Building Name</th>
+                                <th>Apartment Number</th>
+                                <th>Bill Amount</th>
+                                <th>Community Service Name</th>
+
+                            </tr>
+                            <?php foreach ($communityServiceBillRecordList as $csbr): ?>
+                            <tr>
+                                <td><?= $csbr->building_name ?></td>
+                                <td><?= $csbr->apartment_number ?></td>
+                                <td><?= $csbr->community_service_monthly_bill_amount ?></td>
+                                <td><?= $csbr->community_service_name ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+
+                            <tr>
+                                <td>Subdivision Total</td>
+                                <td><?= $aptCSCount['count(a.apartment_number)']; ?></td>
+                                <td><?= $csBillTotal['sum(acsb.community_service_monthly_bill_amount)']; ?></td>
+                                <td></td>
+                            </tr>
                         </table>
                     </div>    
                 </div>
