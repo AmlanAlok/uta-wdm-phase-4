@@ -77,6 +77,7 @@ class SubdivisionService {
 		WHERE aub.subdivisions_subdivision_id = :subdivisionId
 		and aub.month = :month
 		and aub.year = :year
+		and not u.utility_name = 'internet'
 		order by b.building_name, a.apartment_number, u.utility_name";
 
 		$stmt = $dbConnection->prepare($sql);
