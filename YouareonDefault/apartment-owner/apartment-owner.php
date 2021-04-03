@@ -1,6 +1,8 @@
 <?php 
 
 require '../../service/ApartmentOwnerService.php';
+include __DIR__.'../../../service/UserService.php';
+include_once __DIR__.'../../../utility/Database.php';
 
 $userId = $_GET['user_id'];
 
@@ -10,10 +12,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     var_dump($_POST);
     $apartmentOwnerService->checkFeature($userId);
+    $apartmentOwnerService->checkComplaints($userId);
 
 }
+// print the logged in user details dynamically
+$userId = $_GET['user_id'];
+$dbObject = new Database();
+$dbConn = $dbObject->getDatabaseConnection();
+$userService = new UserService();
+$user = $userService->getuserById($userId);
 
 $mrList = $apartmentOwnerService->fetchAllMR();
+$cmList = $apartmentOwnerService->fetchAllComplaints();
 // var_dump($mrList);
 
 ?>
@@ -106,35 +116,35 @@ $mrList = $apartmentOwnerService->fetchAllMR();
                             
                             <tr>
                                 <td>User ID</td>
-                                <td>1</td>
+                                <td><?php echo $user->user_id  ?></td>
                             </tr>
                             <tr>
                                 <td>First Name</td>
-                                <td>Amlan</td>
+                                <td><?php echo $user->first_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>Alok</td>
+                                <td><?php echo $user->last_name  ?></td>
                             </tr>
                             <tr>
                                 <td>Email Id</td>
-                                <td>amlanalok@gmail.com</td>
+                                <td><?php echo $user->email_id ?></td>
                             </tr>
                             <tr>
                                 <td>Phone Number</td>
-                                <td>1231231234</td>
+                                <td><?php echo $user->phone_number  ?></td>
                             </tr>
                             <tr>
                                 <td>Joining Date</td>
-                                <td>01/19/2021</td>
+                                <td><?php echo $user->joining_datetime  ?></td>
                             </tr>
                         </table>
                     </div>
                 </div>
 
-                <div class="edit-button-position">
+                <!-- <div class="edit-button-position">
                     <button class="edit-button">Edit</button>
-                </div>
+                </div> -->
             </div>
 
             <div id="apartment-owner-dashboard" class="section-content">
@@ -267,9 +277,9 @@ $mrList = $apartmentOwnerService->fetchAllMR();
                 <h3>Create New Complaint</h3>
 
                 <div>
-                    <form>
-                        <label for="maintenance-request-input-message"><h4>Enter details:</h4></label>
-                        <textarea id="maintenance-request-input-message" name="maintenance-request-input-message" class="textarea-size" rows="4" cols="50"></textarea><br/>
+                    <form method="post">
+                        <label for="complaints-request-input-message"><h4>Enter details:</h4></label>
+                        <textarea id="complaints-request-input-message" name="complaints-request-input-message" class="textarea-size" rows="4" cols="50"></textarea><br/>
                         <input type="submit" value="Submit" class="submit-button">
                     </form>
                 </div>
@@ -283,21 +293,19 @@ $mrList = $apartmentOwnerService->fetchAllMR();
                 <div>
 
                     <div class="complaint-list">
-                        <button class="complaint" onclick="viewComplaintDetails(event, 'c-1')">
-                            Complaint ID: 1 <br />
-                            Date: 01/27/2021 <br />
-                            Status: In-Progress
+                    <?php foreach ($cmList as $cm): ?>
+                        <button class="complaint" onclick="viewComplaintDetails(event, 'cm-<?= htmlspecialchars($cm->complaint_id); ?>')">
+                               Complaint ID: <?= htmlspecialchars($cm->complaint_id); ?> <br />
+                                Date: <?= htmlspecialchars($cm->message_datetime); ?> <br />
+                                Status: <?= htmlspecialchars($cm->status); ?>
+                            
                         </button>
-                        <button class="complaint" onclick="viewComplaintDetails(event, 'c-2')">
-                            Complaint ID: 2 <br />
-                            Date: 02/09/2021 <br />
-                            Status: Completed
-                        </button>
+                        <?php endforeach; ?>
         
                     </div>
 
                     <div class="display-complaint">
-                        <div id="c-1" class="complaint-details">
+                        <!-- <div id="c-1" class="complaint-details">
                             <h3>Datetime</h3>
                             <p>01/27/2021 04:05:06</p>
                             <h3>Message</h3>
@@ -313,7 +321,18 @@ $mrList = $apartmentOwnerService->fetchAllMR();
                             <p>Electricity not there.</p>
                             <h3>Status</h3>
                             <p>Completed</p>
-                        </div>
+                        </div> -->
+
+                        <?php foreach ($cmList as $cm): ?>
+                            <div id="cm-<?= htmlspecialchars($cm->complaint_id); ?>" class="complaint-details">
+                                <h3>Datetime</h3>
+                                <p><?= htmlspecialchars($cm->message_datetime); ?></p>
+                                <h3>Message</h3>
+                                <p><?= htmlspecialchars($cm->message); ?></p>
+                                <h3>Status</h3>
+                                <p><?= htmlspecialchars($cm->status); ?></p>
+                            </div>
+                        <?php endforeach;?>    
                     </div>
                 </div>
             </div>
