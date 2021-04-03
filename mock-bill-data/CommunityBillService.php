@@ -43,11 +43,11 @@ class CommunityBillService{
 				$apartmentCommunityServiceBill->community_service_id = $cs->community_service_id;
 			} 
 			elseif ($cs->community_service_name == 'pool'){
-				$apartmentCommunityServiceBill->community_service_monthly_bill_amount = $mfBill;
+				$apartmentCommunityServiceBill->community_service_monthly_bill_amount = $pBill;
 				$apartmentCommunityServiceBill->community_service_id = $cs->community_service_id;
 			}
 			if ($cs->community_service_name == 'gym'){
-				$apartmentCommunityServiceBill->community_service_monthly_bill_amount = $mfBill;
+				$apartmentCommunityServiceBill->community_service_monthly_bill_amount = $gBill;
 				$apartmentCommunityServiceBill->community_service_id = $cs->community_service_id;
 			}
 

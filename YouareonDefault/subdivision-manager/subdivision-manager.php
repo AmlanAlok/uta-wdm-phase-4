@@ -19,10 +19,16 @@ $personalDetails = $subdivisionManagerService->getPersonalDetails($userId);
 // var_dump($personalDetails);
 $utilityBillRecordList = $subdivisionManagerService->utilityReportData($userId);
 // var_dump($utilityBillRecordList);
+$communityServiceBillRecordList = $subdivisionManagerService->communityServiceReportData($userId);
+// var_dump($communityServiceBillRecordList);
 $aptCount = $subdivisionManagerService->getApartmentCount($userId);
 // var_dump($aptCount);
+$aptCSCount = $subdivisionManagerService->getCommunityServiceApartmentCount($userId);
+var_dump($aptCSCount);
 $billTotal = $subdivisionManagerService->getUtilityBillTotal($userId);
 // var_dump($billTotal);
+$csBillTotal = $subdivisionManagerService->getCommunityServiceBillTotal($userId);
+var_dump($csBillTotal);
 $utilityReportMonth = $subdivisionManagerService->getPreviousMonth();
 $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
@@ -696,21 +702,33 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
             <div id="community-service-bill-report" class="section-content">
                 <div class="section-heading"><h1>Community Service Bill Report</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="subdivision-manager-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
                         <table>
-                            <tr><th>Building Name</th><th>Apartment Number</th><th>Maintenance Fee</th><th>Apartment Total</th></tr>
-                            <tr><td>Emerald</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>102</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>103</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Emerald</td><td>104</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Ruby</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Diamond</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Sapphire</td><td>101</td><td>$100.00</td><td>$100.00</td></tr>
-                            <tr><td>Building Total</td><td>8</td><td>$400.00</td><td>$400.00</td></tr>
+                            <tr>
+                                <th>Building Name</th>
+                                <th>Apartment Number</th>
+                                <th>Bill Amount</th>
+                                <th>Community Service Name</th>
+
+                            </tr>
+                            <?php foreach ($communityServiceBillRecordList as $csbr): ?>
+                            <tr>
+                                <td><?= $csbr->building_name ?></td>
+                                <td><?= $csbr->apartment_number ?></td>
+                                <td><?= $csbr->community_service_monthly_bill_amount ?></td>
+                                <td><?= $csbr->community_service_name ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+
+                            <tr>
+                                <td>Subdivision Total</td>
+                                <td><?= $aptCSCount['count(a.apartment_number)']; ?></td>
+                                <td><?= $csBillTotal['sum(acsb.community_service_monthly_bill_amount)']; ?></td>
+                                <td></td>
+                            </tr>
                         </table>
                     </div>    
                 </div>

@@ -7,6 +7,21 @@ require 'UserService.php';
 
 class SubdivisionManagerService {
 
+	function communityServiceReportData($userId){
+
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $subdivisionService->getCurrentMonthCommunityServiceBillsAllApartments($subdivisionId, $month, $year);
+
+	}
+
 	function utilityReportData($userId){
 
 		$subdivisionService = new SubdivisionService();
@@ -18,7 +33,7 @@ class SubdivisionManagerService {
 		$month = $date->format('m');
 		$year = $date->format('Y');
 
-		return $subdivisionService->getCurrentMonthBillsAllApartments($subdivisionId, $month, $year);
+		return $subdivisionService->getCurrentMonthUtilityBillsAllApartments($subdivisionId, $month, $year);
 
 	}
 
@@ -66,6 +81,35 @@ class SubdivisionManagerService {
 	function getPersonalDetails($userId){
 		$userService = new UserService();
     	return $userService->getuserById($userId);
+	}
+
+	function getCommunityServiceApartmentCount($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $subdivisionService->getCommunityServiceApartmentCount($subdivisionId, $month, $year);
+	}
+
+	function getCommunityServiceBillTotal($userId){
+
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $subdivisionService->getCommunityServiceBillTotal($subdivisionId, $month, $year);
 	}
 	// function fetchAllBuildingManagerRecords(){
 
