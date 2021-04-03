@@ -1,11 +1,28 @@
 <?php
 
-// require 'MasterRecordService.php';
+require 'MasterRecordService.php';
 require 'SubdivisionService.php';
 // require '../model/SubdivisionUtilityBillRecord.php';
 require 'UserService.php';
+require '../../service/ITRequestService.php';
 
 class SubdivisionManagerService {
+
+
+	function checkFeature($userId){
+		
+		if (isset($_POST['it-request-input-message'])){
+	        
+	        $itrMsg = $_POST['it-request-input-message'];
+
+			$itrService = new ITRequestService();
+			$itrService->saveITR($userId, $itrMsg);
+	    }	
+	 
+	    else {
+	    	echo "Nothing Matched";
+	    }
+	}
 
 	function communityServiceReportData($userId){
 
@@ -111,17 +128,34 @@ class SubdivisionManagerService {
 
 		return $subdivisionService->getCommunityServiceBillTotal($subdivisionId, $month, $year);
 	}
-	// function fetchAllBuildingManagerRecords(){
 
-	// 	$masterRecordService = new MasterRecordService();
-	// 	$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecords();
-	// 	return $buildingManagerRecordList;
-	// }
+	function fetchAllITRequests(){
+		$itrService = new ITRequestService();
+		return $itrService->fetchAllITRequest();
+	}
 
-	// function fetchAllApartmentOwnerRecords(){
+	function fetchAllApartmentOwnerRecords($userId){
 
-	// 	$masterRecordService = new MasterRecordService();
-	// 	$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecords();
-	// 	return $apartmentOwnerRecordList;
-	// }
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$masterRecordService = new MasterRecordService();
+		$apartmentOwnerRecordList = $masterRecordService->fetchAllApartmentOwnerRecordsOfASubdivision($subdivisionId);
+		return $apartmentOwnerRecordList;
+	}
+
+	function fetchAllBuildingManagerRecords($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+
+		$masterRecordService = new MasterRecordService();
+		$buildingManagerRecordList = $masterRecordService->fetchAllBuildingManagerRecordsOfASubdivision($subdivisionId);
+		return $buildingManagerRecordList;
+	}
 }

@@ -507,6 +507,8 @@ tr {
 .view-data-list {
     width: 25%;
     float: left;
+    height: 200px;
+    overflow-y: scroll;
 }
 
 .view-data-list button {

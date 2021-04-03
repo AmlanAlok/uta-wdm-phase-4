@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // var_dump($_GET);
     $subdivisionManagerService->utilityReportData($userId);
-    
+    $subdivisionManagerService->checkFeature($userId);
     // echo "userId = $userId";
 
 }
@@ -24,19 +24,23 @@ $communityServiceBillRecordList = $subdivisionManagerService->communityServiceRe
 $aptCount = $subdivisionManagerService->getApartmentCount($userId);
 // var_dump($aptCount);
 $aptCSCount = $subdivisionManagerService->getCommunityServiceApartmentCount($userId);
-var_dump($aptCSCount);
+// var_dump($aptCSCount);
 $billTotal = $subdivisionManagerService->getUtilityBillTotal($userId);
 // var_dump($billTotal);
 $csBillTotal = $subdivisionManagerService->getCommunityServiceBillTotal($userId);
-var_dump($csBillTotal);
+// var_dump($csBillTotal);
 $utilityReportMonth = $subdivisionManagerService->getPreviousMonth();
 $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
 // $eb = [12, 20, 30];
 
+$itrlist = $subdivisionManagerService->fetchAllITRequests();
 
-// $buildingManagerRecordList = $subdivisionManagerService->fetchAllBuildingManagerRecords();
-// $apartmentOwnerRecordList = $subdivisionManagerService->fetchAllApartmentOwnerRecords();
+$aptList = $subdivisionManagerService->fetchAllApartmentOwnerRecords($userId);
+// var_dump($aptList);
+
+$buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($userId);
+// var_dump($buildingList);
 
 ?>
 
@@ -452,7 +456,7 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <h3>Create New IT Request</h3>
 
                 <div>
-                    <form>
+                    <form method="post">
                         <label for="it-request-input-message"><h4>Enter details:</h4></label>
                         <textarea id="it-request-input-message" name="it-request-input-message" class="textarea-size"rows="4" cols="50"></textarea><br/>
                         <input type="submit" value="Submit" class="submit-button">
@@ -468,36 +472,29 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <div>
 
                     <div class="it-request-list">
-                        <button class="it-request" onclick="viewItDetails(event, 'it-1')">
-                            IT Request ID: 1 <br />
-                            Date: 01/27/2021 <br />
-                            Status: In-Progress
-                        </button>
-                        <button class="it-request" onclick="viewItDetails(event, 'it-2')">
-                            IT Request ID: 2 <br />
-                            Date: 02/09/2021 <br />
-                            Status: Completed
-                        </button>
+                        <?php foreach ($itrlist as $itr): ?>
+                            <button class="it-request" onclick="viewItDetails(event, 'it-<?= $itr->it_request_id ?>')">
+                                IT Request ID: <?= $itr->it_request_id ?> <br />
+                                Date: <?= $itr->message_datetime ?> <br />
+                                Status: <?= $itr->status ?>
+                            </button>
+                        <?php endforeach; ?>
+                        
                     </div>
 
                     <div class="display-it-request">
-                        <div id="it-1" class="it-request-details">
+                        <?php foreach ($itrlist as $itr): ?>
+                        
+                        <div id="it-<?= $itr->it_request_id ?>" class="it-request-details">
                             <h3>Datetime</h3>
-                            <p>01/27/2021 04:05:06</p>
+                            <p><?= $itr->message_datetime ?></p>
                             <h3>Message</h3>
-                            <p>Something not working.</p>
+                            <p><?= $itr->message ?></p>
                             <h3>Status</h3>
-                            <p>In-progress</p>
+                            <p><?= $itr->status ?></p>
                         </div>
+                        <?php endforeach; ?>
 
-                        <div id="it-2" class="it-request-details">
-                            <h3>Datetime</h3>
-                            <p>02/09/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Need access to something.</p>
-                            <h3>Status</h3>
-                            <p>Completed</p>
-                        </div>
                     </div>
                 </div>
                 
@@ -511,73 +508,38 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <div>
 
                     <div class="view-data-list">
-                        <a href="#apartment-owner-detail-1">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-1')">
-                                Apartment Number: 101 <br />
-                                Building Name: Emerald
+
+                        <?php foreach ($aptList as $key => $value): ?>
+                        <a href="#apartment-owner-detail-<?= htmlspecialchars($key); ?>">
+                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-<?= htmlspecialchars($key); ?>')">
+                                Apartment Number: <?= $value->apartment_number; ?> <br />
+                                Building Name: <?= $value->building_name; ?>
                             </button>
                         </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-2')">
-                                Apartment Number: 102 <br />
-                                Building Name: Emerald
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-3')">
-                                Apartment Number: 103 <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
-                        <a href="#apartment-owner-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'apartment-owner-detail-4')">
-                                Apartment Number: 104 <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
+                    <?php endforeach; ?>
+                        
         
                     </div>
 
                     <div class="view-data">
-                        <div id="apartment-owner-detail-1" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr>
-                                    <tr><td>Apartment Number</td><td>101</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
 
-                        <div id="apartment-owner-detail-2" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr>
-                                    <tr><td>Apartment Number</td><td>102</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
+                        <?php foreach ($aptList as $key => $value): ?>
 
-                        <div id="apartment-owner-detail-3" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr>
-                                    <tr><td>Apartment Number</td><td>103</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
+                            <div id="apartment-owner-detail-<?= htmlspecialchars($key); ?>" class="apartment-owner-detail">
+                                <div class="apartment-personal-details-table">
+                                    <table>
+                                        <tr><td>Building Name</td><td><?= $value->building_name; ?></td></tr>
+                                        <tr><td>Apartment Number</td><td><?= $value->apartment_number; ?></td></tr>
+                                        <tr><td>First Name</td><td><?= $value->first_name; ?></td></tr>
+                                        <tr><td>Last Name</td><td><?= $value->last_name; ?></td></tr>
+                                        <tr><td>Email Id</td><td><?= $value->email_id; ?></td></tr>
+                                        <tr><td>Phone Number</td><td><?= $value->phone_number; ?></td></tr>
+                                        <tr><td>Joining Date</td><td><?= $value->joining_datetime; ?></td></tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <div id="apartment-owner-detail-4" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr>
-                                    <tr><td>Apartment Number</td><td>104</td></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
 
                     </div>
                 </div>
@@ -591,69 +553,32 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
                 <div>
 
                     <div class="view-data-list">
-                        <a href="#building-manager-detail-1">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-1')">
-                                Amlan <br />
-                                Building Name: Emerald
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-2')">
-                                Kishore <br />
-                                Building Name: Sapphire
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-3')">
-                                Rakshita <br />
-                                Building Name: Ruby
-                            </button>
-                        </a>
-                        <a href="#building-manager-detail-2">
-                            <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-4')">
-                                Alok <br />
-                                Building Name: Diamond
-                            </button>
-                        </a>
+                        <?php foreach ($aptList as $key => $value): ?>
+                            <a href="#building-manager-detail-<?= htmlspecialchars($key); ?>">
+                                <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-<?= htmlspecialchars($key); ?>')">
+                                    <?= $value->first_name; ?> <br />
+                                    Building Name: <?= $value->building_name; ?>
+                                </button>
+                            </a>
+                        <?php endforeach; ?>
         
                     </div>
 
                     <div class="view-data">
-                        <div id="building-manager-detail-1" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Emerald</td></tr><tr><td>First Name</td><td>Amlan</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>amlanalok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
+                        <?php foreach ($aptList as $key => $value): ?>
+                            <div id="building-manager-detail-<?= htmlspecialchars($key); ?>" class="apartment-owner-detail">
+                                <div class="apartment-personal-details-table">
+                                    <table>
+                                        <tr><td>Building Name</td><td><?= $value->building_name; ?></td></tr>
+                                        <tr><td>First Name</td><td><?= $value->first_name; ?></td></tr>
+                                        <tr><td>Last Name</td><td><?= $value->last_name; ?></td></tr>
+                                        <tr><td>Email Id</td><td><?= $value->email_id; ?></td></tr>
+                                        <tr><td>Phone Number</td><td><?= $value->phone_number; ?></td></tr>
+                                        <tr><td>Joining Date</td><td><?= $value->joining_datetime; ?></td></tr>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-
-                        <div id="building-manager-detail-2" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Sapphire</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="building-manager-detail-3" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Ruby</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="building-manager-detail-4" class="apartment-owner-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Building Name</td><td>Diamond</td></tr></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
 
                     </div>
                 </div>

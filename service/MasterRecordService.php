@@ -69,7 +69,7 @@ class MasterRecordService {
 	}
 
 
-	function fetchAllApartmentOwnerRecordsOfASubdivision($subdivision){
+	function fetchAllApartmentOwnerRecordsOfASubdivision($subdivisionId){
 
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
@@ -79,10 +79,38 @@ class MasterRecordService {
 		inner join roles as r on u.roles_role_id=r.role_id
 		inner join buildings as b on b.building_id=a.buildings_building_id
 		where r.role_name = 'apartment owner'
+		and a.subdivisions_subdivision_id = :subdivisionId
 		order by b.building_name";
 
 		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'ApartmentOwnerRecord');
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else {
+			return 'Failed';
+		}
+	}
+
+	function fetchAllBuildingManagerRecordsOfASubdivision($subdivisionId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT b.building_name, u.first_name, u.last_name, u.email_id, u.phone_number, u.joining_datetime from users as u
+		inner join buildings as b on u.user_id = b.users_user_id 
+		inner join roles as r on u.roles_role_id=r.role_id
+		where r.role_name = 'building manager'
+		and b.subdivisions_subdivision_id = :subdivisionId
+		order by b.building_name";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+			
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'BuildingManagerRecord');
 
 		if ($stmt->execute()){
 			return $stmt->fetchAll();
