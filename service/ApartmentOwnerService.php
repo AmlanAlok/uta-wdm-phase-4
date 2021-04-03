@@ -113,6 +113,36 @@ class ApartmentOwnerService {
 
 	}
 
+	function communityServiceReportData($userId){
+
+		$apartmentService = new ApartmentService();
+		$apartmentRecord = $apartmentService->getApartmentRecordByUserId($userId);
+		// var_dump($apartmentRecord);
+
+		$apartmentId = $apartmentRecord->apartment_id;
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $apartmentService->getLastMonthCommunityServiceBillForApartment($apartmentId, $month, $year);
+
+	}
+
+	function getCommunityServiceBillTotal($userId){
+
+		$apartmentService = new ApartmentService();
+		$apartmentRecord = $apartmentService->getApartmentRecordByUserId($userId);
+		// var_dump($apartmentRecord);
+
+		$apartmentId = $apartmentRecord->apartment_id;
+
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $apartmentService->getCommunityServiceBillTotal($apartmentId, $month, $year);
+	}
+
 	function utilityReportData($userId){
 
 		$apartmentService = new ApartmentService();

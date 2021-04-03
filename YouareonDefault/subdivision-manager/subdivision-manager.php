@@ -93,7 +93,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
 
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="openMenu(event, 'apartment-dashboard-menu')">Dashboard<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
                 <div id="apartment-dashboard-menu" class="apartment-dashboard-menu">
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button>
+                    <!-- <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button> -->
                     <button href="#dashboard-electricity-bill" class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>

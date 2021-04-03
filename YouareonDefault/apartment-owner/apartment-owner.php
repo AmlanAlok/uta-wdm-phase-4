@@ -44,6 +44,11 @@ $utilityBillRecordList = $apartmentOwnerService->utilityReportData($userId);
 
 $billTotal = $apartmentOwnerService->getUtilityBillTotal($userId);
 // var_dump($billTotal);
+$communityServiceBillRecordList = $apartmentOwnerService->communityServiceReportData($userId);
+// var_dump($communityServiceBillRecordList);
+
+$csBillTotal = $apartmentOwnerService->getCommunityServiceBillTotal($userId);
+// var_dump($csBillTotal);
 
 $utilityReportMonth = $apartmentOwnerService->getPreviousMonth();
 $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
@@ -86,7 +91,7 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
                 
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="openMenu(event, 'apartment-dashboard-menu')">Dashboard<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
                 <div id="apartment-dashboard-menu" class="apartment-dashboard-menu">
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button>
+                    <!-- <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button> -->
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>
@@ -208,7 +213,7 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
             <div id="community-service-bill" class="section-content">
                 <div class="section-heading"><h1>Community Service Bill</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="apartment-owner-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
@@ -217,13 +222,15 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
                                 <th>Service Name</th>
                                 <th>Bill Amount</th>
                             </tr>
+                            <?php foreach($communityServiceBillRecordList as $csbr): ?>
                             <tr>
-                                <td>Maintenance Fee</td>
-                                <td>$100.00</td>
+                                <td><?= $csbr->community_service_name ?></td>
+                                <td><?= $csbr->community_service_monthly_bill_amount ?></td>
                             </tr>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
-                                <td>$100.00</td>
+                                <td><?= $csBillTotal["sum(acsb.community_service_monthly_bill_amount)"]; ?></td>
                             </tr>
                         </table>
                     </div>    

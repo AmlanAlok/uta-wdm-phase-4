@@ -1,6 +1,7 @@
 <?php
 
 require '../../model/ApartmentUtilityBillRecord.php';
+require '../../model/ApartmentCommunityServiceBillRecord.php';
 
 class ApartmentService {
 
@@ -17,6 +18,55 @@ class ApartmentService {
 
 		$stmt->bindValue(':apartmentId', $apartmentId, PDO::PARAM_INT);
 		$stmt->bindValue(':utilityName', $utilityName, PDO::PARAM_STR);
+		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
+		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
+
+		if ($stmt->execute()){
+			return $stmt->fetch();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
+	}
+
+	function getLastMonthCommunityServiceBillForApartment($apartmentId, $month, $year){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT acsb.community_service_monthly_bill_amount, cs.community_service_name from apartment_community_service_bills as acsb
+		inner join community_services as cs on acsb.community_service_id = cs.community_service_id
+		WHERE acsb.apartments_apartment_id = :apartmentId
+		and acsb.month = :month
+		and acsb.year = :year
+		order by cs.community_service_name";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':apartmentId', $apartmentId, PDO::PARAM_INT);
+		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
+		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
+		// $stmt->bindValue(':utilityName', $utilityName, PDO::PARAM_STR);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'ApartmentCommunityServiceBillRecord');
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			echo "Failed";
+			return 'Failed';
+		}
+	}
+
+	function getCommunityServiceBillTotal($apartmentId, $month, $year){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+		$sql = "SELECT sum(acsb.community_service_monthly_bill_amount) from apartment_community_service_bills as acsb
+		inner join apartments as a on acsb.apartments_apartment_id = a.apartment_id
+		WHERE acsb.apartments_apartment_id = :apartmentId
+		and acsb.month = :month
+		and acsb.year = :year";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':apartmentId', $apartmentId, PDO::PARAM_INT);
 		$stmt->bindValue(':month', $month, PDO::PARAM_INT);
 		$stmt->bindValue(':year', $year, PDO::PARAM_INT);
 

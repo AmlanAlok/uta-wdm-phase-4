@@ -19,7 +19,7 @@ class CommunityBillService{
 
 		$cbs = new CommunityBillService();
 		$aptDetails = $cbs->getApartmentDetails($aptId);
-		var_dump($aptDetails);
+		// var_dump($aptDetails);
 
 		$csList = $cbs->fetchAllCommunityServices();
 		// var_dump($csList);
@@ -56,10 +56,10 @@ class CommunityBillService{
 			
 		}
 
-		var_dump($communityServiceBillList);
+		// var_dump($communityServiceBillList);
 
-		$cbs->storeCommunityServiceBill($communityServiceBillList);
-		
+		$response = $cbs->storeCommunityServiceBill($communityServiceBillList);
+		var_dump($response);
 
 	}
 
