@@ -38,6 +38,15 @@ $waterBillLabels = json_encode($dashboardData->waterMonthTotal);
 // echo $waterBillLabels;
 $internetBillLabels = json_encode($dashboardData->internetMonthTotal);
 // echo $internetBillLabels;
+
+$utilityBillRecordList = $apartmentOwnerService->utilityReportData($userId);
+// var_dump($utilityBillRecordList);
+
+$billTotal = $apartmentOwnerService->getUtilityBillTotal($userId);
+// var_dump($billTotal);
+
+$utilityReportMonth = $apartmentOwnerService->getPreviousMonth();
+$utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +178,7 @@ $internetBillLabels = json_encode($dashboardData->internetMonthTotal);
             <div id="utility-bill" class="section-content">
                 <div class="section-heading"><h1>Utility Bill</h1></div>
                 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="apartment-owner-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
@@ -178,25 +187,15 @@ $internetBillLabels = json_encode($dashboardData->internetMonthTotal);
                                 <th>Utility Name</th>
                                 <th>Bill Amount</th>
                             </tr>
-                            <tr>
-                                <td>Electricity</td>
-                                <td>$100.00</td>
-                            </tr>
-                            <tr>
-                                <td>Water</td>
-                                <td>$10.00</td>
-                            </tr>
-                            <tr>
-                                <td>Gas</td>
-                                <td>$20.00</td>
-                            </tr>
-                            <tr>
-                                <td>Internet</td>
-                                <td>$30.00</td>
-                            </tr>
+                            <?php foreach($utilityBillRecordList as $ubr): ?>
+                                <tr>
+                                    <td><?= $ubr->utility_name; ?></td>
+                                    <td><?= $ubr->utility_monthly_bill_amount; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
-                                <td>$160.00</td>
+                                <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
                             </tr>
                         </table>
                     </div>

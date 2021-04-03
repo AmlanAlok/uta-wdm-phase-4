@@ -113,6 +113,46 @@ class ApartmentOwnerService {
 
 	}
 
+	function utilityReportData($userId){
+
+		$apartmentService = new ApartmentService();
+		$apartmentRecord = $apartmentService->getApartmentRecordByUserId($userId);
+		// var_dump($apartmentRecord);
+
+		$apartmentId = $apartmentRecord->apartment_id;
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $apartmentService->getCurrentMonthUtilityBillOfApartment($apartmentId, $month, $year);
+
+	}
+
+	function getUtilityBillTotal($userId){
+		$apartmentService = new ApartmentService();
+		$apartmentRecord = $apartmentService->getApartmentRecordByUserId($userId);
+		// var_dump($apartmentRecord);
+
+		$apartmentId = $apartmentRecord->apartment_id;
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		$year = $date->format('Y');
+
+		return $apartmentService->getUtilityBillTotal($apartmentId, $month, $year);
+	}
+
+	function getPreviousMonth(){
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+		$month = $date->format('m');
+		return $month;
+	}
+
+	function getPreviousMonthYear(){
+		$date = new DateTime("last month", new DateTimeZone('America/Chicago') );
+
+		return  $date->format('Y');
+	}
+
 	function fetchAllMR(){
 		$mrService = new MRService();
 		return $mrService->fetchAllMR();
