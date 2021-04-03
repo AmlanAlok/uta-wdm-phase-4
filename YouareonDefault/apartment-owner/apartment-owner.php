@@ -26,6 +26,32 @@ $mrList = $apartmentOwnerService->fetchAllMR();
 $cmList = $apartmentOwnerService->fetchAllComplaints();
 // var_dump($mrList);
 
+$dashboardData = $apartmentOwnerService->getDashboardDataPerUtility($userId);
+// var_dump($dashboardData);
+$monthLabels = json_encode($dashboardData->monthNumbers);
+// echo $monthLabels;
+$electricityBillLabels = json_encode($dashboardData->electricityMonthTotal);
+// echo $electricityBillLabels;
+$gasBillLabels = json_encode($dashboardData->gasMonthTotal);
+// echo $gasBillLabels;
+$waterBillLabels = json_encode($dashboardData->waterMonthTotal);
+// echo $waterBillLabels;
+$internetBillLabels = json_encode($dashboardData->internetMonthTotal);
+// echo $internetBillLabels;
+
+$utilityBillRecordList = $apartmentOwnerService->utilityReportData($userId);
+// var_dump($utilityBillRecordList);
+
+$billTotal = $apartmentOwnerService->getUtilityBillTotal($userId);
+// var_dump($billTotal);
+$communityServiceBillRecordList = $apartmentOwnerService->communityServiceReportData($userId);
+// var_dump($communityServiceBillRecordList);
+
+$csBillTotal = $apartmentOwnerService->getCommunityServiceBillTotal($userId);
+// var_dump($csBillTotal);
+
+$utilityReportMonth = $apartmentOwnerService->getPreviousMonth();
+$utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +62,7 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../styles.css">
     <script src="https://kit.fontawesome.com/ece9692bda.js" crossorigin="anonymous"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 </head>
 
 <body>
@@ -64,7 +91,7 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
                 
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="openMenu(event, 'apartment-dashboard-menu')">Dashboard<div class="dropdown-icon"><i class="fas fa-caret-down"></i></div></button>
                 <div id="apartment-dashboard-menu" class="apartment-dashboard-menu">
-                    <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button>
+                    <!-- <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-home')">Home</button> -->
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-electricity-bill')">Electricity Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-water-bill')">Water Bill</button>
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'dashboard-gas-bill')">Gas Bill</button>
@@ -156,7 +183,7 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
             <div id="utility-bill" class="section-content">
                 <div class="section-heading"><h1>Utility Bill</h1></div>
                 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="apartment-owner-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
@@ -165,25 +192,15 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
                                 <th>Utility Name</th>
                                 <th>Bill Amount</th>
                             </tr>
-                            <tr>
-                                <td>Electricity</td>
-                                <td>$100.00</td>
-                            </tr>
-                            <tr>
-                                <td>Water</td>
-                                <td>$10.00</td>
-                            </tr>
-                            <tr>
-                                <td>Gas</td>
-                                <td>$20.00</td>
-                            </tr>
-                            <tr>
-                                <td>Internet</td>
-                                <td>$30.00</td>
-                            </tr>
+                            <?php foreach($utilityBillRecordList as $ubr): ?>
+                                <tr>
+                                    <td><?= $ubr->utility_name; ?></td>
+                                    <td><?= $ubr->utility_monthly_bill_amount; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
-                                <td>$160.00</td>
+                                <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
                             </tr>
                         </table>
                     </div>
@@ -196,7 +213,7 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
             <div id="community-service-bill" class="section-content">
                 <div class="section-heading"><h1>Community Service Bill</h1></div>
 
-                <div><h2>Month-Year: February-2021</h2></div>
+                <div><h2>Month-Year: <?= $utilityReportMonth; ?>-<?= $utilityReportYear; ?></h2></div>
 
                 <div class="apartment-owner-bill-table-position total-bill">
                     <div class="apartment-owner-bill-table">
@@ -205,17 +222,123 @@ $cmList = $apartmentOwnerService->fetchAllComplaints();
                                 <th>Service Name</th>
                                 <th>Bill Amount</th>
                             </tr>
+                            <?php foreach($communityServiceBillRecordList as $csbr): ?>
                             <tr>
-                                <td>Maintenance Fee</td>
-                                <td>$100.00</td>
+                                <td><?= $csbr->community_service_name ?></td>
+                                <td><?= $csbr->community_service_monthly_bill_amount ?></td>
                             </tr>
+                            <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
-                                <td>$100.00</td>
+                                <td><?= $csBillTotal["sum(acsb.community_service_monthly_bill_amount)"]; ?></td>
                             </tr>
                         </table>
                     </div>    
                 </div>
+            </div>
+
+            <div id="dashboard-electricity-bill" class="section-content">
+                <div class="section-heading"><h1>Electricity Dashboard</h1></div>
+
+                <div>
+                    <canvas id="electricity-chart"></canvas>
+                </div>
+
+                <script>
+                    let eChart = document.getElementById('electricity-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let eDashboard = new Chart(eChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total Electricty Bill of Subdivision/Month',
+                                data: <?php echo $electricityBillLabels ?>,
+                                backgroundColor:'green'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+            <div id="dashboard-gas-bill" class="section-content">
+                <div class="section-heading"><h1>Gas Dashboard</h1></div>
+
+                <div>
+                    <canvas id="gas-chart"></canvas>
+                </div>
+
+                <script>
+                    let gasChart = document.getElementById('gas-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let gasDashboard = new Chart(gasChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $gasBillLabels ?>,
+                                backgroundColor:'red'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+            <div id="dashboard-water-bill" class="section-content">
+                <div class="section-heading"><h1>Water Dashboard</h1></div>
+
+                <div>
+                    <canvas id="water-chart"></canvas>
+                </div>
+
+                <script>
+                    let waterChart = document.getElementById('water-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let waterDashboard = new Chart(waterChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total Gas Bill of Subdivision/Month',
+                                data: <?php echo $waterBillLabels ?>,
+                                backgroundColor:'blue'
+                            }]
+                        }
+                    });
+                </script>
+                
+            </div>
+
+            <div id="dashboard-internet-bill" class="section-content">
+                <div class="section-heading"><h1>Internet Dashboard</h1></div>
+
+                <div>
+                    <canvas id="internet-chart"></canvas>
+                </div>
+
+                <script>
+                    let internetChart = document.getElementById('internet-chart').getContext('2d');
+                    // let polo = JSON.stringify(<?php $ebilljson ?>);
+
+                    let internetDashboard = new Chart(internetChart, {
+                        type:'bar',
+                        data:{
+                            labels: <?php echo $monthLabels ?>,
+                            datasets:[{
+                                label:'Total internet Bill of Subdivision/Month',
+                                data: <?php echo $internetBillLabels ?>,
+                                backgroundColor:'green'
+                            }]
+                        }
+                    });
+                </script>
+                
             </div>
 
             <!-- Apartment Owner New Maintenance Requests -->

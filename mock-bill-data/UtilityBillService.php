@@ -20,7 +20,7 @@ class UtilityBillService {
 
 		$ubs = new UtilityBillService();
 		$aptServiceUtitlityList = $ubs->getServiceChoicePerUtiltity($aptId);
-		var_dump($aptServiceUtitlityList);
+		// var_dump($aptServiceUtitlityList);
 
 		$utilityList = $ubs->fetchAllUtilities();
 
@@ -68,8 +68,8 @@ class UtilityBillService {
 			array_push($aubList, $aub);
 			
 		}
-		$ubs->storeUtilityBill($aubList);
-
+		$response = $ubs->storeUtilityBill($aubList);
+		var_dump($response);
 	}
 
 	function storeUtilityBill($aubList){

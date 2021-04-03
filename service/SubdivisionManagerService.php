@@ -94,7 +94,7 @@ class SubdivisionManagerService {
 
 		
 		// $monthData = ['Jan','Feb','Mar','Apr','May',];
-		$billTotal = [10,20,30];
+		// $billTotal = [10,20,30];
 
 		$sdd = new SubdivisionDashboardData();
 		$sdd->monthNumbers = ['Jan','Feb','Mar','Apr','May','Jun','July','Aug','Sep','Oct','Nov','Dec'];
