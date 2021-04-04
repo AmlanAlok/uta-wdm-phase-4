@@ -1,3 +1,25 @@
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    ini_set('display_errors',1);
+    error_reporting(E_ALL);
+    $from = 'cityview@gmail.com';
+    $to = $_POST['email'];
+    $subject = 'Greetings from City View';
+    $fname = $_POST['firstname'];
+    $lname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $phnumber = $_POST['phone'];
+    $query= $_POST['message'];
+    $message ='First-Name:'.$fname."\n".'Last-Name:'.$lname."\n".'Email:'.$email."\n".'Phone-No:'.$phnumber."\n".'Your-Query was:'.$query."\n";
+    $headers = 'From:'.$from;
+    mail($to,$subject,$message,$headers);
+    // echo 'We received your Query, We will contact you soon!';
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -59,8 +81,7 @@
     <div class="container">
         <div class="contact_container">
             <h2>Contact Us</h2> <br>
-            <form style="background-color: #f2f2f2;" class="ContactUsForm" action="mailto:admin@cityview.com"
-                method="POST">
+            <form style="background-color: #f2f2f2;" class="ContactUsForm" method="POST">
                 <label for="fname"></label>
                 <input type="text" class="contact-us" id="fname" name="firstname" required placeholder="First Name">
 
@@ -77,7 +98,7 @@
                 <textarea id="message" class="contact-us" name="message" required
                     placeholder="Enter your message/query here" style="height:200px"></textarea>
                 <div class="SignUpFormButtons" style="text-align: center;">
-                    <input id="btnSubmit" type="submit" value="Submit">
+                    <button id="btnSubmit" class="login-button" value="Submit" onclick="showAlert()">Submit</button>
                 </div>
             </form>
         </div>
@@ -95,6 +116,7 @@
             <span style="float: right;">www.cityview.com</span>
         </p>
     </footer>
+    <script src="contact-us.js"></script>
 </body>
 
 </html>

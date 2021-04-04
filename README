@@ -1,3 +1,30 @@
+
+Credentials of 4 user roles:
+
+Admin User
+
+email = admin@gmail.com	
+password = admin999
+
+Subdivision Manager User
+
+email = smanager@gmail.com	
+password = smanager
+
+Building Manager User
+
+email = bmanager@gmail.com	
+password = bmanager
+
+Apartment Owner User
+
+email = aptowner@gmail.com	
+password = aptowner
+
+
+
+
+
 Sources
 
 1. Code references from - https://www.w3schools.com/

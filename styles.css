@@ -149,6 +149,33 @@ a {
 
 /* Maintenance Request */
 
+.maintenance-request-list-apt {
+    width: 25%;
+    float: left;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.maintenance-request-list-apt a{
+    width: 25%;
+    float: left;
+}
+
+.maintenance-request-list-apt button {
+    background-color: salmon;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    opacity: 1;
+}
+
+.maintenance-request-list-apt button.active {
+    background-color: #005f69;
+    font-weight: bold;
+    color: white;
+    opacity: 1;
+}
+
 .maintenance-request-list {
     width: 100%;
     float: left;
@@ -618,6 +645,12 @@ tr {
     }
 
     .maintenance-request-list {
+        width: 100%;
+        height: 120px;
+        overflow-y: scroll;
+    }
+
+    .maintenance-request-list-apt {
         width: 100%;
         height: 120px;
         overflow-y: scroll;
