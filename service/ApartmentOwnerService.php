@@ -183,9 +183,14 @@ class ApartmentOwnerService {
 		return  $date->format('Y');
 	}
 
-	function fetchAllMR(){
+	function fetchAllMR($userId){
+		// $apartmentService = new ApartmentService();
+		// $apartmentRecord = $apartmentService->getApartmentRecordByUserId($userId);
+		// // var_dump($apartmentRecord);
+
+		// $apartmentId = $apartmentRecord->apartment_id;
 		$mrService = new MRService();
-		return $mrService->fetchAllMR();
+		return $mrService->fetchAllMRByApartmentId($userId);
 	}
 
 	function checkComplaints($userId){

@@ -22,7 +22,7 @@ $dbConn = $dbObject->getDatabaseConnection();
 $userService = new UserService();
 $user = $userService->getuserById($userId);
 
-$mrList = $apartmentOwnerService->fetchAllMR();
+$mrList = $apartmentOwnerService->fetchAllMR($userId);
 $cmList = $apartmentOwnerService->fetchAllComplaints();
 // var_dump($mrList);
 
