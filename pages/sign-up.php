@@ -17,6 +17,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     else{
 
+        ini_set('display_errors',1);
+        error_reporting(E_ALL);
+        $from = 'cityview@gmail.com';
+        $to = $_POST['email'];
+         
+        $subject = 'PHP mail works!';
+         
+        $fname = $_POST['first-name'];
+        $lname = $_POST['last-name'];
+        $email = $_POST['email'];
+        $address1 = $_POST['address1'];
+        $address2 = $_POST['address2'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
+        $phnumber = $_POST['phone-number'];
+        $rname = $_POST['rname'];
+        $raddress1 = $_POST['raddress'];
+        $rcountry = $_POST['rcountry'];
+        $rphno = $_POST['rphno'];
+         
+        $message ='First-Name:'.$fname.'\n'.'Last-Name:'.$lname.'\n'.'Email:'.$email.'\n';
+        $message = 'Address:'.$address1.'\n'.''.$address2.'\n';
+        $message = 'City:'.$city.'\n'.'State:'.$state.'\n'.'Ph-No:'.$phnumber.'\n';
+        $message = 'Responsible-contact-Name:'.$rname.'\n'.'RC-Address:'.$raddress1.'\n'.'RC_country:'.$rcountry.'\n';
+        $message = 'RC-Ph-no:'.$rphno.'\n';
+         
+        $headers = 'From:'.$from;
+        mail($to,$subject,$message,$headers);
+        // echo 'sent successfully';
+
         header("Location: ../pages/login.php");
         // echo $result->message;
     }
