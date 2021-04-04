@@ -318,7 +318,7 @@ class SignUpService {
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 
-		$sql = "UPDATE apartments SET users_user_id = :userId WHERE apartment_id = :apartmentId";
+		$sql = "UPDATE apartments SET users_user_id = :userId, occupancy_status = 'occupied' WHERE apartment_id = :apartmentId";
 
 		$stmt = $dbConnection->prepare($sql);
 		
