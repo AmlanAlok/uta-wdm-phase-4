@@ -4,6 +4,7 @@ require 'SubdivisionService.php';
 require 'BuildingService.php';
 require 'MasterRecordService.php';
 require 'ResetPasswordService.php';
+require 'ITRequestService.php';
 
 class AdminService {
 
@@ -44,6 +45,11 @@ class AdminService {
 	    	// echo $_POST['confirm-password'];
 	    	// echo $_POST['user-id'];
 	    }
+	}
+
+	function fetchAllITRequests(){
+		$itrService = new ITRequestService();
+		return $itrService->fetchAllITRequest();
 	}
 
 	function fetchAllSubdivisions(){
