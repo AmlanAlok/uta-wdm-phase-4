@@ -150,8 +150,10 @@ a {
 /* Maintenance Request */
 
 .maintenance-request-list {
-    width: 100%;
+    width: 25%;
     float: left;
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .maintenance-request-list a{
@@ -192,6 +194,8 @@ a {
 .complaint-list {
     width: 25%;
     float: left;
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .complaint-list button {
@@ -615,6 +619,8 @@ tr {
 
     .maintenance-request-list {
         width: 100%;
+        height: 120px;
+        overflow-y: scroll;
     }
 
     .it-request-list {
@@ -633,6 +639,8 @@ tr {
 
     .complaint-list {
         width: 100%;
+        height: 120px;
+        overflow-y: scroll;
     }
 
     .view-data-list {
