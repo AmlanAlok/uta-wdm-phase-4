@@ -10,7 +10,7 @@ $apartmentOwnerService = new ApartmentOwnerService();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    var_dump($_POST);
+    // var_dump($_POST);
     $apartmentOwnerService->checkFeature($userId);
     $apartmentOwnerService->checkComplaints($userId);
 
@@ -22,8 +22,8 @@ $dbConn = $dbObject->getDatabaseConnection();
 $userService = new UserService();
 $user = $userService->getuserById($userId);
 
-$mrList = $apartmentOwnerService->fetchAllMR();
-$cmList = $apartmentOwnerService->fetchAllComplaints();
+$mrList = $apartmentOwnerService->fetchAllMR($userId);
+$cmList = $apartmentOwnerService->fetchAllComplaints($userId);
 // var_dump($mrList);
 
 $dashboardData = $apartmentOwnerService->getDashboardDataPerUtility($userId);
@@ -191,16 +191,19 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
                             <tr>
                                 <th>Utility Name</th>
                                 <th>Bill Amount</th>
+                                <th>Service Provider</th>
                             </tr>
                             <?php foreach($utilityBillRecordList as $ubr): ?>
                                 <tr>
                                     <td><?= $ubr->utility_name; ?></td>
                                     <td><?= $ubr->utility_monthly_bill_amount; ?></td>
+                                    <td><?= $ubr->service_provider_type ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
                                 <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
                             </tr>
                         </table>
                     </div>

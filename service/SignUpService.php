@@ -59,7 +59,8 @@ class SignUpService {
 		$firstName = $_POST['first-name'];
 		$lastName = $_POST['last-name'];
 		$emailId = $_POST['email'];
-		$password = $_POST['password'];
+		$password = md5($_POST['password']);
+		echo "password = $password";
 		$areaCode = $_POST['zip'];
 		$phoneNumber = $_POST['phone-number'];
 

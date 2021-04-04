@@ -8,7 +8,7 @@ class SubdivisionUtilityBillRecord {
 	public $month;
 	public $year;
 	public $utility_name;
-
+	public $service_provider_type;
 	// buildingName;
 	// apartmentNumber;
 	// electricity;

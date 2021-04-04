@@ -20,6 +20,9 @@ $subdivisionList = $adminService->fetchAllSubdivisions();
 $subdivisionManagerRecordList = $adminService->fetchAllSubdivisionManagerRecords();
 $buildingManagerRecordList = $adminService->fetchAllBuildingManagerRecords();
 $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
+
+$itrList = $adminService->fetchAllITRequests();
+// var_dump($itrList);
 // echo "POLO--------";
 // var_dump($apartmentOwnerRecordList);
 // var_dump($buildingManagerRecordList);
@@ -78,7 +81,7 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
                 <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'manage-it-requests')">IT
                     Requests</button>
 
-                <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'contact-us-messages')">Contact Us Messages</button>
+                <!-- <button class="sidebar-menu-option sidebar-option text-left opacity" onclick="myFunction(event, 'contact-us-messages')">Contact Us Messages</button> -->
 
                 <a href="../../index.php">
                     <button class="sidebar-option text-left opacity" onclick="myFunction(event, 'sign-out')">Sign
@@ -365,35 +368,6 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
                         </div>
                         <?php endforeach; ?> 
 
-                        
-
-                        <!-- <div id="subdivision-manager-detail-2" class="subdivision-manager-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Subdivision Name</td><td>Sapphire</td></tr><tr><td>First Name</td><td>Kishore</td></tr><tr><td>Last Name</td><td>Chary</td></tr>
-                                    <tr><td>Email Id</td><td>kishore@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="subdivision-manager-detail-3" class="subdivision-manager-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Subdivision Name</td><td>Ruby</td></tr><tr><td>First Name</td><td>Rakshita</td></tr><tr><td>Last Name</td><td>K</td></tr>
-                                    <tr><td>Email Id</td><td>rakshita@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="subdivision-manager-detail-4" class="subdivision-manager-detail">
-                            <div class="apartment-personal-details-table">
-                                <table>
-                                    <tr><td>Subdivision Name</td><td>Diamond</td></tr></tr><tr><td>First Name</td><td>Alok</td></tr><tr><td>Last Name</td><td>Alok</td></tr>
-                                    <tr><td>Email Id</td><td>alok@gmail.com</td></tr><tr><td>Phone Number</td><td>1231231234</td></tr><tr><td>Joining Date</td><td>01/19/2021</td></tr>
-                                </table>
-                            </div>
-                        </div> -->
-
                     </div>
                 </div>
             </div>
@@ -408,64 +382,30 @@ $apartmentOwnerRecordList = $adminService->fetchAllApartmentOwnerRecords();
                 <div>
 
                     <div class="it-request-list">
-                        <a href='#it-1'>
-                            <button class="it-request" onclick="viewItDetails(event, 'it-1')">
-                                IT Request ID: 1 <br />
-                                Date: 01/27/2021 <br />
-                                Status: In-Progress
-                            </button>
-                        </a>
-                        <a href='#it-2'>
-                            <button class="it-request" onclick="viewItDetails(event, 'it-2')">
-                                IT Request ID: 2 <br />
-                                Date: 02/09/2021 <br />
-                                Status: Completed
-                            </button>
-                        </a>
-                        <a href='#it-3'>
-                            <button class="it-request" onclick="viewItDetails(event, 'it-3')">
-                                IT Request ID: 1 <br />
-                                Date: 01/27/2021 <br />
-                                Status: Open
-                            </button>
-                        </a>
+                        <?php foreach ($itrList as $key => $value): ?>
+                            <a href='#it-<?= htmlspecialchars($key); ?>'>
+                                <button class="it-request" onclick="viewItDetails(event, 'it-<?= htmlspecialchars($key); ?>')">
+                                    IT Request ID: <?= $value->it_request_id; ?> <br />
+                                    Date: <?= $value->message_datetime; ?> <br />
+                                    Status: <?= $value->status; ?>
+                                </button>
+                            </a>
+                        <?php endforeach ?>
                     </div>
 
                     <div class="display-it-request">
-                        <div id="it-1" class="it-request-details">
-                            <h3>Datetime</h3>
-                            <p>01/27/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Something not working.</p>
-                            <h3>Status</h3>
-                            <p>In-progress</p>
 
-                            <div class="status-change-button-position">
-                                <button class="status-change-button">Completed</button>
+                        <?php foreach ($itrList as $key => $value): ?>
+                            <div id="it-<?= htmlspecialchars($key); ?>" class="it-request-details">
+                                <h3>Datetime</h3>
+                                <p><?= $value->message_datetime; ?></p>
+                                <h3>Message</h3>
+                                <p><?= $value->message; ?></p>
+                                <h3>Status</h3>
+                                <p><?= $value->status; ?></p>
                             </div>
-                        </div>
+                        <?php endforeach ?>
 
-                        <div id="it-2" class="it-request-details">
-                            <h3>Datetime</h3>
-                            <p>02/09/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Need access to something.</p>
-                            <h3>Status</h3>
-                            <p>Completed</p>
-                        </div>
-
-                        <div id="it-3" class="it-request-details">
-                            <h3>Datetime</h3>
-                            <p>01/27/2021 04:05:06</p>
-                            <h3>Message</h3>
-                            <p>Something not working.</p>
-                            <h3>Status</h3>
-                            <p>Open</p>
-
-                            <div class="status-change-button-position">
-                                <button class="status-change-button">In-progress</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
 

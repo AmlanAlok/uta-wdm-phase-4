@@ -46,7 +46,7 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
 // $eb = [12, 20, 30];
 
-$itrlist = $subdivisionManagerService->fetchAllITRequests();
+$itrlist = $subdivisionManagerService->fetchAllITRequests($userId);
 
 $aptList = $subdivisionManagerService->fetchAllApartmentOwnerRecords($userId);
 // var_dump($aptList);
@@ -173,9 +173,9 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                     </div>
                 </div>
 
-                <div class="edit-button-position">
+                <!-- <div class="edit-button-position">
                     <button class="edit-button">Edit</button>
-                </div>
+                </div> -->
             </div>
             
 
@@ -642,7 +642,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <th>Apartment Number</th>
                                 <th>Bill Amount</th>
                                 <th>Utility Name</th>
-
+                                <th>Service Provider</th>
                             </tr>
                             <?php foreach ($utilityBillRecordList as $ubr): ?>
                             <tr>
@@ -650,6 +650,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <td><?= $ubr->apartment_number ?></td>
                                 <td><?= $ubr->utility_monthly_bill_amount ?></td>
                                 <td><?= $ubr->utility_name ?></td>
+                                <td><?= $ubr->service_provider_type ?></td>
                             </tr>
                             <?php endforeach; ?>
 
@@ -657,6 +658,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <td>Subdivision Total</td>
                                 <td><?= $aptCount['count(a.apartment_number)']; ?></td>
                                 <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             

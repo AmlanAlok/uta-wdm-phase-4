@@ -83,5 +83,22 @@ class ITRequestService {
 		}
 	}
 
+	function fetchAllITRequestBySubdivisionId($subdivisionId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
+
+		$sql = "SELECT * from it_requests where subdivisions_subdivision_id = :subdivisionId";
+
+		$stmt = $dbConnection->prepare($sql);
+		$stmt->bindValue(':subdivisionId', $subdivisionId, PDO::PARAM_INT);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'ITRequest');
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+	}
+
 
 }

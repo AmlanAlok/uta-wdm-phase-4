@@ -4,6 +4,7 @@ require 'SubdivisionService.php';
 require 'BuildingService.php';
 require 'MasterRecordService.php';
 require 'ResetPasswordService.php';
+require 'ITRequestService.php';
 
 class AdminService {
 
@@ -26,8 +27,8 @@ class AdminService {
 	    }   
 	    elseif (isset($_POST['new-password']) && isset($_POST['confirm-password']) && isset($_POST['user-id'])){
 	    	
-	    	$newPassword = $_POST['new-password'];
-	    	$confirmPassword = $_POST['confirm-password'];
+	    	$newPassword = md5($_POST['new-password']);
+	    	$confirmPassword = md5($_POST['confirm-password']);
 	    	$userIdForResetPassword = $_POST['user-id'];
 
 	    	if ($newPassword == $confirmPassword){
@@ -44,6 +45,11 @@ class AdminService {
 	    	// echo $_POST['confirm-password'];
 	    	// echo $_POST['user-id'];
 	    }
+	}
+
+	function fetchAllITRequests(){
+		$itrService = new ITRequestService();
+		return $itrService->fetchAllITRequest();
 	}
 
 	function fetchAllSubdivisions(){

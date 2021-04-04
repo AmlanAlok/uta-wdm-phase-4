@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $fname = $_POST['first-name'];
         $lname = $_POST['last-name'];
         $email = $_POST['email'];
+        $password = $_POST['password'];
         $address1 = $_POST['address1'];
         $address2 = $_POST['address2'];
         $city = $_POST['city'];
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $rcountry = $_POST['rcountry'];
         $rphno = $_POST['rphno'];
          
-        $message ='First-Name:'.$fname."\n".'Last-Name:'.$lname."\n".'Email:'.$email."\n".'Address:'.$address1."\n".''.$address2."\n".'City:'.$city."\n".'State:'.$state."\n".'Phone-Number:'.$phnumber."\n".'Responsible-Contact-Name:'.$rname."\n".'Responsible-Contact-Address:'.$raddress1."\n".'Responsible-Contact_country:'.$rcountry."\n".'Responsible-Contact-Phone-Number:'.$rphno."\n";
+        $message ='First-Name:'.$fname."\n".'Last-Name:'.$lname."\n".'Email:'.$email."\n".'Password: '.$password."\n".'Address:'.$address1."\n".''.$address2."\n".'City:'.$city."\n".'State:'.$state."\n".'Phone-Number:'.$phnumber."\n".'Responsible-Contact-Name:'.$rname."\n".'Responsible-Contact-Address:'.$raddress1."\n".'Responsible-Contact_country:'.$rcountry."\n".'Responsible-Contact-Phone-Number:'.$rphno."\n";
          
         $headers = 'From:'.$from;
         mail($to,$subject,$message,$headers);
