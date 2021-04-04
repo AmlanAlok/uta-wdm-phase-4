@@ -367,7 +367,7 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
                 <h3>View Maintenance Request</h3>
                 <div>
 
-                    <div class="maintenance-request-list">
+                    <div class="maintenance-request-list-apt">
                         <?php foreach ($mrList as $mr): ?>
                             <button class="maintenance-request" onclick="viewMaintenanceDetails(event, 'mr-<?= htmlspecialchars($mr->maintenance_request_id); ?>')">
                                 Maintenance Request ID: <?= htmlspecialchars($mr->maintenance_request_id); ?> <br />

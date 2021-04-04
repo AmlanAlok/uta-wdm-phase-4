@@ -494,6 +494,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     Maintenance Request ID: <?= $m['maintenance_request_id'] ?> <br />
                                 </button>
                             </a>
+                            <!-- </div> -->
                             <div class="display-maintenance-request">
                                 <div id="mr-3" class="maintenance-request-details">
                                     <h3>Datetime</h3>
