@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $from = 'cityview@gmail.com';
         $to = $_POST['email'];
          
-        $subject = 'PHP mail works!';
+        $subject = 'Account Creation Confirmation from City View! (Confidential)';
          
         $fname = $_POST['first-name'];
         $lname = $_POST['last-name'];
@@ -90,51 +90,51 @@ $apartmentsList = $signUpService->fetchAllApartments();
                     <div>
                         <div>
                             <label for="fname"></label>
-                            <input type="text"  id="fname" name="first-name" value=""  placeholder= "First Name"> &nbsp
+                            <input type="text"  id="fname" name="first-name" value=""  required placeholder= "First Name"> &nbsp
                             <label for="lname"></label>
-                            <input type="text" id="lname" name="last-name" value=""  placeholder= "Last Name"> <br><br>
+                            <input type="text" id="lname" name="last-name" value=""  required placeholder= "Last Name"> <br><br>
                             <label for="email"></label>
-                            <input type="email" id="email"  name="email" value=""  placeholder= "Email"> <br><br>
+                            <input type="email" id="email"  name="email" value=""  required placeholder= "Email"> <br><br>
                             <label for="password"></label>
-                            <input type="password" id="password" name="password"  pattern="[A-Za-z0-9]{8,12}"  title="Password should be within 8-12 charaters" value="" placeholder= "Password"> <br><br>
+                            <input type="password" id="password" name="password"  pattern="[A-Za-z0-9]{8,12}"  title="Password should be within 8-12 charaters" value="" required placeholder= "Password"> <br><br>
                             <label for="repassword"></label>
-                            <input type="password" id="repassword" name="repassword"  pattern="[A-Za-z0-9]{8,12}"  title="Password should be within 8-12 charaters" value="" placeholder= "Retype Password"> <br><br>
+                            <input type="password" id="repassword" name="repassword"  pattern="[A-Za-z0-9]{8,12}"  title="Password should be within 8-12 charaters" value="" required placeholder= "Retype Password"> <br><br>
                         </div>
                         <div>
                             <label for="address1" style="color:#4F4846;">User's Address:</label> <br>
-                            <input type="text" id="address1" name="address1"  value="" placeholder= "Street 1"><br><br>
+                            <input type="text" id="address1" name="address1"  value="" required placeholder= "Street 1"><br><br>
                             <label for="address2"></label>
                             <input type="text" id="address2" name="address2" value="" placeholder= "Street 2"><br><br>
                             <label for="city"></label>
-                            <input type="text" id="city" name="city"  value="" placeholder= "City"><br><br>
+                            <input type="text" id="city" name="city"  value="" required placeholder= "City"><br><br>
                             <label for="state"></label>
-                            <input type="text" id="state" name="state"  value="" placeholder= "State"> <br><br>
+                            <input type="text" id="state" name="state"  value="" required placeholder= "State"> <br><br>
                             <label for="zip"> </label>
-                            <input type="text" id="zip" name="zip"  value="" placeholder= "Zip Code"> <br><br>
+                            <input type="text" id="zip" name="zip"  value="" required placeholder= "Zip Code"> <br><br>
                             <label for="phno"> </label>
                             <label for="country"></label>
-                            <input type="text" id="country" name="country"  value="" placeholder= "Country"><br><br>
-                            <input type="tel" id="phno" name="phone-number"  value="" placeholder= "Phone Number"><br><br>
+                            <input type="text" id="country" name="country"  required value="" placeholder= "Country"><br><br>
+                            <input type="tel" id="phno" name="phone-number"  required value="" pattern="[0-9]{7,10}" title="Phone number must be between 7-10 numbers" placeholder= "Phone Number"><br><br>
                         </div>
                     </div>
                     
                     <div>
 
                         <label for="rname">Responsible Contact Details</label>
-                        <input type="text" id="rname" name="rname" value=""  placeholder= "Name"> <br><br>
+                        <input type="text" id="rname" name="rname" value=""  required placeholder= "Name"> <br><br>
 
                         <label for="raddress"></label> <br>
-                        <input type="text" id="raddress" name="raddress" value=""  placeholder= "Address"><br><br>
+                        <input type="text" id="raddress" name="raddress" value=""  required placeholder= "Address"><br><br>
                         
                         <label for="rcity"></label>
-                        <input type="text" id="rcity" name="rcity" value=""  placeholder= "City"><br><br>
+                        <input type="text" id="rcity" name="rcity" value=""  required placeholder= "City"><br><br>
                         <label for="rcountry"></label>
-                        <input type="text" id="rcountry" name="rcountry" value=""  placeholder= "Country"><br><br>
+                        <input type="text" id="rcountry" name="rcountry" value=""  required placeholder= "Country"><br><br>
                         
                         <label for="rzip"> </label>
-                        <input type="text" id="rzip" name="rzip" value=""  placeholder= "Zip Code"> <br><br>
+                        <input type="text" id="rzip" name="rzip" value=""  required placeholder= "Zip Code"> <br><br>
                         <label for="rphno"> </label>
-                        <input type="tel" id="rphno" name="rphno" value=""  placeholder= "Phone Number"> <br><br>
+                        <input type="tel" id="rphno" name="rphno" value=""  required pattern="[0-9]{7,10}" title="Phone number must be between 7-10 numbers" placeholder= "Phone Number"> <br><br>
                     </div>
                     <div>
                         <!-- <label for="selection_type">What do you want to sign up for:</label>
