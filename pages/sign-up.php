@@ -37,11 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $rcountry = $_POST['rcountry'];
         $rphno = $_POST['rphno'];
          
-        $message ='First-Name:'.$fname.'\n'.'Last-Name:'.$lname.'\n'.'Email:'.$email.'\n';
-        $message = 'Address:'.$address1.'\n'.''.$address2.'\n';
-        $message = 'City:'.$city.'\n'.'State:'.$state.'\n'.'Ph-No:'.$phnumber.'\n';
-        $message = 'Responsible-contact-Name:'.$rname.'\n'.'RC-Address:'.$raddress1.'\n'.'RC_country:'.$rcountry.'\n';
-        $message = 'RC-Ph-no:'.$rphno.'\n';
+        $message ='First-Name:'.$fname."\n".'Last-Name:'.$lname."\n".'Email:'.$email."\n".'Address:'.$address1."\n".''.$address2."\n".'City:'.$city."\n".'State:'.$state."\n".'Phone-Number:'.$phnumber."\n".'Responsible-Contact-Name:'.$rname."\n".'Responsible-Contact-Address:'.$raddress1."\n".'Responsible-Contact_country:'.$rcountry."\n".'Responsible-Contact-Phone-Number:'.$rphno."\n";
          
         $headers = 'From:'.$from;
         mail($to,$subject,$message,$headers);
