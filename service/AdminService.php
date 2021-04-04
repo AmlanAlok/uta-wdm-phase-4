@@ -27,8 +27,8 @@ class AdminService {
 	    }   
 	    elseif (isset($_POST['new-password']) && isset($_POST['confirm-password']) && isset($_POST['user-id'])){
 	    	
-	    	$newPassword = $_POST['new-password'];
-	    	$confirmPassword = $_POST['confirm-password'];
+	    	$newPassword = md5($_POST['new-password']);
+	    	$confirmPassword = md5($_POST['confirm-password']);
 	    	$userIdForResetPassword = $_POST['user-id'];
 
 	    	if ($newPassword == $confirmPassword){

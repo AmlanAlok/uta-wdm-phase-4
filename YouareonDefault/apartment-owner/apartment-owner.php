@@ -191,16 +191,19 @@ $utilityReportYear = $apartmentOwnerService->getPreviousMonthYear();
                             <tr>
                                 <th>Utility Name</th>
                                 <th>Bill Amount</th>
+                                <th>Service Provider</th>
                             </tr>
                             <?php foreach($utilityBillRecordList as $ubr): ?>
                                 <tr>
                                     <td><?= $ubr->utility_name; ?></td>
                                     <td><?= $ubr->utility_monthly_bill_amount; ?></td>
+                                    <td><?= $ubr->service_provider_type ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td>Total</td>
                                 <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
                             </tr>
                         </table>
                     </div>

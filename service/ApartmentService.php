@@ -81,7 +81,7 @@ class ApartmentService {
 	function getCurrentMonthUtilityBillOfApartment($apartmentId, $month, $year){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
-		$sql = "SELECT aub.utility_monthly_bill_amount, u.utility_name from apartment_utility_bills as aub
+		$sql = "SELECT aub.utility_monthly_bill_amount, u.utility_name, aub.service_provider_type from apartment_utility_bills as aub
 		inner join utilities as u on aub.utilities_utility_id = u.utility_id
 		WHERE aub.apartments_apartment_id = :apartmentId
 		and aub.month = :month
