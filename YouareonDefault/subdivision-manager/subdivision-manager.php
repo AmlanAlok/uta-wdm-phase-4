@@ -46,7 +46,7 @@ $utilityReportYear = $subdivisionManagerService->getPreviousMonthYear();
 // $months = ['Jan','Feb'];
 // $eb = [12, 20, 30];
 
-$itrlist = $subdivisionManagerService->fetchAllITRequests();
+$itrlist = $subdivisionManagerService->fetchAllITRequests($userId);
 
 $aptList = $subdivisionManagerService->fetchAllApartmentOwnerRecords($userId);
 // var_dump($aptList);
@@ -173,9 +173,9 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                     </div>
                 </div>
 
-                <div class="edit-button-position">
+                <!-- <div class="edit-button-position">
                     <button class="edit-button">Edit</button>
-                </div>
+                </div> -->
             </div>
             
 

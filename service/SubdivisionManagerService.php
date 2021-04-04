@@ -210,9 +210,15 @@ class SubdivisionManagerService {
 		return $subdivisionService->getCommunityServiceBillTotal($subdivisionId, $month, $year);
 	}
 
-	function fetchAllITRequests(){
+	function fetchAllITRequests($userId){
+		$subdivisionService = new SubdivisionService();
+		$subdivisionRecord = $subdivisionService->getSubdivisionRecordByUserId($userId);
+		// var_dump($subdivisionRecord);
+
+		$subdivisionId = $subdivisionRecord->subdivision_id;
+		
 		$itrService = new ITRequestService();
-		return $itrService->fetchAllITRequest();
+		return $itrService->fetchAllITRequestBySubdivisionId($subdivisionId);
 	}
 
 	function fetchAllApartmentOwnerRecords($userId){
