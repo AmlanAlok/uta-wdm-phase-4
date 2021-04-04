@@ -9,9 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     // var_dump($_POST);
     $abc = 'abc';
     $emailId = $_POST['email'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
     // echo "email = $emailId";
-    // echo "password = $password";
+    echo "password = $password";
 
     $loginService = new LoginService();
     $loginService->loginUser($emailId, $password);
