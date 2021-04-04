@@ -596,7 +596,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                 <div>
 
                     <div class="view-data-list">
-                        <?php foreach ($aptList as $key => $value): ?>
+                        <?php foreach ($buildingList as $key => $value): ?>
                             <a href="#building-manager-detail-<?= htmlspecialchars($key); ?>">
                                 <button class="apartment-owner-detail-tile" onclick="viewApartmentDetails(event, 'building-manager-detail-<?= htmlspecialchars($key); ?>')">
                                     <?= $value->first_name; ?> <br />
@@ -608,7 +608,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                     </div>
 
                     <div class="view-data">
-                        <?php foreach ($aptList as $key => $value): ?>
+                        <?php foreach ($buildingList as $key => $value): ?>
                             <div id="building-manager-detail-<?= htmlspecialchars($key); ?>" class="apartment-owner-detail">
                                 <div class="apartment-personal-details-table">
                                     <table>

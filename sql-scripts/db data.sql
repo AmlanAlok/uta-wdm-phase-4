@@ -13,7 +13,7 @@ INSERT INTO `community_services` (`community_service_id`,`community_service_name
 INSERT INTO `community_services` (`community_service_id`,`community_service_name`) VALUES (NULL, 'gym');
 
 --Admin
-INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email_id`, `password`, `area_code`, `phone_number`, `joining_datetime`, `roles_role_id`) VALUES (NULL, 'Admin', 'Admin', 'admin@gmail.com', 'admin', '123', '1234562', '2021-03-01 06:31:03', (select role_id from roles where role_name = 'admin'));
+INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email_id`, `password`, `area_code`, `phone_number`, `joining_datetime`, `roles_role_id`) VALUES (NULL, 'Admin', 'Admin', 'admin@gmail.com', '00ba7ceab606427071d5d755ea99e976', '123', '1234562222', '2021-01-01 06:31:03', (select role_id from roles where role_name = 'admin'));
 
 
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `email_id`, `password`, `area_code`, `phone_number`, `joining_datetime`, `roles_role_id`) VALUES (NULL, 'Ichigo', 'Kurosaki', 'ao@gmail.com', 'ao', '123', '1234562', '2021-03-01 06:31:03', '4');
@@ -66,5 +66,28 @@ SELECT SUM(aub.utility_monthly_bill_amount), u.utility_name from apartment_utili
 		and aub.year = 2021 and aub.month = 4
 		and u.utility_name = 'electricity';
 
-
-
+drop table addresses;
+drop table apartment_community_service_bills;
+drop table apartment_utility_bills;
+drop table apartment_utility_service_provider_type;
+drop table apartments;
+drop table archived_monthly_building_utility_bills;
+drop table buildings;
+drop table chat_messages;
+drop table community_services;
+drop table complaints;
+drop table it_requests;
+drop table maintenance_requests;
+drop table responsible_contacts;
+drop table roles;
+drop table subdivisions;
+drop table users;
+drop table users_conversation;
+drop table utilities;
+drop table addresses;
+drop table apartment_community_service_bills;
+drop table apartment_utility_bills;
+drop table apartment_utility_service_provider_type;
+drop table apartments;
+drop table archived_monthly_building_utility_bills;
+drop table buildings;

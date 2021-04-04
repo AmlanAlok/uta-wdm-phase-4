@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $emailId = $_POST['email'];
     $password = md5($_POST['password']);
     // echo "email = $emailId";
-    echo "password = $password";
+    // echo "password = $password";
 
     $loginService = new LoginService();
     $loginService->loginUser($emailId, $password);
