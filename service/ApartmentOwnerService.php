@@ -190,7 +190,7 @@ class ApartmentOwnerService {
 
 		// $apartmentId = $apartmentRecord->apartment_id;
 		$mrService = new MRService();
-		return $mrService->fetchAllMRByApartmentId($userId);
+		return $mrService->fetchAllMRByUserId($userId);
 	}
 
 	function checkComplaints($userId){
@@ -205,8 +205,8 @@ class ApartmentOwnerService {
 		}
 	}
 
-	function fetchAllComplaints(){
+	function fetchAllComplaints($userId){
 		$cmService = new ComplaintsService();
-		return $cmService->fetchAllComplaints();
+		return $cmService->fetchAllComplaintsByUserId($userId);
 	}
 }

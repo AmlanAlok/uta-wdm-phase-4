@@ -642,7 +642,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <th>Apartment Number</th>
                                 <th>Bill Amount</th>
                                 <th>Utility Name</th>
-
+                                <th>Service Provider</th>
                             </tr>
                             <?php foreach ($utilityBillRecordList as $ubr): ?>
                             <tr>
@@ -650,6 +650,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <td><?= $ubr->apartment_number ?></td>
                                 <td><?= $ubr->utility_monthly_bill_amount ?></td>
                                 <td><?= $ubr->utility_name ?></td>
+                                <td><?= $ubr->service_provider_type ?></td>
                             </tr>
                             <?php endforeach; ?>
 
@@ -657,6 +658,7 @@ $buildingList = $subdivisionManagerService->fetchAllBuildingManagerRecords($user
                                 <td>Subdivision Total</td>
                                 <td><?= $aptCount['count(a.apartment_number)']; ?></td>
                                 <td><?= $billTotal['sum(aub.utility_monthly_bill_amount)']; ?></td>
+                                <td></td>
                                 <td></td>
                             </tr>
                             

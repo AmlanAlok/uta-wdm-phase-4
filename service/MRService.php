@@ -96,7 +96,7 @@ class MRService {
 
 
 
-	function fetchAllMRByApartmentId($userId){
+	function fetchAllMRByUserId($userId){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 

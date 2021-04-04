@@ -23,7 +23,7 @@ $userService = new UserService();
 $user = $userService->getuserById($userId);
 
 $mrList = $apartmentOwnerService->fetchAllMR($userId);
-$cmList = $apartmentOwnerService->fetchAllComplaints();
+$cmList = $apartmentOwnerService->fetchAllComplaints($userId);
 // var_dump($mrList);
 
 $dashboardData = $apartmentOwnerService->getDashboardDataPerUtility($userId);

@@ -97,7 +97,7 @@ class SubdivisionService {
 	function getCurrentMonthUtilityBillsAllApartments($subdivisionId, $month, $year){
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
-		$sql = "SELECT b.building_name, a.apartment_number, aub.utility_monthly_bill_amount, aub.month, aub.year, u.utility_name from apartment_utility_bills as aub
+		$sql = "SELECT b.building_name, a.apartment_number, aub.utility_monthly_bill_amount, aub.month, aub.year, u.utility_name, aub.service_provider_type from apartment_utility_bills as aub
 		inner join apartments as a on aub.apartments_apartment_id = a.apartment_id
 		inner join buildings as b on aub.buildings_building_id = b.building_id
 		inner join utilities as u on aub.utilities_utility_id = u.utility_id

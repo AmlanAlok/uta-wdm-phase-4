@@ -11,7 +11,7 @@ class ComplaintsService {
 
 		$apartment = $mrService->fetchApartmentViaUserId($userId);
 
-		var_dump($apartment);
+		// var_dump($apartment);
 		$mr = new Complaints();
 		$mr->message = $mrMsg;
 		$mr->status = 'open';
@@ -25,8 +25,8 @@ class ComplaintsService {
 		$mr->subdivisions_subdivision_id = $apartment->subdivisions_subdivision_id;
 		$mr->users_user_id = $apartment->users_user_id;
 
-		echo "datetime = $mr->message_datetime";
-		echo "month = $mr->month";
+		// echo "datetime = $mr->message_datetime";
+		// echo "month = $mr->month";
 
 		$mrService->storeComplaints($mr);
 
@@ -52,7 +52,7 @@ class ComplaintsService {
 		$stmt->bindValue(':usersUserId', $mr->users_user_id, PDO::PARAM_INT);
 
 		if ($stmt->execute()){
-			echo 'pass';
+			// echo 'pass';
 			return 'Success';
 		} else{
 			echo 'fail';
@@ -61,8 +61,8 @@ class ComplaintsService {
 	}
 
 	function fetchApartmentViaUserId($userId){
-		echo "inside fetch = ";
-		var_dump($userId);
+		// echo "inside fetch = ";
+		// var_dump($userId);
 		$dbObject = new Database();
 		$dbConnection = $dbObject->getDatabaseConnection();
 		$sql = "SELECT * from apartments WHERE users_user_id = :userId";
@@ -70,9 +70,9 @@ class ComplaintsService {
 		$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
 		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Apartment');
 
-		echo "here";
+		// echo "here";
 		if ($stmt->execute()){
-			echo "success";
+			// echo "success";
 			return $stmt->fetch();
 		} else{
 			echo "Failed";
@@ -98,7 +98,23 @@ class ComplaintsService {
 		}
 	}
 
+	function fetchAllComplaintsByUserId($userId){
+		$dbObject = new Database();
+		$dbConnection = $dbObject->getDatabaseConnection();
 
+		$sql = "SELECT * from complaints where users_user_id = :userId";
+
+		$stmt = $dbConnection->prepare($sql);
+
+		$stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+		$stmt->setFetchMode(PDO::FETCH_CLASS, 'Complaints');
+
+		if ($stmt->execute()){
+			return $stmt->fetchAll();
+		} else{
+			return 'Failed';
+		}
+	}
 
 
 
